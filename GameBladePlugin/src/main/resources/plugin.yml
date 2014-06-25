@@ -1,0 +1,13 @@
+name: GameBladePlugin
+author: 'storm345'
+main: org.stormdev.gbplugin.core
+version: 1.0
+softdepend: [uCars, uPlanes, uCarsTrade]
+
+commands:
+    mod:
+        description: Mod command
+        aliases: [admin]
+        permission: gameblade.admin
+        usage: /<command>
+        default: op
