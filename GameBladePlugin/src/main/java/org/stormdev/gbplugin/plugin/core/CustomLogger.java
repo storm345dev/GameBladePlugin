@@ -54,12 +54,12 @@ public class CustomLogger {
 	}
 
 	public void info(String message) {
-		print(ChatColor.WHITE + message);
+		print(ChatColor.YELLOW + message);
 	}
 
 	public void print(String message) {
 		if (coloured) {
-			console.sendMessage(ChatColor.AQUA + "[GameBladePlugin] "
+			console.sendMessage(ChatColor.RED + "[GameBladePlugin] "
 					+ ChatColor.RESET + getMsg(message));
 		} else {
 			logger.info(getMsg(message));

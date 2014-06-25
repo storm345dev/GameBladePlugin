@@ -3,6 +3,7 @@ package org.stormdev.gbplugin.plugin.core;
 import java.lang.reflect.Method;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.stormdev.gbapi.core.APIProvider;
 import org.stormdev.gbapi.core.GameBladeAPI;
@@ -25,12 +26,12 @@ public class GameBlade extends JavaPlugin {
 			return;
 		}
 		
-		logger.info("GameBladePlugin enabled!");
+		logger.info("GameBladePlugin "+ChatColor.GREEN+"enabled!");
 	}
 	
 	@Override
 	public void onDisable(){
-		logger.info("GameBladePlugin disabled!");
+		logger.info("GameBladePlugin "+ChatColor.RED+"disabled!");
 	}
 	
 	private boolean initAPI(){
@@ -40,7 +41,7 @@ public class GameBlade extends JavaPlugin {
 		
 		try {
 			Class<?> c = Class.forName("org.stormdev.gbapi.core.APIProvider");
-			Method m = c.getMethod("setAPI", GameBladeAPI.class);
+			Method m = c.getDeclaredMethod("setAPI", GameBladeAPI.class);
 			m.setAccessible(true);
 			m.invoke(null, loadAPI());
 		} catch (Exception e) {
