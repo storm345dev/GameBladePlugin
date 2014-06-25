@@ -144,6 +144,7 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
+        <!-- 
         <dependency>
             <groupId>org.stormdev</groupId>
             <artifactId>GameBladeAPI</artifactId>
@@ -151,6 +152,7 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
+        -->
 	   <dependency>
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>Vault</artifactId>
