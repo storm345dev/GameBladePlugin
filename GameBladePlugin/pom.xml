@@ -136,15 +136,13 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
-        <!-- 
         <dependency>
             <groupId>org.stormdev</groupId>
             <artifactId>GameBladeAPI</artifactId>
-            <version>LATEST</version>
+            <version>1.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
-        -->
 	   <dependency>
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>Vault</artifactId>
@@ -162,6 +160,12 @@
    		 <artifactId>sqljdbc</artifactId>
    		 <version>4</version>
 		</dependency>
+		<dependency>
+            <groupId>org.stormdev</groupId>
+            <artifactId>ServerManagerAPI</artifactId>
+            <version>LATEST</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <distributionManagement>
         <repository>
