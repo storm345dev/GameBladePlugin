@@ -47,6 +47,26 @@
                 </executions>
             </plugin>
             -->
+            <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-shade-plugin</artifactId>
+    <version>2.1</version>
+    <executions>
+        <execution>
+            <phase>package</phase>
+            <goals>
+                <goal>shade</goal>
+            </goals>
+            <configuration>
+                <artifactSet>
+                    <includes>
+                        <include>org.stormdev:GameBladeAPI</include>
+                    </includes>
+                </artifactSet>
+            </configuration>
+        </execution>
+    </executions>
+    </plugin>
         </plugins>
         <extensions>
             <extension>
@@ -120,6 +140,13 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
+            <version>LATEST</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.stormdev</groupId>
+            <artifactId>GameBladeAPI</artifactId>
             <version>LATEST</version>
             <type>jar</type>
             <scope>compile</scope>

@@ -1,6 +1,6 @@
 name: GameBladePlugin
 author: 'storm345'
-main: org.stormdev.gbplugin.core
+main: org.stormdev.gbplugin.plugin.core.GameBlade
 version: 1.0
 softdepend: [uCars, uPlanes, uCarsTrade]
 
