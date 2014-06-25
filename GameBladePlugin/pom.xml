@@ -113,14 +113,6 @@
 	       <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
         </repository>
         <repository>
-	       <id>tagAPI-repo</id>
-	       <url>http://repo.kitteh.org/content/repositories/public/</url>
-        </repository>
-        <repository>
-	       <id>PEX-repo</id>
-	       <url>http://dev.drdanick.com/repo/content/repositories/</url>
-        </repository>
-        <repository>
 	       <id>Storm-repo</id>
 	       <url>http://repository-storm345dev.forge.cloudbees.com/release/</url>
         </repository>
@@ -158,11 +150,6 @@
             <artifactId>Vault</artifactId>
             <version>1.2.30</version>
         </dependency>
-        <dependency>
-            <groupId>org.kitteh</groupId>
-            <artifactId>tagapi</artifactId>
-            <version>RELEASE</version>
-        </dependency>
         <!--  
         <dependency>
             <groupId>thirdparty.ru.tehkode</groupId>
@@ -174,26 +161,6 @@
     	<groupId>com.microsoft.sqlserver</groupId>
    		 <artifactId>sqljdbc</artifactId>
    		 <version>4</version>
-		</dependency>
-		<dependency>
-    	<groupId>net.stormdev</groupId>
-   		 <artifactId>uCarsTrade</artifactId>
-   		 <version>LATEST</version>
-		</dependency>
-		<dependency>
-    	<groupId>net.stormdev</groupId>
-   		 <artifactId>uPlanes</artifactId>
-   		 <version>LATEST</version>
-		</dependency>
-		<dependency>
-		<groupId>com.useful</groupId>
-   		 <artifactId>uCars</artifactId>
-   		 <version>LATEST</version>
-		</dependency>
-		<dependency>
-		<groupId>com.gmail.mitchoost</groupId>
-   		 <artifactId>MTACore</artifactId>
-   		 <version>1.2</version>
 		</dependency>
     </dependencies>
     <distributionManagement>
