@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
+import org.stormdev.gbplugin.plugin.core.Config;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.servermanager.api.APIProvider;
 import org.stormdev.servermanager.api.APIProviderType;
@@ -19,7 +20,7 @@ import org.stormdev.servermanager.api.messaging.MessageRecipient;
 public class Tokens implements SMListener, org.stormdev.gbapi.storm.tokens.Tokens { //Requires ServerManagerAPI
 	private static Tokens instance;
 	public static ServerManagerAPI api= null;
-	public static final String GB_LOBBY_SERVER_ID = "GB Lobby 1";
+	public static String GB_LOBBY_SERVER_ID = "GB Lobby 1";
 	private Plugin plugin;
 	
 	public static Tokens getInstance(){
@@ -34,6 +35,7 @@ public class Tokens implements SMListener, org.stormdev.gbapi.storm.tokens.Token
 	
 	public Tokens(){
 		this.plugin = GameBlade.plugin;
+		GB_LOBBY_SERVER_ID = Config.lobbyServerNameMineManager.getValue();
 		
 		if(Bukkit.getPluginManager().getPlugin("ServerManager") == null){
 			plugin.getLogger().info("Sorry this plugin requires ServerManager!");

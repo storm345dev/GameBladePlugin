@@ -13,12 +13,13 @@ public class GameBlade extends JavaPlugin {
 	public static CustomLogger logger;
 	public static GameBlade plugin;
 	public static GameBladeAPI api;
+	public static Config config;
 	
 	@Override
 	public void onEnable(){
 		plugin = this;
 		
-		new Config(new File(getDataFolder()+File.separator+"config.yml"));
+		config = new Config(new File(getDataFolder()+File.separator+"config.yml"));
 		
 		logger = new CustomLogger(Bukkit.getConsoleSender(), getLogger());
 		
