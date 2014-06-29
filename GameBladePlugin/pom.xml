@@ -116,10 +116,6 @@
 	       <id>Storm-repo</id>
 	       <url>http://repository-storm345dev.forge.cloudbees.com/release/</url>
         </repository>
-        <repository>
-	       <id>MTA-repo</id>
-	       <url>http://repository-mtabuilder.forge.cloudbees.com/release/</url>
-        </repository>
     </repositories>
     <dependencies>
         <dependency>
