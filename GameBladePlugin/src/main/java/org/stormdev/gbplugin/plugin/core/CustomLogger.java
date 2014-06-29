@@ -13,7 +13,7 @@ public class CustomLogger {
 	Logger logger = null;
 
 	public CustomLogger(ConsoleCommandSender console, Logger logger) {
-		coloured = true; //Change to toggle colour
+		coloured = Config.colouredLogger.getValue(); //Change to toggle colour
 		this.console = console;
 		this.logger = logger;
 	}

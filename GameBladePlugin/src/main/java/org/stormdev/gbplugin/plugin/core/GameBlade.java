@@ -1,11 +1,11 @@
 package org.stormdev.gbplugin.plugin.core;
 
+import java.io.File;
 import java.lang.reflect.Method;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.stormdev.gbapi.core.APIProvider;
 import org.stormdev.gbapi.core.GameBladeAPI;
 
 
@@ -17,6 +17,9 @@ public class GameBlade extends JavaPlugin {
 	@Override
 	public void onEnable(){
 		plugin = this;
+		
+		new Config(new File(getDataFolder()+File.separator+"config.yml"));
+		
 		logger = new CustomLogger(Bukkit.getConsoleSender(), getLogger());
 		
 		if(!initAPI()){
