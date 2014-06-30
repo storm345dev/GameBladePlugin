@@ -80,6 +80,10 @@
       <id>Storm-repo</id>
       <url>http://repository-storm345dev.forge.cloudbees.com/release/</url>
     </repository>
+    <repository>
+      <id>JDBC-repo</id>
+      <url>https://maven.lib.umd.edu/maven2/</url>
+    </repository>
   </repositories>
   <pluginRepositories>
     <pluginRepository>
@@ -93,13 +97,13 @@
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>LATEST</version>
+      <version>1.7.9-R0.2</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>craftbukkit</artifactId>
-      <version>LATEST</version>
+      <version>1.7.9-R0.2</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
