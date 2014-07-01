@@ -12,3 +12,10 @@ commands:
         permission-message: Unknown command. Type \"/help\" for help.
         usage: /<command>
         default: op
+    broadcast:
+        description: Broadcast a message
+        aliases: [bc]
+        permission: gameblade.admin
+        permission-message: Unknown command. Type \"/help\" for help.
+        usage: /<command> <Message>
+        default: op

@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.stormdev.gbapi.core.GameBladeAPI;
+import org.stormdev.gbplugin.plugin.commands.BroadcastCommandExecutor;
 import org.stormdev.gbplugin.plugin.commands.ModCommandExecutor;
 import org.stormdev.gbplugin.plugin.modpanel.ModMenu;
 import org.stormdev.gbplugin.plugin.server.ServerInfo;
@@ -95,6 +96,7 @@ public class GameBlade extends JavaPlugin {
 	
 	private void setupCmds(){
 		getCommand("mod").setExecutor(new ModCommandExecutor(this));
+		getCommand("broadcast").setExecutor(new BroadcastCommandExecutor(this));
 	}
 	
 	private void setupListeners(){
