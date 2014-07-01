@@ -100,7 +100,8 @@ public class ServerActionsMenu {
         if(pos == 3){
             p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
             if(p.hasPermission("admin.time")) {
-                if(p.getWorld().getTime() > 13000L && p.getWorld().getTime() < 2400L) {
+            	long time = p.getWorld().getTime();
+                if(time > 13000) {
                     p.getWorld().setTime(0L);
                     for (Player allPlayers : Bukkit.getServer().getOnlinePlayers()) {
                         if (allPlayers.hasPermission("admin.main")) {
@@ -109,7 +110,7 @@ public class ServerActionsMenu {
                     }
                 }
                 else {
-                    p.getWorld().setTime(1300L);
+                    p.getWorld().setTime(13000L);
                     for (Player allPlayers : Bukkit.getServer().getOnlinePlayers()) {
                         if (allPlayers.hasPermission("admin.main")) {
                             allPlayers.sendMessage(ChatColor.RED + "[ADMIN ALERT] " + p.getName() + " changed time to night!");
