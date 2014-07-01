@@ -2,7 +2,7 @@ name: GameBladePlugin
 author: 'storm345'
 main: org.stormdev.gbplugin.plugin.core.GameBlade
 version: 1.0
-softdepend: [uCars, uPlanes, uCarsTrade]
+softdepend: [uCars, uPlanes, uCarsTrade, ServerManager]
 
 commands:
     mod:
@@ -19,3 +19,8 @@ commands:
         permission-message: Unknown command. Type \"/help\" for help.
         usage: /<command> <Message>
         default: op
+    servers:
+        description: Join a server
+        aliases: [changeserver]
+        usage: /<command>
+        default: true

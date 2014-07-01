@@ -6,25 +6,32 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.bukkit.scheduler.BukkitTask;
 import org.stormdev.gbapi.core.GameBladeAPI;
 import org.stormdev.gbplugin.plugin.commands.BroadcastCommandExecutor;
 import org.stormdev.gbplugin.plugin.commands.ModCommandExecutor;
 import org.stormdev.gbplugin.plugin.modpanel.ModMenu;
+import org.stormdev.gbplugin.plugin.modpanel.ServerSelector;
 import org.stormdev.gbplugin.plugin.server.ServerInfo;
 import org.stormdev.gbplugin.plugin.server.ServerMonitor;
+import org.stormdev.servermanager.api.APIProvider;
+import org.stormdev.servermanager.api.ServerManagerAPI;
 
 
-public class GameBlade extends JavaPlugin {
+public class GameBlade extends JavaPlugin implements PluginMessageListener {
 	public static CustomLogger logger;
 	public static GameBlade plugin;
 	public static GameBladeAPI api;
 	public static Config config;
 	public static Random random = new Random();
 	public static ServerInfo serverInfo;
+	public static ServerManagerAPI smApi;
 	
 	public BukkitTask serverMonitor;
+	public ServerSelector selector;
 	
 	private ServerMonitor serverStats;
 	
@@ -47,8 +54,14 @@ public class GameBlade extends JavaPlugin {
 		serverStats.start();
 		serverInfo = new ServerInfo();
 		
+		smApi = APIProvider.getAPI();
+		selector = new ServerSelector(this);
+		
 		setupCmds();
 		setupListeners();
+		
+		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		
 		logger.info("GameBladePlugin "+ChatColor.GREEN+"enabled!");
 	}
@@ -97,9 +110,15 @@ public class GameBlade extends JavaPlugin {
 	private void setupCmds(){
 		getCommand("mod").setExecutor(new ModCommandExecutor(this));
 		getCommand("broadcast").setExecutor(new BroadcastCommandExecutor(this));
+		getCommand("servers").setExecutor(selector);
 	}
 	
 	private void setupListeners(){
 		ModMenu.init();
+	}
+
+	@Override
+	public void onPluginMessageReceived(String arg0, Player arg1, byte[] arg2) {
+		return; //Not needed
 	}
 }
