@@ -17,6 +17,7 @@ import org.stormdev.gbplugin.plugin.modpanel.ModMenu;
 import org.stormdev.gbplugin.plugin.modpanel.ServerSelector;
 import org.stormdev.gbplugin.plugin.server.ServerInfo;
 import org.stormdev.gbplugin.plugin.server.ServerMonitor;
+import org.stormdev.gbplugin.plugin.server.uuidcorrector.UUIDListener;
 import org.stormdev.servermanager.api.APIProvider;
 import org.stormdev.servermanager.api.ServerManagerAPI;
 
@@ -115,6 +116,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 	
 	private void setupListeners(){
 		ModMenu.init();
+		new UUIDListener();
 	}
 
 	@Override
