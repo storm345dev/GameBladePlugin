@@ -67,7 +67,6 @@ public class UUIDListener implements Listener {
 			@Override
 			public void run() {
 				loadUUID(player);
-				GameBlade.plugin.getLogger().info("Corrected UUID of "+player.getName()+" to "+player.getUniqueId().toString());
 			}});
 	}
 	
