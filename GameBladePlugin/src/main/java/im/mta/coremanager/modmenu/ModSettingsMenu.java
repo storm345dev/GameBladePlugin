@@ -7,12 +7,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.Main;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.gui.IconMenu;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEvent;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEventHandler;
+import org.stormdev.gbapi.storm.misc.MetadataValue;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 
 public class ModSettingsMenu {
@@ -122,6 +122,7 @@ public class ModSettingsMenu {
                 if(staffModeArray.contains(p.getName())) {
                     staffModeArray.remove(p.getName());
                     p.setGameMode(GameMode.ADVENTURE);
+                    p.setHealthScaled(false);
                     p.setAllowFlight(false);
                     p.playSound(p.getLocation(), Sound.FIREWORK_LARGE_BLAST2, 1F, 1F);
                     e.setWillClose(true);
@@ -134,8 +135,9 @@ public class ModSettingsMenu {
                 }
                 else {
                     staffModeArray.add(p.getName());
-                    p.setGameMode(GameMode.CREATIVE);
                     p.setAllowFlight(true);
+                    p.setHealthScaled(true);
+                    p.setHealthScale(100);
                     p.playSound(p.getLocation(), Sound.FIREWORK_LARGE_BLAST, 1F, 1F);
                     e.setWillClose(true);
                     for (Player allPlayers : Bukkit.getServer().getOnlinePlayers()) {
