@@ -33,3 +33,12 @@ commands:
         permission: mta.admin.tokens
         permission-message: You don't have the permission <permission> needed to award tokens!
         default: op
+    mystars:
+        description: View how many stars you have
+        usage: /<command>
+    givestars:
+        description: Give stars to a player
+        usage: /<command> <Player> <Tokens>
+        permission: mta.admin.stars
+        permission-message: You don't have the permission <permission> needed to award tokens!
+        default: op

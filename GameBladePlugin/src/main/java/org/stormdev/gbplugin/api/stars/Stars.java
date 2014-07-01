@@ -25,23 +25,7 @@ public class Stars implements org.stormdev.gbapi.stars.Stars{
 		}
 		
 		String uuid = PlayerIDFinder.getMojangID(player).getID();
-		try {
-			return Integer.parseInt(GameBlade.plugin.GBSQL.searchTable("stars", "uuid", uuid, "stars").toString());
-		} catch (Exception e) {
-			GameBlade.logger.info("Uh oh! Stars lookup error!");
-			e.printStackTrace();
-		}
-		return 0;
-	}
-	
-	private int getStars(String uuid){
-		try {
-			return Integer.parseInt(GameBlade.plugin.GBSQL.searchTable("stars", "uuid", uuid, "stars").toString());
-		} catch (Exception e) {
-			GameBlade.logger.info("Uh oh! Stars lookup error!");
-			e.printStackTrace();
-		}
-		return 0;
+		return getStars(uuid);
 	}
 	
 	@Override
@@ -51,12 +35,7 @@ public class Stars implements org.stormdev.gbapi.stars.Stars{
 			@Override
 			public void run() {
 				String uuid = PlayerIDFinder.getMojangID(player).getID();
-				int i = getStars(uuid)+stars;
-				try {
-					GameBlade.plugin.GBSQL.setInTable("stars", "uuid", uuid, "stars", i);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				awardStars(uuid, stars);
 				return;
 			}});
 	}
@@ -67,15 +46,7 @@ public class Stars implements org.stormdev.gbapi.stars.Stars{
 			@Override
 			public void run() {
 				String uuid = PlayerIDFinder.getMojangID(player).getID();
-				int i = getStars(uuid)-stars;
-				if(i < 0){
-					i = 0;
-				}
-				try {
-					GameBlade.plugin.GBSQL.setInTable("stars", "uuid", uuid, "stars", i);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				takeStars(uuid, stars);
 				return;
 			}});
 	}
@@ -86,11 +57,7 @@ public class Stars implements org.stormdev.gbapi.stars.Stars{
 			@Override
 			public void run() {
 				String uuid = PlayerIDFinder.getMojangID(player).getID();
-				try {
-					GameBlade.plugin.GBSQL.setInTable("stars", "uuid", uuid, "stars", stars);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				setStars(uuid, stars);
 				return;
 			}});
 	}
@@ -100,5 +67,69 @@ public class Stars implements org.stormdev.gbapi.stars.Stars{
 			run.run();
 		}
 		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, run);
+	}
+
+
+
+	@Override
+	public int getStars(String uuid) {
+		try {
+			return Integer.parseInt(GameBlade.plugin.GBSQL.searchTable("stars", "uuid", uuid, "stars").toString());
+		} catch (Exception e) {
+		}
+		return 0;
+	}
+
+
+
+	@Override
+	public void awardStars(final String uuid, final int stars) {
+		runAsync(new Runnable(){
+
+			@Override
+			public void run() {
+				int i = getStars(uuid)+stars;
+				try {
+					GameBlade.plugin.GBSQL.setInTable("stars", "uuid", uuid, "stars", i);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				return;
+			}});
+	}
+
+
+
+	@Override
+	public void takeStars(final String uuid, final int stars) {
+		runAsync(new Runnable(){
+
+			@Override
+			public void run() {
+				int i = getStars(uuid)-stars;
+				try {
+					GameBlade.plugin.GBSQL.setInTable("stars", "uuid", uuid, "stars", i);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				return;
+			}});
+	}
+
+
+
+	@Override
+	public void setStars(final String uuid, final int stars) {
+		runAsync(new Runnable(){
+
+			@Override
+			public void run() {
+				try {
+					GameBlade.plugin.GBSQL.setInTable("stars", "uuid", uuid, "stars", stars);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				return;
+			}});
 	}
 }

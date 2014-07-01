@@ -13,6 +13,8 @@ import org.bukkit.scheduler.BukkitTask;
 import org.stormdev.gbapi.core.GameBladeAPI;
 import org.stormdev.gbapi.storm.SQL.MySQL;
 import org.stormdev.gbapi.storm.SQL.SQLManager;
+import org.stormdev.gbplugin.api.stars.GiveStarsCommand;
+import org.stormdev.gbplugin.api.stars.MyStarsCommand;
 import org.stormdev.gbplugin.plugin.commands.BroadcastCommandExecutor;
 import org.stormdev.gbplugin.plugin.commands.ModCommandExecutor;
 import org.stormdev.gbplugin.plugin.mkTokens.TokenChecker;
@@ -140,7 +142,8 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		getCommand("servers").setExecutor(selector);
 		getCommand("mytokens").setExecutor(new MyTokensCommand());
 		getCommand("givetokens").setExecutor(new GiveTokensCommand());
-		
+		getCommand("mystars").setExecutor(new MyStarsCommand());
+		getCommand("givestars").setExecutor(new GiveStarsCommand());
 	}
 	
 	private void setupListeners(){
