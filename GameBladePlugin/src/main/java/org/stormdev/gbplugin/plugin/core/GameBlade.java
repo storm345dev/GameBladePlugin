@@ -9,6 +9,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.stormdev.gbapi.core.GameBladeAPI;
+import org.stormdev.gbplugin.plugin.commands.ModCommandExecutor;
+import org.stormdev.gbplugin.plugin.modpanel.ModMenu;
 import org.stormdev.gbplugin.plugin.server.ServerInfo;
 import org.stormdev.gbplugin.plugin.server.ServerMonitor;
 
@@ -43,6 +45,9 @@ public class GameBlade extends JavaPlugin {
 		serverStats = new ServerMonitor();
 		serverStats.start();
 		serverInfo = new ServerInfo();
+		
+		setupCmds();
+		setupListeners();
 		
 		logger.info("GameBladePlugin "+ChatColor.GREEN+"enabled!");
 	}
@@ -86,5 +91,13 @@ public class GameBlade extends JavaPlugin {
 		//Initialise and return an instance of GameBladeAPI
 		api = new org.stormdev.gbplugin.api.core.GameBladeAPI();
 		return api;
+	}
+	
+	private void setupCmds(){
+		getCommand("mod").setExecutor(new ModCommandExecutor(this));
+	}
+	
+	private void setupListeners(){
+		ModMenu.init();
 	}
 }

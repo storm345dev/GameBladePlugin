@@ -26,12 +26,19 @@ public class ServerInfo implements org.stormdev.gbapi.servers.ServerInfo{
 
 	@Override
 	public double getMaxRam() {
-		return ServerMonitor.getMaxMemory();
+		return round2dp(ServerMonitor.getMaxMemory());
 	}
 
 	@Override
 	public double getUsedRam() {
-		return ServerMonitor.getMemoryUse();
+		return round2dp(ServerMonitor.getMemoryUse());
+	}
+	
+	private static double round2dp(double toRound){
+		double d = toRound*100;
+		double i = Math.round(d);
+		double dd = i/100;
+		return (double) dd;
 	}
 
 }
