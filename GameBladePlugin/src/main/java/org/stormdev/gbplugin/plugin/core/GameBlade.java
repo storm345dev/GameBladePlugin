@@ -4,6 +4,8 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Random;
 
+import net.stormdev.mario.mariokart.MarioKart;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -18,8 +20,11 @@ import org.stormdev.gbplugin.plugin.modpanel.ServerSelector;
 import org.stormdev.gbplugin.plugin.server.ServerInfo;
 import org.stormdev.gbplugin.plugin.server.ServerMonitor;
 import org.stormdev.gbplugin.plugin.server.uuidcorrector.UUIDListener;
+import org.stormdev.mkTokens.TokenEcon;
 import org.stormdev.servermanager.api.APIProvider;
 import org.stormdev.servermanager.api.ServerManagerAPI;
+import org.stormdev.tokenhandler.commands.GiveTokensCommand;
+import org.stormdev.tokenhandler.commands.MyTokensCommand;
 
 
 public class GameBlade extends JavaPlugin implements PluginMessageListener {
@@ -99,6 +104,10 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 			return false;
 		}
 		
+		if(Bukkit.getPluginManager().getPlugin("MarioKart") != null){
+			MarioKart.overrideEcon(new TokenEcon()); //Make MarioKart use tokens
+		}
+		
 		return true;
 	}
 	
@@ -112,6 +121,9 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		getCommand("mod").setExecutor(new ModCommandExecutor(this));
 		getCommand("broadcast").setExecutor(new BroadcastCommandExecutor(this));
 		getCommand("servers").setExecutor(selector);
+		getCommand("mytokens").setExecutor(new MyTokensCommand());
+		getCommand("givetokens").setExecutor(new GiveTokensCommand());
+		
 	}
 	
 	private void setupListeners(){

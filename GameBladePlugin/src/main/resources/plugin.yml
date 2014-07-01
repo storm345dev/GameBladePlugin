@@ -2,7 +2,7 @@ name: GameBladePlugin
 author: 'storm345'
 main: org.stormdev.gbplugin.plugin.core.GameBlade
 version: 1.0
-softdepend: [uCars, uPlanes, uCarsTrade, ServerManager]
+softdepend: [uCars, uPlanes, uCarsTrade, ServerManager, MarioKart]
 
 commands:
     mod:
@@ -24,3 +24,12 @@ commands:
         aliases: [changeserver]
         usage: /<command>
         default: true
+    mytokens:
+        description: View how many tokens you have
+        usage: /<command>
+    givetokens:
+        description: Give tokens to player
+        usage: /<command> <Player> <Tokens>
+        permission: mta.admin.tokens
+        permission-message: You don't have the permission <permission> needed to award tokens!
+        default: op
