@@ -10,6 +10,10 @@ public class Config extends ConfigBase {
 	public static ConfigSetting<String> lobbyServerNameBungee = new ConfigSetting<String>("general.servers.lobby.bungee", "lobby1");
 	public static ConfigSetting<String> lobbyServerNameMineManager = new ConfigSetting<String>("general.servers.lobby.minemanager", "GB Lobby 1");
 	
+	public static ConfigSetting<String> sqlURL = new ConfigSetting<String>("general.sql.url", "jdbc:mysql://localhost/databasename");
+	public static ConfigSetting<String> sqlUser = new ConfigSetting<String>("general.sql.user", "root");
+	public static ConfigSetting<String> sqlPass = new ConfigSetting<String>("general.sql.pass", "password");
+	
 	public Config(File file){
 		super(file);
 		load();

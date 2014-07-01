@@ -3,6 +3,7 @@ package org.stormdev.gbplugin.api.core;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.stormdev.gbapi.servers.ServerInfo;
+import org.stormdev.gbapi.stars.Stars;
 import org.stormdev.gbapi.storm.tokens.Tokens;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 
@@ -32,6 +33,11 @@ public class GameBladeAPI implements org.stormdev.gbapi.core.GameBladeAPI{
 	@Override
 	public Plugin getGBPlugin() {
 		return GameBlade.plugin;
+	}
+
+	@Override
+	public Stars getStarsHandler() {
+		return org.stormdev.gbplugin.api.stars.Stars.getInstance();
 	}
 
 }

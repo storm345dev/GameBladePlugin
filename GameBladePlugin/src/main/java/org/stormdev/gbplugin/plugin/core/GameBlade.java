@@ -11,6 +11,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.bukkit.scheduler.BukkitTask;
 import org.stormdev.gbapi.core.GameBladeAPI;
+import org.stormdev.gbapi.storm.SQL.MySQL;
+import org.stormdev.gbapi.storm.SQL.SQLManager;
 import org.stormdev.gbplugin.plugin.commands.BroadcastCommandExecutor;
 import org.stormdev.gbplugin.plugin.commands.ModCommandExecutor;
 import org.stormdev.gbplugin.plugin.mkTokens.TokenChecker;
@@ -39,6 +41,8 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 	
 	private ServerMonitor serverStats;
 	
+	public SQLManager GBSQL;
+	
 	@Override
 	public void onEnable(){
 		plugin = this;
@@ -66,6 +70,11 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		
 		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        
+        GBSQL = new SQLManager(new MySQL(this, Config.sqlURL.getValue(), Config.sqlUser.getValue(), Config.sqlPass.getValue()), this);
+        GBSQL.createTable("stars", new String[]{"uuid"
+        		,"stars"
+        }, new String[]{"varchar(255) NOT NULL PRIMARY KEY", "int(20)"});
 		
 		logger.info("GameBladePlugin "+ChatColor.GREEN+"enabled!");
 	}
