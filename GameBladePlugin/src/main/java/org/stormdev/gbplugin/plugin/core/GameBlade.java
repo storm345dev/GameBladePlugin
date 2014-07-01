@@ -4,8 +4,6 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Random;
 
-import net.stormdev.mario.mariokart.MarioKart;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -15,12 +13,12 @@ import org.bukkit.scheduler.BukkitTask;
 import org.stormdev.gbapi.core.GameBladeAPI;
 import org.stormdev.gbplugin.plugin.commands.BroadcastCommandExecutor;
 import org.stormdev.gbplugin.plugin.commands.ModCommandExecutor;
+import org.stormdev.gbplugin.plugin.mkTokens.TokenChecker;
 import org.stormdev.gbplugin.plugin.modpanel.ModMenu;
 import org.stormdev.gbplugin.plugin.modpanel.ServerSelector;
 import org.stormdev.gbplugin.plugin.server.ServerInfo;
 import org.stormdev.gbplugin.plugin.server.ServerMonitor;
 import org.stormdev.gbplugin.plugin.server.uuidcorrector.UUIDListener;
-import org.stormdev.mkTokens.TokenEcon;
 import org.stormdev.servermanager.api.APIProvider;
 import org.stormdev.servermanager.api.ServerManagerAPI;
 import org.stormdev.tokenhandler.commands.GiveTokensCommand;
@@ -105,8 +103,18 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		}
 		
 		if(Bukkit.getPluginManager().getPlugin("MarioKart") != null){
-			MarioKart.overrideEcon(new TokenEcon()); //Make MarioKart use tokens
+			try {
+				Class.forName("net.stormdev.mario.server.EconProvider");
+				try {
+					TokenChecker.handleMarioKart(); //Make MarioKart use tokens
+				} catch (NoClassDefFoundError e) {
+					//Who cares? There just isn't MarioKart...
+				}
+			} catch (ClassNotFoundException e1) {
+				//No MarioKart...
+			}
 		}
+		
 		
 		return true;
 	}

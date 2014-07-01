@@ -1,4 +1,4 @@
-package org.stormdev.mkTokens;
+package org.stormdev.gbplugin.plugin.mkTokens;
 
 import net.stormdev.mario.server.EconProvider;
 
