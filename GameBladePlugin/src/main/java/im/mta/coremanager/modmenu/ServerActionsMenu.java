@@ -85,10 +85,17 @@ public class ServerActionsMenu {
         if(pos == 2){
             p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
             if(p.hasPermission("admin.weather")) {
-                p.getWorld().setStorm(false);
+            	boolean rain = false;
+            	if(p.getWorld().hasStorm()){
+            		p.getWorld().setStorm(false);
+            	}
+            	else {
+            		rain = true;
+            		p.getWorld().setStorm(true);
+            	}
                 for (Player allPlayers : Bukkit.getServer().getOnlinePlayers()) {
                     if (allPlayers.hasPermission("admin.main")) {
-                        allPlayers.sendMessage(ChatColor.RED + "[ADMIN ALERT] " + p.getName() + " toggled downfall to false!");
+                        allPlayers.sendMessage(ChatColor.RED + "[ADMIN ALERT] " + p.getName() + " toggled downfall to "+rain+"!");
                     }
                 }
             }
