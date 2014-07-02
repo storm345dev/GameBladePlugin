@@ -11,6 +11,9 @@ import org.stormdev.gbplugin.plugin.core.Config;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.utils.Colors;
 
+import ru.tehkode.permissions.PermissionUser;
+import ru.tehkode.permissions.bukkit.PermissionsEx;
+
 public class ChatManager implements Listener {
 	public static ChatColor getMsgColour(Player player){
 		if(player.hasPermission("mta.chatcolor.staff")){
@@ -65,26 +68,30 @@ public class ChatManager implements Listener {
 		String coloured = ChatColor.translateAlternateColorCodes('&', dispName);
 		return coloured;
 	}
-	
-	public String getFullPrefixName(Player player) {
-		String prefix = getPrefixSuffix(player, "prefix");
-
-		String coloured = ChatColor.translateAlternateColorCodes('&', prefix);
-
-		return coloured;
-	}
 
 	public String getFullPrefixSuffixName(Player player) {
-		String prefix = getPrefixSuffix(player, "prefix");
-		String suffix = getPrefixSuffix(player, "suffix");
+		//String prefix = getSimplePrefixSuffix(player, "prefix");
+		//String suffix = getSimplePrefixSuffix(player, "suffix");
+		String prefix = getPEXPrefix(player);
+		String suffix = getPEXSuffix(player);
 		String name = player.getName();
 
 		String full = prefix + name + suffix;
 
 		return full;
 	}
+	
+	public String getPEXPrefix(Player player){
+		PermissionUser u = PermissionsEx.getUser(player);
+		return u.getPrefix();
+	}
+	
+	public String getPEXSuffix(Player player){
+		PermissionUser u = PermissionsEx.getUser(player);
+		return u.getSuffix();
+	}
 
-	public String getPrefixSuffix(Player player, String type) {
+	public String getSimplePrefixSuffix(Player player, String type) {
 		if (player.hasMetadata(type)) {
 			return player.getMetadata(type).get(0).asString();
 		}

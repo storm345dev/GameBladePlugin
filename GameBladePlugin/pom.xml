@@ -121,8 +121,17 @@
 	       <id>JDBC-repo</id>
 	       <url>https://maven.lib.umd.edu/maven2/</url>
         </repository>
+        <repository>
+   		 	<id>pex-repo</id>
+  		  	<url>http://pex-repo.zachsthings.com</url>
+		</repository>
     </repositories>
     <dependencies>
+    	<dependency>
+    		<groupId>ru.tehkode</groupId>
+   			<artifactId>PermissionsEx</artifactId>
+   			<version>1.22</version>
+		</dependency>
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
