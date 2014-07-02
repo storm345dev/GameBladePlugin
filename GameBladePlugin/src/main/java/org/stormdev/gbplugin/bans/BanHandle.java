@@ -10,7 +10,7 @@ import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.utils.Colors;
 
 public class BanHandle implements BanHandler {
-
+	
 	private static final String SQL_TABLE = "bans";
 	private static final String ID_COLUMN = "id";
 	private static final String BANNED_BY_COLUMN = "banned_by";

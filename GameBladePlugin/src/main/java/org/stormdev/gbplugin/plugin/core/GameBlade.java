@@ -15,6 +15,7 @@ import org.stormdev.gbapi.storm.SQL.MySQL;
 import org.stormdev.gbapi.storm.SQL.SQLManager;
 import org.stormdev.gbplugin.api.stars.GiveStarsCommand;
 import org.stormdev.gbplugin.api.stars.MyStarsCommand;
+import org.stormdev.gbplugin.bans.BanHandle;
 import org.stormdev.gbplugin.plugin.chat.ChatManager;
 import org.stormdev.gbplugin.plugin.commands.BroadcastCommandExecutor;
 import org.stormdev.gbplugin.plugin.commands.ModCommandExecutor;
@@ -38,6 +39,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 	public static Random random = new Random();
 	public static ServerInfo serverInfo;
 	public static ServerManagerAPI smApi;
+	public static BanHandle banHandler;
 	
 	public BukkitTask serverMonitor;
 	public ServerSelector selector;
@@ -78,6 +80,8 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
         GBSQL.createTable("stars", new String[]{"uuid"
         		,"stars"
         }, new String[]{"varchar(255) NOT NULL PRIMARY KEY", "int(20)"});
+        
+        banHandler = new BanHandle();
 		
 		logger.info("GameBladePlugin "+ChatColor.GREEN+"enabled!");
 	}
