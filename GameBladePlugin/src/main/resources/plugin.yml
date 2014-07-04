@@ -53,6 +53,9 @@ commands:
     starshop:
         description: Access the star shop
         usage: /<command>
+    hat:
+        description: Wear hats you own
+        usage: /<command>
     givestars:
         description: Give stars to a player
         usage: /<command> <Player> <Tokens>

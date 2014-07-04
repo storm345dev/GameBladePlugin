@@ -5,12 +5,11 @@ import net.minecraft.server.v1_7_R3.Material;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.stormdev.gbapi.cosmetics.Cosmetic;
 import org.stormdev.gbapi.cosmetics.CosmeticType;
 import org.stormdev.gbapi.cosmetics.Currency;
 import org.stormdev.gbapi.cosmetics.Rank;
 
-public abstract class BlockhatBase implements Cosmetic,Hat {
+public abstract class BlockhatBase implements Hat {
 	
 	@Override
 	public CosmeticType getType() {

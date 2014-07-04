@@ -16,6 +16,7 @@ import org.stormdev.gbapi.cosmetics.Currency;
 import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbapi.storm.tokens.Tokens.TokenServiceUnavailableException;
+import org.stormdev.gbplugin.cosmetics.cosmetics.hats.HatMenu;
 import org.stormdev.gbplugin.cosmetics.cosmetics.hats.HatRegistry;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.cosmetics.shop.CosmeticShop;
@@ -26,6 +27,7 @@ public class CosmeticManager {
 	private static final String SQL_COSMETICS_KEY = "owned";
 	
 	private static CosmeticShop shop = null;
+	private static HatMenu hatMenu = null;
 	private static Map<String, Cosmetic> cosmetics = new TreeMap<String, Cosmetic>();
 	
 	public static void registerCosmetic(Cosmetic cosmetic){
@@ -41,6 +43,11 @@ public class CosmeticManager {
 		GameBlade.logger.info("Cosmetics loaded!");
 		GameBlade.plugin.GBSQL.createTable(SQL_TABLE, new String[]{SQL_ID_KEY, SQL_COSMETICS_KEY}, new String[]{"varchar(255) NOT NULL PRIMARY KEY", "varchar(255)"});
 		shop = new CosmeticShop(this);
+		hatMenu = new HatMenu(this);
+	}
+	
+	public HatMenu getHatMenu(){
+		return hatMenu;
 	}
 	
 	public CosmeticShop getShop(){
@@ -160,7 +167,47 @@ public class CosmeticManager {
 	
 	public void postPurchase(Player player, Cosmetic c){
 		player.sendMessage(ChatColor.GREEN+"Successfully purchased item!");
+		
+		if(c.getType().equals(CosmeticType.HAT)){
+			player.sendMessage(ChatColor.YELLOW+"Use /hat to wear your hat!");
+		}
 		//TODO ?
+	}
+	
+	public List<Cosmetic> getOwnedCosmetics(Player player){
+		notSync();
+		//Use SQL
+		String uuid = PlayerIDFinder.getMojangID(player).getID();
+		String owned;
+		
+		try {
+			Object o = GameBlade.plugin.GBSQL.searchTable(SQL_TABLE, SQL_ID_KEY, uuid, SQL_COSMETICS_KEY);
+			if(o != null){
+				owned = o.toString();
+			}
+			else {
+				owned = null;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return new ArrayList<Cosmetic>();
+		}
+		if(owned == null || owned.equalsIgnoreCase("null") || owned.length() < 1){
+			return new ArrayList<Cosmetic>();
+		}
+		
+		List<Cosmetic> o = new ArrayList<Cosmetic>();
+		String[] parts = owned.split(Pattern.quote("|"));
+		for(String s:parts){
+			if(s != null && s != "null" && s.length() > 0){
+				Cosmetic c = cosmetics.get(s);
+				if(c != null){
+					o.add(c);
+				}
+			}
+		}
+		
+		return o;
 	}
 	
 	public List<String> getOwnedCosmeticIds(Player player){
