@@ -11,7 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.cosmetics.Cosmetic;
 import org.stormdev.gbapi.cosmetics.CosmeticType;
-import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbapi.gui.IconMenu;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEvent;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEventHandler;
@@ -20,7 +19,7 @@ import org.stormdev.gbplugin.plugin.cosmetics.CosmeticManager;
 
 public class HatMenu implements Listener {
 	//TODO
-	private static final int PAGE_SIZE = 9;
+	private static final int PAGE_SIZE = 18;
 	
 	private CosmeticManager manager;
 	public HatMenu(CosmeticManager manager){
