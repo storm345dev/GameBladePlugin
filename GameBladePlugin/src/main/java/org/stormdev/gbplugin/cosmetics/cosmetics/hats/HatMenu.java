@@ -56,8 +56,8 @@ public class HatMenu implements Listener {
 	
 	private void createDisplay(final Player player, final List<Hat> owned, final int pageNo){
 		int page = pageNo-1;
-		final int startPos = (PAGE_SIZE - 2)*page; //if page 1 then (0*52) which is 0, if page 2 then it's 1*52 which is 52
-		int endPos = startPos + (PAGE_SIZE - 2); //If startPos = 0, endPos = 52
+		final int startPos = (PAGE_SIZE - 3)*page; //if page 1 then (0*52) which is 0, if page 2 then it's 1*52 which is 52
+		int endPos = startPos + (PAGE_SIZE - 3); //If startPos = 0, endPos = 52
 		
 		IconMenu menu = new IconMenu(ChatColor.YELLOW+"Hat Menu", PAGE_SIZE, new OptionClickEventHandler(){
 
