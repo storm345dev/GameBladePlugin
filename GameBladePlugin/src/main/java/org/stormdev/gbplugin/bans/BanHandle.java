@@ -57,11 +57,41 @@ public class BanHandle implements BanHandler {
 		unban(PlayerIDFinder.getMojangID(player).getID());
 		return false;
 	}
+	
+	@Override
+	public boolean isBanned(String uuid) {
+		notSync();
+		Time t = getBanDuration(uuid);
+		if(t == null){
+			return false;
+		}
+		if(!t.hasElapsed()){
+			return true;
+		}
+		
+		unban(uuid);
+		return false;
+	}
 
 	@Override
 	public String getBanReason(Player player) {
 		notSync();
 		String uuid = PlayerIDFinder.getMojangID(player).getID();
+		try {
+			String s = GameBlade.plugin.GBSQL.searchTable(SQL_TABLE, ID_COLUMN, uuid, REASON_COLUMN).toString();
+			if(s == null || s.equalsIgnoreCase("null")){
+				return null;
+			}
+			return s;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
+	public String getBanReason(String uuid) {
+		notSync();
 		try {
 			String s = GameBlade.plugin.GBSQL.searchTable(SQL_TABLE, ID_COLUMN, uuid, REASON_COLUMN).toString();
 			if(s == null || s.equalsIgnoreCase("null")){
@@ -86,6 +116,20 @@ public class BanHandle implements BanHandler {
 			return Time.fromString(s);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
+	public Time getBanDuration(String uuid) {
+		notSync();
+		try {
+			String s = GameBlade.plugin.GBSQL.searchTable(SQL_TABLE, ID_COLUMN, uuid, TIME_COLUMN).toString();
+			if(s == null || s.equalsIgnoreCase("null")){
+				return null;
+			}
+			return Time.fromString(s);
+		} catch (Exception e) {
 			return null;
 		}
 	}

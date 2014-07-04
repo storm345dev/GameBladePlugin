@@ -1,5 +1,7 @@
 package org.stormdev.gbplugin.bans;
 
+import java.sql.SQLException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -8,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.gui.IconMenu;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEvent;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEventHandler;
+import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbplugin.bans.ChatInput.InputValidator;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.utils.MetaValue;
@@ -69,6 +72,7 @@ public class BanPanel {
 	
 	private Mode mode = Mode.BAN;
 	private String otherPlayer = null;
+	private IconMenu current = null;
 	
 	public BanPanel(Player player){
 		this.playerName = player.getName();
@@ -82,7 +86,7 @@ public class BanPanel {
 
 			@Override
 			public String getHelpMessage() {
-				return ChatColor.GREEN+"Enter the name of the player into the chat";
+				return ChatColor.GREEN+"Enter the name of the player into the chat (CaSe SeNsItIvE)";
 			}
 
 			@Override
@@ -110,10 +114,66 @@ public class BanPanel {
 	public void onPlayerSelected(Player admin, String name){
 		this.otherPlayer = name;
 		admin.sendMessage(ChatColor.GRAY+"Received: '"+name+"'");
+		if(mode.equals(Mode.BAN)){
+			openBanMenu(admin);
+		}
+		else {
+			openProfileMenu(admin);
+		}
 		//TODO
 	}
 	
+	public void openBanMenu(Player admin){
+		//TODO
+	}
+	
+	public void openProfileMenu(final Player admin){
+		admin.sendMessage(ChatColor.GRAY+"Loading...");
+		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
+
+			@Override
+			public void run() {
+				String uuid = PlayerIDFinder.getMojangID(otherPlayer).getID();
+				boolean banned = GameBlade.api.getBans().isBanned(uuid);
+				int bans = 0;
+				try {
+					Object o = GameBlade.plugin.GBSQL.searchTable("playerdata", "id", uuid, "bans");
+					if(o != null){
+						try {
+							bans = Integer.parseInt(o.toString());
+						} catch (NumberFormatException e) {
+							//Not been banned before
+						}
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				String reason = null;
+				String whoBanned = null;
+				String timeLeft = null;
+				if(banned){
+					reason = GameBlade.api.getBans().getBanReason(uuid);
+					whoBanned = GameBlade.api.getBans().getWhoBanned(uuid);
+					timeLeft = GameBlade.api.getBans().getBanDuration(uuid).getRemainingTime();
+				}
+				
+				admin.sendMessage(ChatColor.RED+"Profile of "+ChatColor.GOLD+otherPlayer+ChatColor.RED+":");
+				admin.sendMessage(ChatColor.GOLD+"UUID: "+ChatColor.WHITE+uuid);
+				admin.sendMessage(ChatColor.GOLD+"Bans: "+ChatColor.WHITE+bans);
+				admin.sendMessage(ChatColor.GOLD+"Currently Banned: "+ChatColor.WHITE+banned);
+				if(banned){
+					admin.sendMessage(ChatColor.GOLD+"Ban Reason: "+ChatColor.WHITE+reason);
+					admin.sendMessage(ChatColor.GOLD+"Banned by: "+ChatColor.WHITE+whoBanned);
+					admin.sendMessage(ChatColor.GOLD+"Ban time left: "+ChatColor.WHITE+timeLeft);
+				}
+				return;
+			}});
+	}
+	
 	public void destroy(){
+		if(current != null){
+			current.destroy();
+		}
 		Player player = Bukkit.getPlayer(playerName);
 		if(player != null){
 			player.removeMetadata(BanPanel.meta, GameBlade.plugin);
