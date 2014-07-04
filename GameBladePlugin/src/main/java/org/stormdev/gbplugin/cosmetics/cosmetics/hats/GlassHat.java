@@ -22,7 +22,7 @@ public class GlassHat extends BlockhatBase {
 
 	@Override
 	public String getUserFriendlyName() {
-		return "Clear Glass Hat";
+		return "Glass Hat (Clear)";
 	}
 
 }

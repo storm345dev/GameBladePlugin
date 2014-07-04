@@ -50,6 +50,9 @@ commands:
     mystars:
         description: View how many stars you have
         usage: /<command>
+    starshop:
+        description: Access the star shop
+        usage: /<command>
     givestars:
         description: Give stars to a player
         usage: /<command> <Player> <Tokens>

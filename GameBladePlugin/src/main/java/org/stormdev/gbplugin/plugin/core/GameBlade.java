@@ -21,6 +21,7 @@ import org.stormdev.gbplugin.plugin.chat.ChatManager;
 import org.stormdev.gbplugin.plugin.commands.BanCommand;
 import org.stormdev.gbplugin.plugin.commands.BroadcastCommandExecutor;
 import org.stormdev.gbplugin.plugin.commands.ModCommandExecutor;
+import org.stormdev.gbplugin.plugin.commands.StarShopCommand;
 import org.stormdev.gbplugin.plugin.commands.UnbanCommand;
 import org.stormdev.gbplugin.plugin.cosmetics.CosmeticManager;
 import org.stormdev.gbplugin.plugin.mkTokens.TokenChecker;
@@ -87,7 +88,8 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
         }, new String[]{"varchar(255) NOT NULL PRIMARY KEY", "int(20)"});
         
         banHandler = new BanHandle();
-		
+        cosmeticManager = new CosmeticManager();
+        
 		logger.info("GameBladePlugin "+ChatColor.GREEN+"enabled!");
 	}
 	
@@ -156,6 +158,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		getCommand("givestars").setExecutor(new GiveStarsCommand());
 		getCommand("ban").setExecutor(new BanCommand());
 		getCommand("pardon").setExecutor(new UnbanCommand());
+		getCommand("starshop").setExecutor(new StarShopCommand());
 	}
 	
 	private void setupListeners(){
@@ -163,7 +166,6 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		new UUIDListener();
 		new ChatManager();
 		new BanListener();
-		cosmeticManager = new CosmeticManager();
 	}
 
 	@Override

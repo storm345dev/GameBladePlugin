@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.cosmetics.Cosmetic;
 import org.stormdev.gbapi.cosmetics.CosmeticType;
 import org.stormdev.gbapi.cosmetics.Currency;
+import org.stormdev.gbapi.cosmetics.Rank;
 
 public abstract class BlockhatBase implements Cosmetic,Hat {
 	
@@ -43,6 +44,11 @@ public abstract class BlockhatBase implements Cosmetic,Hat {
 	@Override
 	public Currency getCurrencyUsed(){
 		return Currency.STARS;
+	}
+	
+	@Override
+	public Rank minimumRank(){
+		return Rank.DEFAULT;
 	}
 
 }
