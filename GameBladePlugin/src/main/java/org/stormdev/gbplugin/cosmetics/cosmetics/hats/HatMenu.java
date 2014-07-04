@@ -329,4 +329,18 @@ public class HatMenu implements Listener {
 			player.removeMetadata("wearingHat", GameBlade.plugin);
 		}
 	}
+	
+	public static void takeOffHatPhysicallyIfHatIsWorn(Player player){
+		if(player.hasMetadata("wearingHat")){
+			Object o = player.getMetadata("wearingHat").get(0).value();
+			if(!(o instanceof Hat)){
+				player.removeMetadata("wearingHat", GameBlade.plugin);
+				return;
+			}
+			
+			Hat hat = (Hat) o;
+			hat.remove(player);
+			player.removeMetadata("wearingHat", GameBlade.plugin);
+		}
+	}
 }

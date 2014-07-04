@@ -17,6 +17,7 @@ import org.stormdev.gbplugin.api.stars.GiveStarsCommand;
 import org.stormdev.gbplugin.api.stars.MyStarsCommand;
 import org.stormdev.gbplugin.bans.BanHandle;
 import org.stormdev.gbplugin.bans.BanListener;
+import org.stormdev.gbplugin.cosmetics.cosmetics.hats.HatMenu;
 import org.stormdev.gbplugin.plugin.chat.ChatManager;
 import org.stormdev.gbplugin.plugin.commands.BanCommand;
 import org.stormdev.gbplugin.plugin.commands.BroadcastCommandExecutor;
@@ -96,6 +97,9 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 	
 	@Override
 	public void onDisable(){
+		for(Player player:Bukkit.getOnlinePlayers()){
+			HatMenu.takeOffHatPhysicallyIfHatIsWorn(player);
+		}
 		Bukkit.getScheduler().cancelTasks(this);
 		logger.info("GameBladePlugin "+ChatColor.RED+"disabled!");
 	}
