@@ -1,4 +1,4 @@
-package org.stormdev.gbplugin.cosmetics.cosmetics.hats;
+package org.stormdev.gbplugin.cosmetics.wear.hats;
 
 import net.minecraft.server.v1_7_R3.Material;
 

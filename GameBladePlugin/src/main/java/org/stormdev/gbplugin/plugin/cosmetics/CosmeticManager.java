@@ -16,8 +16,8 @@ import org.stormdev.gbapi.cosmetics.Currency;
 import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbapi.storm.tokens.Tokens.TokenServiceUnavailableException;
-import org.stormdev.gbplugin.cosmetics.cosmetics.hats.HatMenu;
-import org.stormdev.gbplugin.cosmetics.cosmetics.hats.HatRegistry;
+import org.stormdev.gbplugin.cosmetics.wear.hats.HatMenu;
+import org.stormdev.gbplugin.cosmetics.wear.hats.HatRegistry;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.cosmetics.shop.CosmeticShop;
 

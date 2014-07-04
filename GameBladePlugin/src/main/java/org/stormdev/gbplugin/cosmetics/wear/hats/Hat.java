@@ -1,4 +1,4 @@
-package org.stormdev.gbplugin.cosmetics.cosmetics.hats;
+package org.stormdev.gbplugin.cosmetics.wear.hats;
 
 import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.cosmetics.Cosmetic;
