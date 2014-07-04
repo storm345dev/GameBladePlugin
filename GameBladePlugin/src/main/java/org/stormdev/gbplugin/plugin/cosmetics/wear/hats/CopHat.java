@@ -62,7 +62,7 @@ public class CopHat extends BlockhatBase {
 			i = new ItemStack(Material.STAINED_GLASS, 1, (byte) 11);
 		}
 		
-		if(i.getData().getData() == (byte) 3){
+		if(i.getData().getData() == (byte) 11){
 			i = new ItemStack(Material.STAINED_GLASS, 1, (byte) 14);
 		}
 		else if(i.getData().getData() == (byte) 14){
