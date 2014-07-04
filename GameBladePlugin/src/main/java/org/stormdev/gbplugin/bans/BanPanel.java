@@ -149,11 +149,13 @@ public class BanPanel {
 		
 		String duration = time.isForever() ? "forever":((int) (time.getDuration()/1000/60/60))+" hours";
 		player.sendMessage(ChatColor.GREEN+"Banned!");
+		
 		for(Player p:Bukkit.getOnlinePlayers()){
 			if(p.hasPermission("gameblade.admin")){
 				p.sendMessage(ChatColor.YELLOW+player.getName()+" has banned "+otherPlayer+" for "+reason+" for "+duration+"!");
 			}
 		}
+		GameBlade.logger.info(ChatColor.YELLOW+player.getName()+" has banned "+otherPlayer+" for "+reason+" for "+duration+"!");
 	}
 	
 	public void onTimeSelect(final Player player, Time time){
