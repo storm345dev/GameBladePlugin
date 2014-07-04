@@ -36,8 +36,8 @@ public class BanHandle implements BanHandler {
 			public void run() {
 				GameBlade.logger.info("Unbanning: "+uuid);
 				try {
-					//TODO WHY DOESNT THIS WORK???
 					GameBlade.plugin.GBSQL.deleteFromTable(SQL_TABLE, ID_COLUMN, uuid);
+					//GameBlade.plugin.GBSQL.exec("DELETE FROM bans WHERE bans.id = '"+uuid+"'");
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -184,8 +184,7 @@ public class BanHandle implements BanHandler {
 			public void run() {
 				try {
 					GameBlade.plugin.GBSQL.setInTable(SQL_TABLE, ID_COLUMN, banned_uuid, BANNED_BY_COLUMN, admin.getName());
-					GameBlade.plugin.GBSQL.setInTable(SQL_TABLE, ID_COLUMN, banned_uuid, REASON_COLUMN, admin.getName());
-					GameBlade.plugin.GBSQL.setInTable(SQL_TABLE, ID_COLUMN, banned_uuid, BANNED_BY_COLUMN, reason);
+					GameBlade.plugin.GBSQL.setInTable(SQL_TABLE, ID_COLUMN, banned_uuid, REASON_COLUMN, reason);
 					GameBlade.plugin.GBSQL.setInTable(SQL_TABLE, ID_COLUMN, banned_uuid, TIME_COLUMN, time);
 				} catch (SQLException e) {
 					e.printStackTrace();
