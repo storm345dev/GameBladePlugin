@@ -22,6 +22,7 @@ import org.stormdev.gbplugin.plugin.commands.BanCommand;
 import org.stormdev.gbplugin.plugin.commands.BroadcastCommandExecutor;
 import org.stormdev.gbplugin.plugin.commands.ModCommandExecutor;
 import org.stormdev.gbplugin.plugin.commands.UnbanCommand;
+import org.stormdev.gbplugin.plugin.cosmetics.CosmeticManager;
 import org.stormdev.gbplugin.plugin.mkTokens.TokenChecker;
 import org.stormdev.gbplugin.plugin.modpanel.ModMenu;
 import org.stormdev.gbplugin.plugin.modpanel.ServerSelector;
@@ -46,6 +47,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 	
 	public BukkitTask serverMonitor;
 	public ServerSelector selector;
+	public CosmeticManager cosmeticManager;
 	
 	private ServerMonitor serverStats;
 	
@@ -161,6 +163,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		new UUIDListener();
 		new ChatManager();
 		new BanListener();
+		cosmeticManager = new CosmeticManager();
 	}
 
 	@Override

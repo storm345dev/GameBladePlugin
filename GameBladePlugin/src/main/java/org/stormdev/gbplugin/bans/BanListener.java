@@ -1,6 +1,7 @@
 package org.stormdev.gbplugin.bans;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,10 +9,13 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.stormdev.gbapi.bans.BanHandler.Time;
 import org.stormdev.gbapi.core.APIProvider;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
+import org.stormdev.gbplugin.plugin.utils.MetaValue;
 
 public class BanListener implements Listener {
 	public BanListener(){
@@ -20,19 +24,45 @@ public class BanListener implements Listener {
 	
 	@EventHandler
 	public void onLogin(PlayerLoginEvent event){
-		final Player player = event.getPlayer();
 		
+		final Player player = event.getPlayer();
 		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
 
 			@Override
 			public void run() {
 				if(APIProvider.getAPI().getBans().isBanned(player)){
 					Time duration = APIProvider.getAPI().getBans().getBanDuration(player);
+					player.setMetadata("banned", new MetaValue(null, GameBlade.plugin));
 					player.kickPlayer("Ban time remaining: "+duration.getRemainingTime());
+				}
+				else {
+					//Join message
+					if(player.hasPermission("global.premiumplus‏")){
+						//VIP join message
+						Bukkit.broadcastMessage(ChatColor.DARK_RED+"[*] "+ChatColor.GOLD+player.getName()+" joined the server.");
+					}
 				}
 				return;
 			}});
 		
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	void onJoin(PlayerJoinEvent event){
+		event.setJoinMessage(null);
+	}
+	
+	@EventHandler
+	void onLeave(PlayerQuitEvent event){
+		Player player = event.getPlayer();
+		if(player.hasMetadata("banned")){
+			player.removeMetadata("banned", GameBlade.plugin);
+			event.setQuitMessage(null);
+		}
+		else {
+			//Leave msg
+			event.setQuitMessage(null);
+		}
 	}
 	
 	@EventHandler
