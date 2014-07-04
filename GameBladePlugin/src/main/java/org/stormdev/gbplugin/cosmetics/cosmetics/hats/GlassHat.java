@@ -20,4 +20,9 @@ public class GlassHat extends BlockhatBase {
 		return 49;
 	}
 
+	@Override
+	public String getUserFriendlyName() {
+		return "Clear Glass Hat";
+	}
+
 }

@@ -14,6 +14,14 @@ public abstract class BlockhatBase implements Cosmetic,Hat {
 	public CosmeticType getType() {
 		return CosmeticType.HAT;
 	}
+	
+	@Override
+	public void remove(Player player){
+		ItemStack h = player.getInventory().getHelmet();
+		if(h.isSimilar(getHeadWear())){
+			player.getInventory().setHelmet(null);
+		}
+	}
 
 	@Override
 	public void apply(Player player) {
