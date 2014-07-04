@@ -34,7 +34,9 @@ public class BanHandle implements BanHandler {
 
 			@Override
 			public void run() {
+				GameBlade.logger.info("Unbanning: "+uuid);
 				try {
+					//TODO WHY DOESNT THIS WORK???
 					GameBlade.plugin.GBSQL.deleteFromTable(SQL_TABLE, ID_COLUMN, uuid);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -114,8 +116,7 @@ public class BanHandle implements BanHandler {
 				return null;
 			}
 			return Time.fromString(s);
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
 			return null;
 		}
 	}
@@ -143,6 +144,46 @@ public class BanHandle implements BanHandler {
 				String banned_uuid = PlayerIDFinder.getMojangID(player).getID();
 				try {
 					GameBlade.plugin.GBSQL.setInTable(SQL_TABLE, ID_COLUMN, banned_uuid, BANNED_BY_COLUMN, admin.getName());
+					GameBlade.plugin.GBSQL.setInTable(SQL_TABLE, ID_COLUMN, banned_uuid, REASON_COLUMN, reason);
+					GameBlade.plugin.GBSQL.setInTable(SQL_TABLE, ID_COLUMN, banned_uuid, TIME_COLUMN, time);
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return;
+				}
+				
+				int bans = 0;
+				try {
+					bans = Integer.parseInt(GameBlade.plugin.GBSQL.searchTable(PLAYER_DATA_SQL_TABLE, PLAYER_DATA_ID_COLUMN, banned_uuid, PLAYER_DATA_BANS_COLUMN).toString());
+				} catch (Exception e) {
+					//No bans set
+				}
+				
+				bans++;
+				if(bans < 1){
+					GameBlade.logger.info("ERROR with incrementing players' ban amount!");
+				}
+				try {
+					GameBlade.plugin.GBSQL.setInTable(PLAYER_DATA_SQL_TABLE, PLAYER_DATA_ID_COLUMN, banned_uuid, PLAYER_DATA_BANS_COLUMN, bans+"");
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				if(player != null && player.isOnline()){
+					player.kickPlayer("Banned: "+Colors.colorise(reason));
+				}
+				
+				return;
+			}});
+	}
+	
+	@Override
+	public void ban(final String banned_uuid, final Player admin, final String reason, final Time time) {
+		runAsync(new Runnable(){
+
+			@Override
+			public void run() {
+				try {
+					GameBlade.plugin.GBSQL.setInTable(SQL_TABLE, ID_COLUMN, banned_uuid, BANNED_BY_COLUMN, admin.getName());
 					GameBlade.plugin.GBSQL.setInTable(SQL_TABLE, ID_COLUMN, banned_uuid, REASON_COLUMN, admin.getName());
 					GameBlade.plugin.GBSQL.setInTable(SQL_TABLE, ID_COLUMN, banned_uuid, BANNED_BY_COLUMN, reason);
 					GameBlade.plugin.GBSQL.setInTable(SQL_TABLE, ID_COLUMN, banned_uuid, TIME_COLUMN, time);
@@ -163,10 +204,6 @@ public class BanHandle implements BanHandler {
 					GameBlade.plugin.GBSQL.setInTable(PLAYER_DATA_SQL_TABLE, PLAYER_DATA_ID_COLUMN, banned_uuid, PLAYER_DATA_BANS_COLUMN, bans);
 				} catch (SQLException e) {
 					e.printStackTrace();
-				}
-				
-				if(player != null && player.isOnline()){
-					player.kickPlayer("Banned: "+Colors.colorise(reason));
 				}
 				
 				return;

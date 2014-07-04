@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.stormdev.gbapi.bans.BanHandler.Time;
 import org.stormdev.gbapi.gui.IconMenu;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEvent;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEventHandler;
@@ -73,6 +74,8 @@ public class BanPanel {
 	private Mode mode = Mode.BAN;
 	private String otherPlayer = null;
 	private IconMenu current = null;
+	private Time time = null;
+	private String reason = null;
 	
 	public BanPanel(Player player){
 		this.playerName = player.getName();
@@ -120,15 +123,196 @@ public class BanPanel {
 		else {
 			openProfileMenu(admin);
 		}
-		//TODO
 	}
 	
 	public void openBanMenu(Player admin){
-		//TODO
+		openDurationMenu(admin);
+	}
+	
+	public void onReasonSelect(final Player player, final String reason){
+		this.reason = reason;
+		player.sendMessage(ChatColor.GRAY+"Reason: "+reason);
+		
+		Player toBan = Bukkit.getPlayer(otherPlayer);
+		if(toBan != null){
+			GameBlade.api.getBans().ban(toBan, player, reason, time);
+		}
+		else {
+			Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
+
+				@Override
+				public void run() {
+					GameBlade.api.getBans().ban(PlayerIDFinder.getMojangID(otherPlayer).getID(), player, reason, time);
+					return;
+				}});
+		}
+		
+		String duration = time.isForever() ? "forever":((int) (time.getDuration()/1000/60/60))+" hours";
+		Bukkit.broadcast(ChatColor.YELLOW+player.getName()+" has banned "+otherPlayer+" for "+reason+" for "+duration+"!", "gameblade.admin");
+	}
+	
+	public void onTimeSelect(final Player player, Time time){
+		this.time = time;
+		player.sendMessage(ChatColor.GRAY+"Selected time!");
+		//Select the reason
+		Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
+
+			@Override
+			public void run() {
+				openReasonMenu(player);
+				return;
+			}}, 2l);
+	}
+	
+	public void openReasonMenu(Player admin){
+		if(admin == null){
+			return;
+		}
+		meta(admin);
+		
+		current = new IconMenu("Select Reason", 18, new OptionClickEventHandler(){
+
+			@Override
+			public void onOptionClick(OptionClickEvent event) {
+				int pos = event.getPosition();
+				String reason = "-";
+				if(time.isForever()){
+					if(pos == 0){	reason = "Using a hacked client";	}
+					else if(pos == 1){	reason = "Advertising";	}
+					else if(pos == 2){	reason = "Using a banned client-mod";	}
+					else if(pos == 3){	reason = "Racism";	}
+					else if(pos == 4){	reason = "Sexism";	}
+					else if(pos == 5){	reason = "Raiding";	}
+					else if(pos == 6){	reason = "Abusing bugs";	}
+					else if(pos == 7){	reason = "Disrespecting players";	}
+					else if(pos == 8){	reason = "Disrespecting staff";	}
+					else if(pos == 9){
+						customReasonInput(event.getPlayer());
+						event.setWillClose(true);
+						event.setWillDestroy(true);
+						return;
+					}
+					else {
+						event.setWillClose(false);
+						event.setWillDestroy(false);
+					}
+				}
+				else {
+					if(pos == 0){	reason = "Spamming";	}
+					else if(pos == 1){	reason = "Advertising";	}
+					else if(pos == 2){	reason = "Using caps-lock";	}
+					else if(pos == 3){	reason = "Swearing";	}
+					else if(pos == 4){	reason = "House camping";	}
+					else if(pos == 5){	reason = "Acting as a staff member";	}
+					else if(pos == 6){	reason = "Spreading lies";	}
+					else if(pos == 7){
+						customReasonInput(event.getPlayer());
+						event.setWillClose(true);
+						event.setWillDestroy(true);
+						return;
+					}
+					else {
+						event.setWillClose(false);
+						event.setWillDestroy(false);
+					}
+				}
+				onReasonSelect(event.getPlayer(), reason);
+				event.setWillClose(true);
+				event.setWillDestroy(true);
+				return;
+			}}, GameBlade.plugin);
+		if(time.isForever()){
+			current.setOption(0, new ItemStack(Material.PAPER), ChatColor.GOLD+"Using a hacked client", ChatColor.RED+"Ban for this reason");
+			current.setOption(1, new ItemStack(Material.PAPER), ChatColor.GOLD+"Advertising", ChatColor.RED+"Ban for this reason");
+			current.setOption(2, new ItemStack(Material.PAPER), ChatColor.GOLD+"Using a banned client-mod", ChatColor.RED+"Ban for this reason");
+			current.setOption(3, new ItemStack(Material.PAPER), ChatColor.GOLD+"Racism", ChatColor.RED+"Ban for this reason");
+			current.setOption(4, new ItemStack(Material.PAPER), ChatColor.GOLD+"Sexism", ChatColor.RED+"Ban for this reason");
+			current.setOption(5, new ItemStack(Material.PAPER), ChatColor.GOLD+"Raiding", ChatColor.RED+"Ban for this reason");
+			current.setOption(6, new ItemStack(Material.PAPER), ChatColor.GOLD+"Abusing bugs", ChatColor.RED+"Ban for this reason");
+			current.setOption(7, new ItemStack(Material.PAPER), ChatColor.GOLD+"Disrespecting players", ChatColor.RED+"Ban for this reason");
+			current.setOption(8, new ItemStack(Material.PAPER), ChatColor.GOLD+"Disrespecting staff", ChatColor.RED+"Ban for this reason");
+			current.setOption(9, new ItemStack(Material.PAPER), ChatColor.GOLD+"Custom (Specify)", ChatColor.RED+"A custom reason");
+		}
+		else {
+			current.setOption(0, new ItemStack(Material.PAPER), ChatColor.GOLD+"Spamming", ChatColor.RED+"Ban for this reason");
+			current.setOption(1, new ItemStack(Material.PAPER), ChatColor.GOLD+"Advertising", ChatColor.RED+"Ban for this reason");
+			current.setOption(2, new ItemStack(Material.PAPER), ChatColor.GOLD+"Using caps-lock", ChatColor.RED+"Ban for this reason");
+			current.setOption(3, new ItemStack(Material.PAPER), ChatColor.GOLD+"Swearing", ChatColor.RED+"Ban for this reason");
+			current.setOption(4, new ItemStack(Material.PAPER), ChatColor.GOLD+"House camping", ChatColor.RED+"Ban for this reason");
+			current.setOption(5, new ItemStack(Material.PAPER), ChatColor.GOLD+"Acting as a staff member", ChatColor.RED+"Ban for this reason");
+			current.setOption(6, new ItemStack(Material.PAPER), ChatColor.GOLD+"Spreading lies", ChatColor.RED+"Ban for this reason");
+			current.setOption(7, new ItemStack(Material.PAPER), ChatColor.GOLD+"Custom (Specify)", ChatColor.RED+"A custom reason");
+		}
+		
+		current.open(admin);
+	}
+	
+	public void openDurationMenu(Player admin){
+		meta(admin);
+		current = new IconMenu("Select Duration", 9, new OptionClickEventHandler(){
+
+			@Override
+			public void onOptionClick(OptionClickEvent event) {
+				int pos = event.getPosition();
+				Time time = null;
+				if(pos == 0){
+					time = BanTime.HOUR.getNewTime();
+				}
+				else if(pos == 1){
+					time = BanTime.DAY.getNewTime();
+				}
+				else if(pos == 2){
+					time = BanTime.WEEK.getNewTime();
+				}
+				else if(pos == 3){
+					time = BanTime.MONTH.getNewTime();
+				}
+				else if(pos == 4){
+					time = BanTime.THREE_MONTHS.getNewTime();
+				}
+				else if(pos == 5){
+					time = BanTime.SIX_MONTHS.getNewTime();
+				}
+				else if(pos == 6){
+					time = BanTime.YEAR.getNewTime();
+				}
+				else if(pos == 7){
+					time = BanTime.FOREVER.getNewTime();
+				}
+				else if(pos == 8){
+					customTimeInput(event.getPlayer());
+					event.setWillClose(true);
+					event.setWillDestroy(true);
+					return;
+				}
+				else {
+					event.setWillClose(false);
+					event.setWillDestroy(false);
+					return;
+				}
+				
+				onTimeSelect(event.getPlayer(), time);
+				
+				event.setWillClose(true);
+				event.setWillDestroy(true);
+				return;
+			}}, GameBlade.plugin);
+		current.setOption(0, new ItemStack(Material.PAPER), ChatColor.GOLD+"1 hour", ChatColor.RED+"Ban for this amount of time");
+		current.setOption(1, new ItemStack(Material.PAPER), ChatColor.GOLD+"1 day", ChatColor.RED+"Ban for this amount of time");
+		current.setOption(2, new ItemStack(Material.PAPER), ChatColor.GOLD+"1 week", ChatColor.RED+"Ban for this amount of time");
+		current.setOption(3, new ItemStack(Material.PAPER), ChatColor.GOLD+"1 month", ChatColor.RED+"Ban for this amount of time");
+		current.setOption(4, new ItemStack(Material.PAPER), ChatColor.GOLD+"3 months", ChatColor.RED+"Ban for this amount of time");
+		current.setOption(5, new ItemStack(Material.PAPER), ChatColor.GOLD+"6 months", ChatColor.RED+"Ban for this amount of time");
+		current.setOption(6, new ItemStack(Material.PAPER), ChatColor.GOLD+"12 months", ChatColor.RED+"Ban for this amount of time");
+		current.setOption(7, new ItemStack(Material.PAPER), ChatColor.GOLD+"forever", ChatColor.RED+"Ban for this amount of time");
+		current.setOption(8, new ItemStack(Material.PAPER), ChatColor.GOLD+"Custom hours", ChatColor.RED+"Set a no. of hours");
+		
+		current.open(admin);
 	}
 	
 	public void openProfileMenu(final Player admin){
 		admin.sendMessage(ChatColor.GRAY+"Loading...");
+		destroy();
 		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
 
 			@Override
@@ -182,6 +366,66 @@ public class BanPanel {
 	
 	public void onClose(){
 		destroy();
-		//TODO
+	}
+	
+	private void customTimeInput(Player player){
+		new ChatInput(player, new InputValidator(){
+
+			@Override
+			public String getHelpMessage() {
+				return ChatColor.GREEN+"Enter the time (In hours) to ban for (In the chat):";
+			}
+
+			@Override
+			public boolean isValid(Player player, String input) {
+				try {
+					Double.parseDouble(input);
+				} catch (NumberFormatException e) {
+					return false;
+				}
+				return true;
+			}
+
+			@Override
+			public void onValidInput(Player player, String input) {
+				double d = Double.parseDouble(input);
+				long ms = (long) (d*Times.hour);
+				onTimeSelect(player, new Time(ms));
+			}
+
+			@Override
+			public String getInvalidMessage() {
+				return ChatColor.RED+"Not a valid number of hours!";
+			}});
+	}
+	
+	public void customReasonInput(Player player){
+		new ChatInput(player, new InputValidator(){
+
+			@Override
+			public String getHelpMessage() {
+				return ChatColor.GREEN+"Enter the reason to ban for (In the chat):";
+			}
+
+			@Override
+			public boolean isValid(Player player, String input) {
+				return true;
+			}
+
+			@Override
+			public void onValidInput(Player player, String input) {
+				onReasonSelect(player, input);
+			}
+
+			@Override
+			public String getInvalidMessage() {
+				return ChatColor.RED+"Invalid reason?";
+			}});
+	}
+	
+	private void meta(Player player){
+		if(!player.hasMetadata(meta)){
+			player.setMetadata(meta, new MetaValue(this, GameBlade.plugin));
+		}
 	}
 }
