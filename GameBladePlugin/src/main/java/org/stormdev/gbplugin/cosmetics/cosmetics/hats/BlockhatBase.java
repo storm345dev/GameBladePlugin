@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.cosmetics.Cosmetic;
 import org.stormdev.gbapi.cosmetics.CosmeticType;
+import org.stormdev.gbapi.cosmetics.Currency;
 
 public abstract class BlockhatBase implements Cosmetic,Hat {
 	
@@ -37,6 +38,11 @@ public abstract class BlockhatBase implements Cosmetic,Hat {
 	@Override
 	public void justBought(Player player){
 		player.sendMessage(ChatColor.GREEN+"Nice hat you've got there!");
+	}
+	
+	@Override
+	public Currency getCurrencyUsed(){
+		return Currency.STARS;
 	}
 
 }
