@@ -1,4 +1,4 @@
-package org.stormdev.gbplugin.cosmetics.wear.hats;
+package org.stormdev.gbplugin.plugin.cosmetics.wear.hats;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

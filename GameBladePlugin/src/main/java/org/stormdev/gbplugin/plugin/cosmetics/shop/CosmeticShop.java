@@ -16,9 +16,9 @@ import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbapi.gui.IconMenu;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEvent;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEventHandler;
-import org.stormdev.gbplugin.cosmetics.wear.hats.Hat;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.cosmetics.CosmeticManager;
+import org.stormdev.gbplugin.plugin.cosmetics.wear.hats.Hat;
 
 public class CosmeticShop implements Listener {
 	private static final int PAGE_SIZE = 54; //54 is a double chest

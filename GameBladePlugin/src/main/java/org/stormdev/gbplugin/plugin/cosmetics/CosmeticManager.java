@@ -16,10 +16,10 @@ import org.stormdev.gbapi.cosmetics.Currency;
 import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbapi.storm.tokens.Tokens.TokenServiceUnavailableException;
-import org.stormdev.gbplugin.cosmetics.wear.hats.HatMenu;
-import org.stormdev.gbplugin.cosmetics.wear.hats.HatRegistry;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.cosmetics.shop.CosmeticShop;
+import org.stormdev.gbplugin.plugin.cosmetics.wear.hats.HatMenu;
+import org.stormdev.gbplugin.plugin.cosmetics.wear.hats.HatRegistry;
 
 public class CosmeticManager {
 	public static final String SQL_TABLE = "cosmetics";
