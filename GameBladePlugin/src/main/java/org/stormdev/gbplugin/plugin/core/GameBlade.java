@@ -16,7 +16,9 @@ import org.stormdev.gbapi.storm.SQL.SQLManager;
 import org.stormdev.gbplugin.api.stars.GiveStarsCommand;
 import org.stormdev.gbplugin.api.stars.MyStarsCommand;
 import org.stormdev.gbplugin.bans.BanHandle;
+import org.stormdev.gbplugin.bans.BanListener;
 import org.stormdev.gbplugin.plugin.chat.ChatManager;
+import org.stormdev.gbplugin.plugin.commands.BanCommand;
 import org.stormdev.gbplugin.plugin.commands.BroadcastCommandExecutor;
 import org.stormdev.gbplugin.plugin.commands.ModCommandExecutor;
 import org.stormdev.gbplugin.plugin.mkTokens.TokenChecker;
@@ -149,12 +151,14 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		getCommand("givetokens").setExecutor(new GiveTokensCommand());
 		getCommand("mystars").setExecutor(new MyStarsCommand());
 		getCommand("givestars").setExecutor(new GiveStarsCommand());
+		getCommand("ban").setExecutor(new BanCommand());
 	}
 	
 	private void setupListeners(){
 		ModMenu.init();
 		new UUIDListener();
 		new ChatManager();
+		new BanListener();
 	}
 
 	@Override

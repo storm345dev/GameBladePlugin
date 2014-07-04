@@ -12,6 +12,13 @@ commands:
         permission-message: Unknown command. Type \"/help\" for help.
         usage: /<command>
         default: op
+    ban:
+        description: Ban command
+        aliases: [tempban]
+        permission: gameblade.admin
+        permission-message: Unknown command. Type \"/help\" for help.
+        usage: /<command>
+        default: op
     broadcast:
         description: Broadcast a message
         aliases: [bc]
