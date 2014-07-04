@@ -22,9 +22,10 @@ import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.cosmetics.shop.CosmeticShop;
 
 public class CosmeticManager {
-	private static final String SQL_TABLE = "cosmetics";
-	private static final String SQL_ID_KEY = "id";
-	private static final String SQL_COSMETICS_KEY = "owned";
+	public static final String SQL_TABLE = "cosmetics";
+	public static final String SQL_ID_KEY = "id";
+	public static final String SQL_COSMETICS_KEY = "owned";
+	public static final String SQL_HAT_KEY = "hat";
 	
 	private static CosmeticShop shop = null;
 	private static HatMenu hatMenu = null;
@@ -41,9 +42,13 @@ public class CosmeticManager {
 		GameBlade.logger.info("Loading cosmetics...");
 		HatRegistry.load();
 		GameBlade.logger.info("Cosmetics loaded!");
-		GameBlade.plugin.GBSQL.createTable(SQL_TABLE, new String[]{SQL_ID_KEY, SQL_COSMETICS_KEY}, new String[]{"varchar(255) NOT NULL PRIMARY KEY", "varchar(255)"});
+		GameBlade.plugin.GBSQL.createTable(SQL_TABLE, new String[]{SQL_ID_KEY, SQL_COSMETICS_KEY, SQL_HAT_KEY}, new String[]{"varchar(255) NOT NULL PRIMARY KEY", "varchar(255)", "varchar(255)"});
 		shop = new CosmeticShop(this);
 		hatMenu = new HatMenu(this);
+	}
+	
+	public Cosmetic get(String id){
+		return cosmetics.get(id);
 	}
 	
 	public HatMenu getHatMenu(){
@@ -168,9 +173,7 @@ public class CosmeticManager {
 	public void postPurchase(Player player, Cosmetic c){
 		player.sendMessage(ChatColor.GREEN+"Successfully purchased item!");
 		
-		if(c.getType().equals(CosmeticType.HAT)){
-			player.sendMessage(ChatColor.YELLOW+"Use /hat to wear your hat!");
-		}
+		c.justBought(player);
 		//TODO ?
 	}
 	

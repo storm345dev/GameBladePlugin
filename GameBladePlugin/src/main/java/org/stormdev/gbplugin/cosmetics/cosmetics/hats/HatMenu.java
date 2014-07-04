@@ -1,5 +1,6 @@
 package org.stormdev.gbplugin.cosmetics.cosmetics.hats;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,18 +8,22 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.cosmetics.Cosmetic;
 import org.stormdev.gbapi.cosmetics.CosmeticType;
 import org.stormdev.gbapi.gui.IconMenu;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEvent;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEventHandler;
+import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.cosmetics.CosmeticManager;
+import org.stormdev.gbplugin.plugin.utils.MetaValue;
 
 public class HatMenu implements Listener {
-	//TODO
 	private static final int PAGE_SIZE = 18;
 	
 	private CosmeticManager manager;
@@ -28,7 +33,6 @@ public class HatMenu implements Listener {
 	}
 	
 	public void open(final Player player){
-		//TODO
 		player.sendMessage(ChatColor.GRAY+"Opening...");
 		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
 
@@ -158,11 +162,145 @@ public class HatMenu implements Listener {
 	}
 	
 	public void wearNoHat(Player player){
-		//TODO
-		player.sendMessage("Debug: wear no hat");
+		takeOffHat(player);
 	}
 	
 	public void onHatClick(Player player, Hat hat){
-		player.sendMessage("debug: "+hat.getID());
+		player.sendMessage(ChatColor.GREEN+"Putting on your hat...");
+		setHat(player, hat);
+	}
+	
+	public void setHat(final Player player, final Hat hat){
+		runAsync(new Runnable(){
+
+			@Override
+			public void run() {
+				takeOffHatNow(player);
+				try {
+					GameBlade.plugin.GBSQL.setInTable(CosmeticManager.SQL_TABLE, CosmeticManager.SQL_ID_KEY, 
+							PlayerIDFinder.getMojangID(player).getID(), CosmeticManager.SQL_HAT_KEY, hat.getID());
+				} catch (SQLException e) {
+					// Oh poo
+					e.printStackTrace();
+					return;
+				}
+				
+				if(!hat.apply(player)){
+					return;
+				}
+				if(!player.hasMetadata("wearingHat")){
+					player.setMetadata("wearingHat", new MetaValue(null, GameBlade.plugin));
+				}
+				return;
+			}});
+	}
+	
+	private void takeOffHatNow(final Player player){
+		try {
+			Object o = GameBlade.plugin.GBSQL.searchTable(CosmeticManager.SQL_TABLE, CosmeticManager.SQL_ID_KEY, 
+					PlayerIDFinder.getMojangID(player).getID(), CosmeticManager.SQL_HAT_KEY);
+			
+			if(o != null && !o.toString().equals("null")){
+				String cId = o.toString();
+				Cosmetic c = GameBlade.plugin.cosmeticManager.get(cId);
+				if(c instanceof Hat){
+					final Hat hat = (Hat) c;
+					Bukkit.getScheduler().runTask(GameBlade.plugin, new Runnable(){
+
+						@Override
+						public void run() {
+							hat.remove(player);
+							player.removeMetadata("wearingHat", GameBlade.plugin);
+							return;
+						}});
+					GameBlade.plugin.GBSQL.setInTable(CosmeticManager.SQL_TABLE, CosmeticManager.SQL_ID_KEY, 
+							PlayerIDFinder.getMojangID(player).getID(), CosmeticManager.SQL_HAT_KEY, "null");
+				}
+			}
+		} catch (SQLException e) {
+			// Oh poo
+			e.printStackTrace();
+		}
+	}
+	
+	public void takeOffHat(final Player player){
+		runAsync(new Runnable(){
+
+				@Override
+				public void run() {
+					takeOffHatNow(player);
+				}});
+	}
+	
+	private void runAsync(Runnable run){
+		if(!Bukkit.isPrimaryThread()){
+			run.run();
+		}
+		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, run);
+	}
+	
+	@EventHandler
+	void onJoin(PlayerJoinEvent event){
+		final Player player = event.getPlayer();
+		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
+
+			@Override
+			public void run() {
+				if(player == null){
+					return;
+				}
+				Object o;
+				try {
+					o = GameBlade.plugin.GBSQL.searchTable(CosmeticManager.SQL_TABLE, CosmeticManager.SQL_ID_KEY, 
+							PlayerIDFinder.getMojangID(player).getID(), CosmeticManager.SQL_HAT_KEY);
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return;
+				}
+				
+				if(o != null && !o.toString().equals("null")){
+					String cId = o.toString();
+					Cosmetic c = GameBlade.plugin.cosmeticManager.get(cId);
+					if(c instanceof Hat){
+						final Hat hat = (Hat) c;
+						if(player != null){
+							if(!hat.apply(player)){
+								return;
+							}
+							if(!player.hasMetadata("wearingHat")){
+								player.setMetadata("wearingHat", new MetaValue(null, GameBlade.plugin));
+							}
+						}
+					}
+				}
+				
+				return;
+			}});
+	}
+	
+	@EventHandler
+	void invClick(InventoryClickEvent event){
+		Player player;
+		try {
+			player = (Player) event.getWhoClicked();
+		} catch (Exception e) {
+			return;
+		}
+		
+		if(!(event.getInventory().getHolder() instanceof Player)){
+			return;
+		}
+		
+		Player holder = (Player) event.getInventory().getHolder();
+		if(!holder.equals(player)){
+			return;
+		}
+		if(event.getRawSlot() == 5 && player.hasMetadata("wearingHat")){
+			//They clicked helmet
+			player.sendMessage(ChatColor.RED+"Use /hat to take off your hat!");
+			event.setCancelled(true);
+			player.getInventory().setHelmet(event.getCurrentItem());
+			player.closeInventory();
+		}
 	}
 }

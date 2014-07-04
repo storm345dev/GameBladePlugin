@@ -25,19 +25,20 @@ public abstract class BlockhatBase implements Hat {
 	}
 
 	@Override
-	public void apply(Player player) {
+	public boolean apply(Player player) {
 		ItemStack h = player.getInventory().getHelmet();
 		if(h != null && !h.getType().equals(Material.AIR)){
-			player.sendMessage(ChatColor.RED+"You are already wearing a hat!");
-			return;
+			player.sendMessage(ChatColor.RED+"Could not apply hat because you are already wearing a hat!");
+			return false;
 		}
 		
 		player.getInventory().setHelmet(getHeadWear());
+		return true;
 	}
 	
 	@Override
 	public void justBought(Player player){
-		player.sendMessage(ChatColor.GREEN+"Nice hat you've got there!");
+		player.sendMessage(ChatColor.GREEN+"Nice hat you've got there! Use /hat to put it on!");
 	}
 	
 	@Override
