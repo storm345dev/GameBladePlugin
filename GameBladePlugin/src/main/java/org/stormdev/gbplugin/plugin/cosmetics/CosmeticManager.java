@@ -69,7 +69,6 @@ public class CosmeticManager {
 	}
 	
 	public void purchaseCosmetic(final Player player, final Cosmetic c){
-		player.sendMessage("debug: "+c.getID());
 		Rank playerRank = Rank.getRank(player);
 		
 		if(!playerRank.canUse(c.minimumRank())){	
