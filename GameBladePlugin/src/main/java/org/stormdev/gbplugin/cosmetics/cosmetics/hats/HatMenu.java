@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.cosmetics.Cosmetic;
 import org.stormdev.gbapi.cosmetics.CosmeticType;
@@ -19,6 +20,7 @@ import org.stormdev.gbapi.gui.IconMenu;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEvent;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEventHandler;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
+import org.stormdev.gbplugin.plugin.core.Config;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.cosmetics.CosmeticManager;
 import org.stormdev.gbplugin.plugin.utils.MetaValue;
@@ -188,8 +190,9 @@ public class HatMenu implements Listener {
 				if(!hat.apply(player)){
 					return;
 				}
+				player.removeMetadata("wearingHat", GameBlade.plugin);
 				if(!player.hasMetadata("wearingHat")){
-					player.setMetadata("wearingHat", new MetaValue(null, GameBlade.plugin));
+					player.setMetadata("wearingHat", new MetaValue(hat, GameBlade.plugin));
 				}
 				return;
 			}});
@@ -267,8 +270,9 @@ public class HatMenu implements Listener {
 							if(!hat.apply(player)){
 								return;
 							}
+							player.removeMetadata("wearingHat", GameBlade.plugin);
 							if(!player.hasMetadata("wearingHat")){
-								player.setMetadata("wearingHat", new MetaValue(null, GameBlade.plugin));
+								player.setMetadata("wearingHat", new MetaValue(c, GameBlade.plugin));
 							}
 						}
 					}
@@ -280,6 +284,9 @@ public class HatMenu implements Listener {
 	
 	@EventHandler
 	void invClick(InventoryClickEvent event){
+		if(!Config.enableHats.getValue()){
+			return;
+		}
 		Player player;
 		try {
 			player = (Player) event.getWhoClicked();
@@ -301,6 +308,25 @@ public class HatMenu implements Listener {
 			event.setCancelled(true);
 			player.getInventory().setHelmet(event.getCurrentItem());
 			player.closeInventory();
+		}
+	}
+	
+	@EventHandler
+	void quit(PlayerQuitEvent event){
+		if(!Config.enableHats.getValue()){
+			return;
+		}
+		Player player = event.getPlayer();
+		if(player.hasMetadata("wearingHat")){
+			Object o = player.getMetadata("wearingHat").get(0).value();
+			if(!(o instanceof Hat)){
+				player.removeMetadata("wearingHat", GameBlade.plugin);
+				return;
+			}
+			
+			Hat hat = (Hat) o;
+			hat.remove(player);
+			player.removeMetadata("wearingHat", GameBlade.plugin);
 		}
 	}
 }

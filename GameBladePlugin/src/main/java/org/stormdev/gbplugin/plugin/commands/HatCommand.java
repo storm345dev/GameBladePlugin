@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.stormdev.gbplugin.plugin.core.Config;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 
 public class HatCommand implements CommandExecutor{
@@ -19,6 +20,10 @@ public class HatCommand implements CommandExecutor{
 		
 		Player player = (Player) sender;
 		
+		if(!Config.enableHats.getValue()){
+			sender.sendMessage(ChatColor.RED+"Hats are disabled while on this server. Go to another, such as a lobby, to use hats.");
+			return true;
+		}
 		GameBlade.plugin.cosmeticManager.getHatMenu().open(player);
 		return true;
 	}
