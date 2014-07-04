@@ -55,6 +55,10 @@ public class HatMenu implements Listener {
 	}
 	
 	private void createDisplay(final Player player, final List<Hat> owned, final int pageNo){
+		if(pageNo < 1){
+			createDisplay(player, owned, 1);
+			return;
+		}
 		int page = pageNo-1;
 		final int startPos = (PAGE_SIZE - 3)*page; //if page 1 then (0*52) which is 0, if page 2 then it's 1*52 which is 52
 		int endPos = startPos + (PAGE_SIZE - 3); //If startPos = 0, endPos = 52
@@ -123,16 +127,31 @@ public class HatMenu implements Listener {
 			}}, GameBlade.plugin);
 		
 		int z = 1;
-		for(int i=startPos;i<owned.size()&&i<endPos&&z<endPos;i++){
+		boolean valid = false;
+		for(int i=startPos;i<owned.size()&&i<endPos&&z<(endPos+1);i++){
 			Hat c = owned.get(i);
 			ItemStack display = c.getHeadWear();
 			
 			menu.setOption(z, display, ChatColor.GOLD+c.getUserFriendlyName(), 
 					ChatColor.WHITE+"Wear this hat");
 			z++;
+			valid = true;
+		}
+		if(!valid){
+			menu.destroy();
+			//Go to last page
+			final int newPage = pageNo-1;
+			Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
+
+				@Override
+				public void run() {
+					createDisplay(player, owned, newPage);
+					return;
+				}}, 2l);
+			return;
 		}
 		
-		menu.setOption(0, new ItemStack(Material.THIN_GLASS), "No Hat", ChatColor.WHITE+"Wear no hat");
+		menu.setOption(0, new ItemStack(Material.THIN_GLASS), ChatColor.GOLD+"No Hat", ChatColor.WHITE+"Wear no hat");
 		menu.setOption((PAGE_SIZE - 2), new ItemStack(Material.PAPER), "Last Page", ChatColor.GRAY+"<<<<<");
 		menu.setOption((PAGE_SIZE - 1), new ItemStack(Material.PAPER), "Next Page", ChatColor.GRAY+">>>>>");
 		
