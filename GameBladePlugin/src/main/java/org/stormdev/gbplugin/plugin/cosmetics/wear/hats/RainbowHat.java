@@ -9,8 +9,8 @@ import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbapi.storm.misc.MetadataValue;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 
-public class CopHat extends BlockhatBase {
-	private static String META = "cophatmeta";
+public class RainbowHat extends BlockhatBase {
+	private static String META = "rainbowhatmeta";
 	
 	@Override
 	public ItemStack getHeadWear() {
@@ -19,22 +19,22 @@ public class CopHat extends BlockhatBase {
 
 	@Override
 	public String getID() {
-		return "cophat";
+		return "rainbowhat";
 	}
 
 	@Override
 	public double getPrice() {
-		return 149;
+		return 549;
 	}
 
 	@Override
 	public String getUserFriendlyName() {
-		return "Cop Hat (Changes colour)";
+		return "Rainbow Hat (Changes colour)";
 	}
 	
 	@Override
 	public Rank minimumRank(){
-		return Rank.VIP;
+		return Rank.PREMIUM;
 	}
 	
 	@Override
@@ -58,16 +58,18 @@ public class CopHat extends BlockhatBase {
 	
 	private void switchHat(Player player){
 		ItemStack i = player.getInventory().getHelmet();
-		if(i == null){
+		if(i == null || !(i.getType().equals(Material.STAINED_GLASS))){
 			i = new ItemStack(Material.STAINED_GLASS, 1, (byte) 11);
 		}
 		
-		if(i.getData().getData() == (byte) 11){
-			i = new ItemStack(Material.STAINED_GLASS, 1, (byte) 14);
+		int b = i.getData().getData();
+		b++;
+		if(b > 15){
+			b = 0;
 		}
-		else {//if(i.getData().getData() == (byte) 14)
-			i = new ItemStack(Material.STAINED_GLASS, 1, (byte) 11);
-		}
+		
+		byte by = (byte) b;
+		i = new ItemStack(Material.STAINED_GLASS, 1, (byte) by);
 		
 		player.getInventory().setHelmet(i);
 	}

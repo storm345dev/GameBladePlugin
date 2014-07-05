@@ -42,7 +42,7 @@ public class CosmeticManager {
 		GameBlade.logger.info("Loading cosmetics...");
 		HatRegistry.load();
 		GameBlade.logger.info("Cosmetics loaded!");
-		GameBlade.plugin.GBSQL.createTable(SQL_TABLE, new String[]{SQL_ID_KEY, SQL_COSMETICS_KEY, SQL_HAT_KEY}, new String[]{"varchar(255) NOT NULL PRIMARY KEY", "varchar(255)", "varchar(255)"});
+		GameBlade.plugin.GBSQL.createTable(SQL_TABLE, new String[]{SQL_ID_KEY, SQL_COSMETICS_KEY, SQL_HAT_KEY}, new String[]{"varchar(255) NOT NULL PRIMARY KEY", "longtext", "varchar(255)"});
 		shop = new CosmeticShop(this);
 		hatMenu = new HatMenu(this);
 	}
