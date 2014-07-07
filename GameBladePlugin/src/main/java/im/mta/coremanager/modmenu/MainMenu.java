@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.gui.IconMenu;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEvent;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEventHandler;
+import org.stormdev.gbplugin.bans.BanPanel;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 
 public class MainMenu {
@@ -44,6 +45,9 @@ public class MainMenu {
         mainMenu.setOption(4,
                 new ItemStack(Material.BOOK),
                 ChatColor.RED + "Your Settings");
+        mainMenu.setOption(5,
+                new ItemStack(Material.BOOK),
+                ChatColor.RED + "Punish Players", ChatColor.GOLD+"Warn, Ban and Kick players");
         mainMenu.setOption(8,
                 new ItemStack(Material.IRON_DOOR),
                 ChatColor.RED + "Exit");
@@ -92,6 +96,21 @@ public class MainMenu {
                     new ModSettingsMenu(p).open(p);
                     return;
                 }}, 2);
+        }
+        else if(pos == 5){
+        	e.setWillClose(true);
+        	final Player player = p;
+        	 Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
+
+                 @Override
+                 public void run() {
+                	 if(player.hasMetadata(BanPanel.meta)){
+             			return;
+             		}
+             		
+             		new BanPanel(player);
+                     return;
+                 }}, 2);
         }
         else if(pos == 8){
             e.setWillClose(true);

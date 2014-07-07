@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.stormdev.gbplugin.bans.BanPanel;
 
-public class BanCommand implements CommandExecutor {
+public class PunishCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String alias,

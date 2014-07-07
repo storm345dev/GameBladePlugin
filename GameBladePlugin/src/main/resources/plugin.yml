@@ -14,7 +14,21 @@ commands:
         default: op
     ban:
         description: Ban command
-        aliases: [tempban]
+        aliases: [tempban, punish]
+        permission: gameblade.admin
+        permission-message: Unknown command. Type "/help" for help.
+        usage: /<command>
+        default: op
+    kick:
+        description: Kick command
+        aliases: [arsekick]
+        permission: gameblade.admin
+        permission-message: Unknown command. Type "/help" for help.
+        usage: /<command>
+        default: op
+    warn:
+        description: Kick command
+        aliases: [nag]
         permission: gameblade.admin
         permission-message: Unknown command. Type "/help" for help.
         usage: /<command>
