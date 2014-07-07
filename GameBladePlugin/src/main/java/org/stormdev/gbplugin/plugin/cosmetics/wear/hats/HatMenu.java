@@ -9,10 +9,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.cosmetics.Cosmetic;
 import org.stormdev.gbapi.cosmetics.CosmeticType;
@@ -341,6 +344,57 @@ public class HatMenu implements Listener {
 			Hat hat = (Hat) o;
 			hat.remove(player);
 			player.removeMetadata("wearingHat", GameBlade.plugin);
+		}
+	}
+	
+	public static boolean takeOffHatPhysicallyIfHatIsWornAndSay(Player player){
+		if(player.hasMetadata("wearingHat")){
+			Object o = player.getMetadata("wearingHat").get(0).value();
+			if(!(o instanceof Hat)){
+				player.removeMetadata("wearingHat", GameBlade.plugin);
+				return false;
+			}
+			
+			Hat hat = (Hat) o;
+			hat.remove(player);
+			player.removeMetadata("wearingHat", GameBlade.plugin);
+			return true;
+		}
+		return false;
+	}
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	void onDeath(PlayerDeathEvent event){
+		Player player = event.getEntity();
+		if(player.hasMetadata("wearingHat")){
+			ItemStack headWear = player.getInventory().getHelmet();
+			Object o = player.getMetadata("wearingHat").get(0).value();
+			if(!(o instanceof Hat)){
+				return;
+			}
+			
+			Hat hat = (Hat) o;
+			hat.remove(player);
+			
+			List<ItemStack> drops = event.getDrops();
+			if(drops.contains(headWear)){
+				drops.remove(headWear);
+			}
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.HIGH)
+	void onRespawn(PlayerRespawnEvent event){
+		Player player = event.getPlayer();
+		
+		if(player.hasMetadata("wearingHat")){
+			Object o = player.getMetadata("wearingHat").get(0).value();
+			if(!(o instanceof Hat)){
+				return;
+			}
+			
+			Hat hat = (Hat) o;
+			hat.apply(player);
 		}
 	}
 }

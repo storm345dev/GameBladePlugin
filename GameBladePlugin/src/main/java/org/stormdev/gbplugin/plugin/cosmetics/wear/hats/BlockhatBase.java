@@ -32,7 +32,7 @@ public abstract class BlockhatBase implements Hat {
 	public boolean apply(Player player) {
 		ItemStack h = player.getInventory().getHelmet();
 		if(h != null && !h.getType().equals(Material.AIR)){
-			player.sendMessage(ChatColor.RED+"Could not apply hat because you are already wearing a hat!");
+			player.sendMessage(ChatColor.RED+"Could not apply hat because you are already wearing a hat! ("+h.getType().name()+")");
 			return false;
 		}
 		
