@@ -357,6 +357,7 @@ public class BanPanel {
 					admin.sendMessage(ChatColor.GOLD+"Banned by: "+ChatColor.WHITE+whoBanned);
 					admin.sendMessage(ChatColor.GOLD+"Ban time left: "+ChatColor.WHITE+timeLeft);
 				}
+				admin.sendMessage("{\"text\":\"Test: \",\"extra\":[{\"color\":\"blue\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/say PrimedTnt ~-1 ~ ~\"}},{\"text\":\"[WEST] \",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/say PrimedTnt ~1 ~ ~\"}}]}");
 				return;
 			}});
 	}

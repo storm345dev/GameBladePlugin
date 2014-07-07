@@ -32,6 +32,7 @@ import org.stormdev.gbplugin.plugin.modpanel.ServerSelector;
 import org.stormdev.gbplugin.plugin.server.ServerInfo;
 import org.stormdev.gbplugin.plugin.server.ServerMonitor;
 import org.stormdev.gbplugin.plugin.server.uuidcorrector.UUIDListener;
+import org.stormdev.gbplugin.plugin.utils.JarUtils;
 import org.stormdev.servermanager.api.APIProvider;
 import org.stormdev.servermanager.api.ServerManagerAPI;
 import org.stormdev.tokenhandler.commands.GiveTokensCommand;
@@ -69,6 +70,15 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 			logger.info("Error enabling GameBladePlugin! :(");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
+		}
+		
+		JarUtils.loadLibs(); //Loads fanciful JSON library
+		
+		try {
+			Class.forName("mkremins.fanciful.FancyMessage");
+			logger.info("Loaded fanciful(JSON chat library) successfully!");
+		} catch (ClassNotFoundException e) {
+			logger.info(ChatColor.RED+"Failed to load fanciful!");
 		}
 		
 		serverStats = new ServerMonitor();
