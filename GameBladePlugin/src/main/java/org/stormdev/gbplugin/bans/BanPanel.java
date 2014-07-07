@@ -1,13 +1,18 @@
 package org.stormdev.gbplugin.bans;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.stormdev.gbapi.bans.BanHandler.Time;
+import org.stormdev.gbapi.bans.PunishmentLogs.PunishmentLog;
+import org.stormdev.gbapi.bans.PunishmentLogs.PunishmentType;
 import org.stormdev.gbapi.gui.IconMenu;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEvent;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEventHandler;
@@ -51,7 +56,7 @@ public class BanPanel {
 			}}, GameBlade.plugin);
 		
 		selectMode.setOption(0, new ItemStack(Material.STICK), ChatColor.GOLD+"Ban", ChatColor.RED+"Ban somebody");
-		selectMode.setOption(1, new ItemStack(Material.PAPER), ChatColor.GOLD+"Profile", ChatColor.RED+"View a players' ban profile");
+		selectMode.setOption(1, new ItemStack(Material.PAPER), ChatColor.GOLD+"Profile", ChatColor.RED+"View a players' profile");
 	}
 	
 	enum Mode {
@@ -324,7 +329,7 @@ public class BanPanel {
 
 			@Override
 			public void run() {
-				String uuid = PlayerIDFinder.getMojangID(otherPlayer).getID();
+				final String uuid = PlayerIDFinder.getMojangID(otherPlayer).getID();
 				boolean banned = GameBlade.api.getBans().isBanned(uuid);
 				int bans = 0;
 				try {
@@ -348,6 +353,74 @@ public class BanPanel {
 					timeLeft = GameBlade.api.getBans().getBanDuration(uuid).getRemainingTime();
 				}
 				
+				current = new IconMenu("Profile of "+otherPlayer, 9, new OptionClickEventHandler(){
+
+					@Override
+					public void onOptionClick(OptionClickEvent event) {
+						int slot = event.getPosition();
+						final Player player = event.getPlayer();
+						if(slot == 1){
+							//Open past bans
+							Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
+
+								@Override
+								public void run() {
+									showPast(PunishmentType.BAN, player, uuid);
+									return;
+								}}, 2l);
+						}
+						else if(slot == 2){
+							//Open past kicks
+							Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
+
+								@Override
+								public void run() {
+									showPast(PunishmentType.KICK, player, uuid);
+									return;
+								}}, 2l);
+						}
+						else if(slot == 3){
+							//Open past warns
+							Bukkit.getScheduler().runTaskLaterAsynchronously(GameBlade.plugin, new Runnable(){
+
+								@Override
+								public void run() {
+									showPast(PunishmentType.WARN, player, uuid);
+									return;
+								}}, 2l);
+						}
+						
+						event.setWillDestroy(true);
+						event.setWillClose(true);
+						return;
+					}}, GameBlade.plugin);
+				
+				ItemStack profile = new ItemStack(Material.SKULL_ITEM, 1);
+				SkullMeta skullMeta = (SkullMeta) profile.getItemMeta();
+				profile.setDurability((short) 3);
+				skullMeta.setDisplayName(ChatColor.RED+"Profile of "+ChatColor.GOLD+otherPlayer+ChatColor.RED+":");
+				skullMeta.setOwner(otherPlayer);
+				profile.setItemMeta(skullMeta);
+				
+				List<String> lore = new ArrayList<String>();
+				lore.add(ChatColor.GOLD+"UUID: "+ChatColor.WHITE+uuid);
+				lore.add(ChatColor.GOLD+"Bans: "+ChatColor.WHITE+bans);
+				lore.add(ChatColor.GOLD+"Currently Banned: "+ChatColor.WHITE+banned);
+				if(banned){
+					lore.add(ChatColor.GOLD+"Ban Reason: "+ChatColor.WHITE+reason);
+					lore.add(ChatColor.GOLD+"Banned by: "+ChatColor.WHITE+whoBanned);
+					lore.add(ChatColor.GOLD+"Ban time left: "+ChatColor.WHITE+timeLeft);
+				}
+				
+				current.setOption(0, profile, ChatColor.RED+"Profile of "+ChatColor.GOLD+otherPlayer+ChatColor.RED+":", 
+						lore);
+				current.setOption(1, new ItemStack(Material.PAPER), ChatColor.RED+"View previous bans", ChatColor.GOLD+"View this players' previous bans");
+				current.setOption(2, new ItemStack(Material.PAPER), ChatColor.RED+"View previous kicks", ChatColor.GOLD+"View this players' previous kicks");
+				current.setOption(3, new ItemStack(Material.PAPER), ChatColor.RED+"View previous warns", ChatColor.GOLD+"View this players' previous warns");
+				
+				current.open(admin);
+				
+				/*
 				admin.sendMessage(ChatColor.RED+"Profile of "+ChatColor.GOLD+otherPlayer+ChatColor.RED+":");
 				admin.sendMessage(ChatColor.GOLD+"UUID: "+ChatColor.WHITE+uuid);
 				admin.sendMessage(ChatColor.GOLD+"Bans: "+ChatColor.WHITE+bans);
@@ -357,9 +430,25 @@ public class BanPanel {
 					admin.sendMessage(ChatColor.GOLD+"Banned by: "+ChatColor.WHITE+whoBanned);
 					admin.sendMessage(ChatColor.GOLD+"Ban time left: "+ChatColor.WHITE+timeLeft);
 				}
-				admin.sendMessage("{\"text\":\"Test: \",\"extra\":[{\"color\":\"blue\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/say PrimedTnt ~-1 ~ ~\"}},{\"text\":\"[WEST] \",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/say PrimedTnt ~1 ~ ~\"}}]}");
+				*/
+				
 				return;
 			}});
+	}
+	
+	private void showPast(final PunishmentType type, final Player admin, final String punished_uuid){
+		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
+
+			@Override
+			public void run() {
+				admin.sendMessage(ChatColor.RED+"Past "+type.getUserFriendlyPlural()+":");
+				List<PunishmentLog> past = GameBlade.api.getPunishmentLogger().getLogs(punished_uuid, type);
+				for(PunishmentLog log:past){
+					admin.sendMessage(ChatColor.GOLD+log.toUserFriendlyString());
+				}
+				return;
+			}});
+		
 	}
 	
 	public void destroy(){

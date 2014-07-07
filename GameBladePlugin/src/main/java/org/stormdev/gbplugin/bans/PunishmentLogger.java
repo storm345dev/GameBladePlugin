@@ -45,7 +45,7 @@ public class PunishmentLogger implements PunishmentLogs {
 	
 	private String getTimeString(){
 		Calendar now = Calendar.getInstance();
-		return "["+now.get(Calendar.DAY_OF_MONTH)+"/"+now.get(Calendar.MONTH)+"/"+now.get(Calendar.YEAR)+" @ "
+		return "["+now.get(Calendar.DAY_OF_MONTH)+"/"+(now.get(Calendar.MONTH)+1)+"/"+now.get(Calendar.YEAR)+" @ "
 				+now.get(Calendar.HOUR_OF_DAY) +":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND)+"]";
 	}
 
@@ -130,7 +130,7 @@ public class PunishmentLogger implements PunishmentLogs {
 	
 	private void notSync(){
 		if(Bukkit.isPrimaryThread()){
-			throw new RuntimeException("Do NOT use asynchronously!");
+			throw new RuntimeException("Do NOT use synchronously!");
 		}
 	}
 	
