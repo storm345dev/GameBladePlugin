@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.print.DocFlavor.CHAR_ARRAY;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -37,6 +39,12 @@ public class BanPanel {
 					mode = Mode.BAN;
 				}
 				else if(slot == 1){
+					mode = Mode.KICK;
+				}
+				else if(slot == 2){
+					mode = Mode.WARN;
+				}
+				else if(slot == 3){
 					mode = Mode.PROFILE;
 				}
 				else {
@@ -56,11 +64,13 @@ public class BanPanel {
 			}}, GameBlade.plugin);
 		
 		selectMode.setOption(0, new ItemStack(Material.STICK), ChatColor.GOLD+"Ban", ChatColor.RED+"Ban somebody");
-		selectMode.setOption(1, new ItemStack(Material.PAPER), ChatColor.GOLD+"Profile", ChatColor.RED+"View a players' profile");
+		selectMode.setOption(1, new ItemStack(Material.STICK), ChatColor.GOLD+"Kick", ChatColor.RED+"Kick somebody");
+		selectMode.setOption(2, new ItemStack(Material.STICK), ChatColor.GOLD+"Warm", ChatColor.RED+"Warn somebody");
+		selectMode.setOption(3, new ItemStack(Material.PAPER), ChatColor.GOLD+"Profile", ChatColor.RED+"View a players' profile");
 	}
 	
 	enum Mode {
-		BAN, PROFILE;
+		BAN, KICK, WARN, PROFILE;
 	}
 	
 	public static BanPanel get(Player player){
@@ -125,20 +135,158 @@ public class BanPanel {
 		if(mode.equals(Mode.BAN)){
 			openBanMenu(admin);
 		}
-		else {
+		else if(mode.equals(Mode.KICK)){
+			openKickMenu(admin);
+		}
+		else if(mode.equals(Mode.WARN)){
+			openWarnMenu(admin);
+		}
+		else if(mode.equals(Mode.PROFILE)) {
 			openProfileMenu(admin);
 		}
+		else {
+			admin.sendMessage(ChatColor.RED+"Error: Unspecified mod mode");
+		}
+	}
+	
+	public void openWarnMenu(Player admin){
+		mode = Mode.WARN;
+		if(admin == null){
+			return;
+		}
+		meta(admin);
+		
+		current = new IconMenu("Select Reason", 18, new OptionClickEventHandler(){
+
+			@Override
+			public void onOptionClick(OptionClickEvent event) {
+				int pos = event.getPosition();
+				String reason = "-";
+				if(pos == 0){	reason = "Spamming";	}
+				else if(pos == 1){	reason = "Using caps-lock";	}
+				else if(pos == 2){	reason = "Swearing";	}
+				else if(pos == 3){	reason = "House camping";	}
+				else if(pos == 4){	reason = "Abusing /tpa";	}
+				else if(pos == 5){
+					customReasonInput(event.getPlayer());
+					event.setWillClose(true);
+					event.setWillDestroy(true);
+					return;
+				}
+				else {
+					event.setWillClose(false);
+					event.setWillDestroy(false);
+				}
+				onWarnReasonSelect(event.getPlayer(), reason);
+				event.setWillClose(true);
+				event.setWillDestroy(true);
+				return;
+			}}, GameBlade.plugin);
+		current.setOption(0, new ItemStack(Material.PAPER), ChatColor.GOLD+"Spamming", ChatColor.RED+"Kick for this reason");
+		current.setOption(1, new ItemStack(Material.PAPER), ChatColor.GOLD+"Using caps-lock", ChatColor.RED+"Kick for this reason");
+		current.setOption(2, new ItemStack(Material.PAPER), ChatColor.GOLD+"Swearing", ChatColor.RED+"Kick for this reason");
+		current.setOption(3, new ItemStack(Material.PAPER), ChatColor.GOLD+"House camping", ChatColor.RED+"Kick for this reason");
+		current.setOption(4, new ItemStack(Material.PAPER), ChatColor.GOLD+"Abusing /tpa", ChatColor.RED+"Kick for this reason");
+		current.setOption(5, new ItemStack(Material.PAPER), ChatColor.GOLD+"Custom (Specify)", ChatColor.RED+"A custom reason");
+		
+		current.open(admin);
+	}
+	
+	public void openKickMenu(Player admin){
+		mode = Mode.KICK;
+		if(admin == null){
+			return;
+		}
+		meta(admin);
+		
+		current = new IconMenu("Select Reason", 18, new OptionClickEventHandler(){
+
+			@Override
+			public void onOptionClick(OptionClickEvent event) {
+				int pos = event.getPosition();
+				String reason = "-";
+				if(pos == 0){	reason = "Spamming";	}
+				else if(pos == 1){	reason = "Using caps-lock";	}
+				else if(pos == 2){	reason = "Swearing";	}
+				else if(pos == 3){	reason = "House camping";	}
+				else if(pos == 4){	reason = "Abusing /tpa";	}
+				else if(pos == 5){
+					customReasonInput(event.getPlayer());
+					event.setWillClose(true);
+					event.setWillDestroy(true);
+					return;
+				}
+				else {
+					event.setWillClose(false);
+					event.setWillDestroy(false);
+				}
+				onKickReasonSelect(event.getPlayer(), reason);
+				event.setWillClose(true);
+				event.setWillDestroy(true);
+				return;
+			}}, GameBlade.plugin);
+		current.setOption(0, new ItemStack(Material.PAPER), ChatColor.GOLD+"Spamming", ChatColor.RED+"Kick for this reason");
+		current.setOption(1, new ItemStack(Material.PAPER), ChatColor.GOLD+"Using caps-lock", ChatColor.RED+"Kick for this reason");
+		current.setOption(2, new ItemStack(Material.PAPER), ChatColor.GOLD+"Swearing", ChatColor.RED+"Kick for this reason");
+		current.setOption(3, new ItemStack(Material.PAPER), ChatColor.GOLD+"House camping", ChatColor.RED+"Kick for this reason");
+		current.setOption(4, new ItemStack(Material.PAPER), ChatColor.GOLD+"Abusing /tpa", ChatColor.RED+"Kick for this reason");
+		current.setOption(5, new ItemStack(Material.PAPER), ChatColor.GOLD+"Custom (Specify)", ChatColor.RED+"A custom reason");
+		
+		current.open(admin);
+	}
+	
+	public void onWarnReasonSelect(final Player player, final String reason){
+		this.reason = reason;
+		player.sendMessage(ChatColor.GRAY+"Reason: "+reason);
+		
+		Player toWarn = Bukkit.getPlayerExact(otherPlayer);
+		
+		if(toWarn == null){
+			player.sendMessage(ChatColor.GRAY+"They are not online!");
+			return;
+		}
+		
+		player.sendMessage(ChatColor.GREEN+"Kicked!");
+		for(Player p:Bukkit.getOnlinePlayers()){
+			if(p.hasPermission("gameblade.admin")){
+				p.sendMessage(ChatColor.YELLOW+player.getName()+" has warned "+otherPlayer+" for "+reason+"!");
+			}
+		}
+		
+		toWarn.sendMessage(ChatColor.RED+"Warned by "+ChatColor.GOLD+player.getName()+ChatColor.RED+" for: "+ChatColor.WHITE+reason);
+		GameBlade.api.getPunishmentLogger().log(toWarn, PunishmentType.WARN, reason, player.getName());
+	}
+	
+	public void onKickReasonSelect(final Player player, final String reason){
+		this.reason = reason;
+		player.sendMessage(ChatColor.GRAY+"Reason: "+reason);
+		
+		Player toKick = Bukkit.getPlayerExact(otherPlayer);
+		
+		if(toKick == null){
+			player.sendMessage(ChatColor.GRAY+"They are not online!");
+			return;
+		}
+		
+		player.sendMessage(ChatColor.GREEN+"Kicked!");
+		for(Player p:Bukkit.getOnlinePlayers()){
+			if(p.hasPermission("gameblade.admin")){
+				p.sendMessage(ChatColor.YELLOW+player.getName()+" has kicked "+otherPlayer+" for "+reason+"!");
+			}
+		}
+		toKick.kickPlayer(reason);
+		GameBlade.api.getPunishmentLogger().log(toKick, PunishmentType.KICK, reason, player.getName());
 	}
 	
 	public void openBanMenu(Player admin){
 		openDurationMenu(admin);
 	}
 	
-	public void onReasonSelect(final Player player, final String reason){
+	public void onBanReasonSelect(final Player player, final String reason){
 		this.reason = reason;
 		player.sendMessage(ChatColor.GRAY+"Reason: "+reason);
 		
-		Player toBan = Bukkit.getPlayer(otherPlayer);
+		Player toBan = Bukkit.getPlayerExact(otherPlayer);
 		if(toBan != null){
 			GameBlade.api.getBans().ban(toBan, player, reason, time);
 		}
@@ -228,7 +376,7 @@ public class BanPanel {
 						event.setWillDestroy(false);
 					}
 				}
-				onReasonSelect(event.getPlayer(), reason);
+				onBanReasonSelect(event.getPlayer(), reason);
 				event.setWillClose(true);
 				event.setWillDestroy(true);
 				return;
@@ -470,7 +618,7 @@ public class BanPanel {
 
 			@Override
 			public String getHelpMessage() {
-				return ChatColor.GREEN+"Enter the time (In hours) to ban for (In the chat):";
+				return ChatColor.GREEN+"Enter the time (In hours) in the chat:";
 			}
 
 			@Override
@@ -501,7 +649,7 @@ public class BanPanel {
 
 			@Override
 			public String getHelpMessage() {
-				return ChatColor.GREEN+"Enter the reason to ban for (In the chat):";
+				return ChatColor.GREEN+"Enter the reason (In the chat):";
 			}
 
 			@Override
@@ -511,7 +659,15 @@ public class BanPanel {
 
 			@Override
 			public void onValidInput(Player player, String input) {
-				onReasonSelect(player, input);
+				if(mode.equals(Mode.BAN)){
+					onBanReasonSelect(player, input);
+				}
+				else if(mode.equals(Mode.KICK)){
+					onKickReasonSelect(player, input);
+				}
+				else if(mode.equals(Mode.WARN)){
+					onWarnReasonSelect(player, input);
+				}
 			}
 
 			@Override
