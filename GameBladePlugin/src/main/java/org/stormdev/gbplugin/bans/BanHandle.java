@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.stormdev.gbapi.bans.BanHandler;
+import org.stormdev.gbapi.bans.PunishmentLogs.PunishmentType;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.utils.Colors;
@@ -168,6 +169,9 @@ public class BanHandle implements BanHandler {
 					e.printStackTrace();
 				}
 				
+				//Log it
+				GameBlade.api.getPunishmentLogger().log(banned_uuid, PunishmentType.BAN, reason, admin.getName());
+				
 				if(player != null && player.isOnline()){
 					player.kickPlayer("Banned: "+Colors.colorise(reason));
 				}
@@ -204,6 +208,9 @@ public class BanHandle implements BanHandler {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
+				
+				//Log it
+				GameBlade.api.getPunishmentLogger().log(banned_uuid, PunishmentType.BAN, reason, admin.getName());
 				
 				return;
 			}});

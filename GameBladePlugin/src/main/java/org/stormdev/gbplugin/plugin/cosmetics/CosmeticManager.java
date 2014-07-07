@@ -12,6 +12,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.stormdev.gbapi.cosmetics.Cosmetic;
 import org.stormdev.gbapi.cosmetics.CosmeticType;
+import org.stormdev.gbapi.cosmetics.Cosmetics;
 import org.stormdev.gbapi.cosmetics.Currency;
 import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
@@ -21,7 +22,7 @@ import org.stormdev.gbplugin.plugin.cosmetics.shop.CosmeticShop;
 import org.stormdev.gbplugin.plugin.cosmetics.wear.hats.HatMenu;
 import org.stormdev.gbplugin.plugin.cosmetics.wear.hats.HatRegistry;
 
-public class CosmeticManager {
+public class CosmeticManager implements Cosmetics{
 	public static final String SQL_TABLE = "cosmetics";
 	public static final String SQL_ID_KEY = "id";
 	public static final String SQL_COSMETICS_KEY = "owned";
@@ -250,5 +251,11 @@ public class CosmeticManager {
 		if(Bukkit.isPrimaryThread()){
 			throw new RuntimeException("Must be used asynchronously!");
 		}
+	}
+
+	@Override
+	public boolean ownsCosmetic(Player player, String cosmeticId) {
+		notSync();
+		return getOwnedCosmeticIds(player).contains(cosmeticId);
 	}
 }
