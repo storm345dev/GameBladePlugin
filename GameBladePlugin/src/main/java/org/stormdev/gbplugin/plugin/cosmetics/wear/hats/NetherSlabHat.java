@@ -4,16 +4,16 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.cosmetics.Rank;
 
-public class QuartzSlabHat extends BlockhatBase {
+public class NetherSlabHat extends BlockhatBase {
 	
 	@Override
 	public String getID() {
-		return "quartzslabhat";
+		return "netherslabhat";
 	}
 
 	@Override
 	public ItemStack getHeadWear() {
-		return new ItemStack(Material.STEP, 1, (byte) 7);
+		return new ItemStack(Material.STEP, 1, (byte) 6);
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class QuartzSlabHat extends BlockhatBase {
 
 	@Override
 	public String getUserFriendlyName() {
-		return "Quartz Slab Hat (Like Mask)";
+		return "Nether Brick Slab Hat (Like ninja Mask)";
 	}
 	
 	@Override

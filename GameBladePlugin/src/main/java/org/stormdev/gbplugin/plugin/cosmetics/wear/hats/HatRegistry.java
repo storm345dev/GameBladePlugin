@@ -12,6 +12,7 @@ public class HatRegistry {
 		CosmeticManager.registerCosmetic(new BeaconHat());
 		CosmeticManager.registerCosmetic(new StoneSlabHat());
 		CosmeticManager.registerCosmetic(new QuartzSlabHat());
+		CosmeticManager.registerCosmetic(new NetherSlabHat());
 		ColouredGlassHat.registerAll();
 		ColouredWoolHat.registerAll();
 	}
