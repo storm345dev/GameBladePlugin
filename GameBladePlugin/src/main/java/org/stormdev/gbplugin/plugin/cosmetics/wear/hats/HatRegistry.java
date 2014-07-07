@@ -7,6 +7,10 @@ public class HatRegistry {
 		CosmeticManager.registerCosmetic(new GlassHat());
 		CosmeticManager.registerCosmetic(new CopHat());
 		CosmeticManager.registerCosmetic(new RainbowHat());
+		CosmeticManager.registerCosmetic(new PumpkinHat());
+		CosmeticManager.registerCosmetic(new GlowstoneHat());
+		CosmeticManager.registerCosmetic(new BeaconHat());
 		ColouredGlassHat.registerAll();
+		ColouredWoolHat.registerAll();
 	}
 }
