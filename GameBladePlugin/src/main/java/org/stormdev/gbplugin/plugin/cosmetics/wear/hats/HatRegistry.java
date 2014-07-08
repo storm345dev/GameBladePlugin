@@ -23,5 +23,6 @@ public class HatRegistry {
 		ColouredClayHat.registerAll();
 		ColouredGlassHat.registerAll();
 		ColouredWoolHat.registerAll();
+		SkullHats.registerAll();
 	}
 }

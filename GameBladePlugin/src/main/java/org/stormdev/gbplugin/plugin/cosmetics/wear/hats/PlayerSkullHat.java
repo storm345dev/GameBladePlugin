@@ -47,49 +47,49 @@ public abstract class PlayerSkullHat extends BlockhatBase {
 	
 	public static class StormHat extends PlayerSkullHat{
 		@Override public String getID() {	 return "stormhat";	 }
-		@Override public String getUserFriendlyName()  {	return "Storm Hat";	  }
+		@Override public String getUserFriendlyName()  {	return "Storm Hat (Needs 1.8+)";	  }
 		@Override public String getPlayerName() { 	return "storm345";  	}
 	}
 	
 	public static class BjarnHat extends PlayerSkullHat{
 		@Override public String getID() {	 return "bjarnhat";	 }
-		@Override public String getUserFriendlyName()  {	return "Bjarn Hat";	  }
+		@Override public String getUserFriendlyName()  {	return "Bjarn Hat (Needs 1.8+)";	  }
 		@Override public String getPlayerName() { 	return "ItsJustBjarn";  	}
 	}
 	
 	public static class JesseHat extends PlayerSkullHat{
 		@Override public String getID() {	 return "jessehat";	 }
-		@Override public String getUserFriendlyName()  {	return "Jesse Hat";	  }
+		@Override public String getUserFriendlyName()  {	return "Jesse Hat (Needs 1.8+)";	  }
 		@Override public String getPlayerName() { 	return "FlamingxGamer‏";  	}
 	}
 	
 	public static class ShaneHat extends PlayerSkullHat{
 		@Override public String getID() {	 return "shyanehat";	 }
-		@Override public String getUserFriendlyName()  {	return "McPhillygin Hat";	  }
+		@Override public String getUserFriendlyName()  {	return "McPhillygin Hat (Needs 1.8+)";	  }
 		@Override public String getPlayerName() { 	return "McPhillygin";  	}
 	}
 	
 	public static class DurpyHat extends PlayerSkullHat{
 		@Override public String getID() {	 return "durpyhat";	 }
-		@Override public String getUserFriendlyName()  {	return "xDurpyx Hat";	  }
+		@Override public String getUserFriendlyName()  {	return "xDurpyx Hat (Needs 1.8+)";	  }
 		@Override public String getPlayerName() { 	return "xDurpyx";  	}
 	}
 	
 	public static class StijnHat extends PlayerSkullHat{
 		@Override public String getID() {	 return "stijnhat";	 }
-		@Override public String getUserFriendlyName()  {	return "Stijn Hat";	  }
+		@Override public String getUserFriendlyName()  {	return "Stijn Hat (Needs 1.8+)";	  }
 		@Override public String getPlayerName() { 	return "just_stijn";  	}
 	}
 	
 	public static class NotchHat extends PlayerSkullHat{
 		@Override public String getID() {	 return "notchhat";	 }
-		@Override public String getUserFriendlyName()  {	return "Notch Hat";	  }
+		@Override public String getUserFriendlyName()  {	return "Notch Hat (Needs 1.8+)";	  }
 		@Override public String getPlayerName() { 	return "Notch";  	}
 	}
 	
 	public static class DinnerboneHat extends PlayerSkullHat{
 		@Override public String getID() {	 return "dinbonehat";	 }
-		@Override public String getUserFriendlyName()  {	return "Dinnerbone Hat";	  }
+		@Override public String getUserFriendlyName()  {	return "Dinnerbone Hat (Needs 1.8+)";	  }
 		@Override public String getPlayerName() { 	return "Dinnerbone";  	}
 	}
 
