@@ -4,31 +4,31 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.cosmetics.Rank;
 
-public class NetherSlabHat extends BlockhatBase {
+public class LavaHat extends BlockhatBase {
 	
 	@Override
 	public String getID() {
-		return "netherslabhat";
+		return "lavahat";
 	}
 
 	@Override
 	public ItemStack getHeadWear() {
-		return new ItemStack(Material.STEP, 1, (byte) 6);
+		return new ItemStack(Material.LAVA);
 	}
 
 	@Override
 	public double getPrice() {
-		return 249;
+		return 1049;
 	}
 
 	@Override
 	public String getUserFriendlyName() {
-		return "Nether Brick Slab Hat (Like ninja Mask)";
+		return "Lava Hat (Worn on back)";
 	}
 	
 	@Override
 	public Rank minimumRank(){
-		return Rank.VIP_PLUS;
+		return Rank.PREMIUM_PLUS;
 	}
 
 }

@@ -13,6 +13,14 @@ public class HatRegistry {
 		CosmeticManager.registerCosmetic(new StoneSlabHat());
 		CosmeticManager.registerCosmetic(new QuartzSlabHat());
 		CosmeticManager.registerCosmetic(new NetherSlabHat());
+		CosmeticManager.registerCosmetic(new WoodSlabHat());
+		CosmeticManager.registerCosmetic(new RedstoneTorchHat());
+		CosmeticManager.registerCosmetic(new RailHat());
+		CosmeticManager.registerCosmetic(new IceHat());
+		CosmeticManager.registerCosmetic(new FireHat());
+		CosmeticManager.registerCosmetic(new LavaHat());
+		PlayerSkullHat.registerAll();
+		ColouredClayHat.registerAll();
 		ColouredGlassHat.registerAll();
 		ColouredWoolHat.registerAll();
 	}
