@@ -1,4 +1,4 @@
-package org.stormdev.gbplugin.plugin.modpanel;
+package org.stormdev.gbplugin.plugin.core;
 
 
 import java.io.ByteArrayOutputStream;
@@ -25,7 +25,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.servermanager.api.messaging.Server;
 
 public class ServerSelector implements CommandExecutor, Listener
@@ -150,22 +149,6 @@ public class ServerSelector implements CommandExecutor, Listener
         serverSelector.setItem(13, wip);
         serverSelector.setItem(14, wip);
         serverSelector.setItem(15, wip);
-    }
-
-    @EventHandler
-    public void onOpen(PlayerInteractEvent e)
-    {
-        Player p = e.getPlayer();
-        if (((e.getAction() == Action.RIGHT_CLICK_BLOCK) ||
-                (e.getAction() == Action.RIGHT_CLICK_AIR)) &&
-                (p.getItemInHand().getType() == Material.COMPASS))
-        {
-            if ("Server Selector".equalsIgnoreCase(ChatColor.stripColor(p.getItemInHand()
-                    .getItemMeta().getDisplayName()))) {
-                p.openInventory(serverSelector);
-                p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
-            }
-        }
     }
     
     public void open(Player p){

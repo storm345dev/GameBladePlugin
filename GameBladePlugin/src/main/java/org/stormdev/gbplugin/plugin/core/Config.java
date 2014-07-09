@@ -12,6 +12,8 @@ public class Config extends ConfigBase {
 	public static ConfigSetting<Boolean> enableHats = new ConfigSetting<Boolean>("general.hats.enable", true);
 	public static ConfigSetting<Boolean> enableFancyCars = new ConfigSetting<Boolean>("general.fancycars.enable", true);
 	
+	public static ConfigSetting<Boolean> isLobby = new ConfigSetting<Boolean>("general.isLobby", false);
+	
 	public static ConfigSetting<String> lobbyServerNameBungee = new ConfigSetting<String>("general.servers.lobby.bungee", "lobby1");
 	public static ConfigSetting<String> lobbyServerNameMineManager = new ConfigSetting<String>("general.servers.lobby.minemanager", "GB Lobby 1");
 	

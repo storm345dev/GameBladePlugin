@@ -32,7 +32,6 @@ import org.stormdev.gbplugin.plugin.cosmetics.carts.CartFillListener;
 import org.stormdev.gbplugin.plugin.cosmetics.wear.hats.HatMenu;
 import org.stormdev.gbplugin.plugin.mkTokens.TokenChecker;
 import org.stormdev.gbplugin.plugin.modpanel.ModMenu;
-import org.stormdev.gbplugin.plugin.modpanel.ServerSelector;
 import org.stormdev.gbplugin.plugin.server.ServerInfo;
 import org.stormdev.gbplugin.plugin.server.ServerMonitor;
 import org.stormdev.gbplugin.plugin.server.uuidcorrector.UUIDListener;
