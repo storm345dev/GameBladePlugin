@@ -8,6 +8,7 @@ import org.stormdev.gbapi.cosmetics.Cosmetics;
 import org.stormdev.gbapi.servers.ServerInfo;
 import org.stormdev.gbapi.stars.Stars;
 import org.stormdev.gbapi.storm.tokens.Tokens;
+import org.stormdev.gbapi.villagers.VillagerManager;
 import org.stormdev.gbplugin.bans.PunishmentLogger;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 
@@ -57,6 +58,11 @@ public class GameBladeAPI implements org.stormdev.gbapi.core.GameBladeAPI{
 	@Override
 	public PunishmentLogs getPunishmentLogger() {
 		return PunishmentLogger.getInstance();
+	}
+
+	@Override
+	public VillagerManager getMenuVillagerManager() {
+		return org.stormdev.gbplugin.api.villagers.VillagerManager.instance;
 	}
 
 }

@@ -15,16 +15,19 @@ import org.stormdev.gbapi.storm.SQL.MySQL;
 import org.stormdev.gbapi.storm.SQL.SQLManager;
 import org.stormdev.gbplugin.api.stars.GiveStarsCommand;
 import org.stormdev.gbplugin.api.stars.MyStarsCommand;
+import org.stormdev.gbplugin.api.villagers.VillagerManager;
 import org.stormdev.gbplugin.bans.BanHandle;
 import org.stormdev.gbplugin.bans.BanListener;
 import org.stormdev.gbplugin.plugin.chat.ChatManager;
 import org.stormdev.gbplugin.plugin.commands.BroadcastCommandExecutor;
+import org.stormdev.gbplugin.plugin.commands.CreateVillagerCommand;
 import org.stormdev.gbplugin.plugin.commands.HatCommand;
 import org.stormdev.gbplugin.plugin.commands.ModCommandExecutor;
 import org.stormdev.gbplugin.plugin.commands.PunishCommand;
 import org.stormdev.gbplugin.plugin.commands.StarShopCommand;
 import org.stormdev.gbplugin.plugin.commands.UnbanCommand;
 import org.stormdev.gbplugin.plugin.cosmetics.CosmeticManager;
+import org.stormdev.gbplugin.plugin.cosmetics.CosmeticVillagers;
 import org.stormdev.gbplugin.plugin.cosmetics.carts.CartFillListener;
 import org.stormdev.gbplugin.plugin.cosmetics.wear.hats.HatMenu;
 import org.stormdev.gbplugin.plugin.mkTokens.TokenChecker;
@@ -178,6 +181,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		getCommand("pardon").setExecutor(new UnbanCommand());
 		getCommand("starshop").setExecutor(new StarShopCommand());
 		getCommand("hat").setExecutor(new HatCommand());
+		getCommand("createmenuvillager").setExecutor(new CreateVillagerCommand());;
 	}
 	
 	private void setupListeners(){
@@ -186,6 +190,8 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		new ChatManager();
 		new BanListener();
 		new CartFillListener();
+		new VillagerManager();
+		CosmeticVillagers.register();
 	}
 
 	@Override

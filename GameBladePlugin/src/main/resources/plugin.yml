@@ -55,10 +55,17 @@ commands:
     mytokens:
         description: View how many tokens you have
         usage: /<command>
+    createmenuvillager:
+        description: Create a menu villager
+        aliases: [cmv]
+        usage: /<command> <Name>
+        permission: gameblade.admin
+        permission-message: You don't have the permission <permission> needed to award tokens!
+        default: op
     givetokens:
         description: Give tokens to player
         usage: /<command> <Player> <Tokens>
-        permission: mta.admin.tokens
+        permission: gameblade.admin
         permission-message: You don't have the permission <permission> needed to award tokens!
         default: op
     mystars:
@@ -73,6 +80,6 @@ commands:
     givestars:
         description: Give stars to a player
         usage: /<command> <Player> <Tokens>
-        permission: mta.admin.stars
+        permission: gameblade.admin
         permission-message: You don't have the permission <permission> needed to award tokens!
         default: op
