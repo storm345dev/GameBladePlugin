@@ -19,6 +19,7 @@ public class HatRegistry {
 		CosmeticManager.registerCosmetic(new IceHat());
 		CosmeticManager.registerCosmetic(new FireHat());
 		CosmeticManager.registerCosmetic(new LavaHat());
+		CosmeticManager.registerCosmetic(new WaterHat());
 		PlayerSkullHat.registerAll();
 		ColouredClayHat.registerAll();
 		ColouredGlassHat.registerAll();
