@@ -48,5 +48,14 @@ public class CosmeticPanel implements OptionClickEventHandler {
 					return;
 				}}, 2l);
 		}
+		else if(pos == 1){ //They selected manage
+			Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
+
+				@Override
+				public void run() {
+					CosmeticManagePanel.getInstance().open(player);
+					return;
+				}}, 2l);
+		}
 	}
 }

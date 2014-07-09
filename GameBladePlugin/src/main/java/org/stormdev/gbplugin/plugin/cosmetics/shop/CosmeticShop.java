@@ -29,7 +29,7 @@ public class CosmeticShop implements Listener {
 	public CosmeticShop(CosmeticManager manager){
 		this.manager = manager;
 		Bukkit.getPluginManager().registerEvents(this, GameBlade.plugin);
-		cosmeticMenu = new IconMenu("Choose Cosmetic Type", 9, new OptionClickEventHandler(){
+		cosmeticMenu = new IconMenu(ChatColor.YELLOW+"Choose Cosmetic Type", 9, new OptionClickEventHandler(){
 
 			@Override
 			public void onOptionClick(OptionClickEvent event) {

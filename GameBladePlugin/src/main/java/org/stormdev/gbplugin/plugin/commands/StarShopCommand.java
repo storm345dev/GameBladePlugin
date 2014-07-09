@@ -5,7 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.stormdev.gbplugin.plugin.core.GameBlade;
+import org.stormdev.gbplugin.plugin.cosmetics.CosmeticPanel;
 
 public class StarShopCommand implements CommandExecutor {
 
@@ -19,7 +19,7 @@ public class StarShopCommand implements CommandExecutor {
 		
 		Player player = (Player) sender;
 		
-		GameBlade.plugin.cosmeticManager.getShop().open(player);
+		CosmeticPanel.getInstance().open(player);
 		return true;
 	}
 
