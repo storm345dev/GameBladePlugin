@@ -11,6 +11,7 @@ import org.stormdev.gbapi.storm.tokens.Tokens;
 import org.stormdev.gbapi.villagers.VillagerManager;
 import org.stormdev.gbplugin.bans.PunishmentLogger;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
+import org.stormdev.gbplugin.plugin.cosmetics.CosmeticPanel;
 
 public class GameBladeAPI implements org.stormdev.gbapi.core.GameBladeAPI{
 	private static final double VERSION = 0.1;
@@ -63,6 +64,11 @@ public class GameBladeAPI implements org.stormdev.gbapi.core.GameBladeAPI{
 	@Override
 	public VillagerManager getMenuVillagerManager() {
 		return org.stormdev.gbplugin.api.villagers.VillagerManager.instance;
+	}
+
+	@Override
+	public void showCosmeticPanel(Player player) {
+		CosmeticPanel.getInstance().open(player);
 	}
 
 }
