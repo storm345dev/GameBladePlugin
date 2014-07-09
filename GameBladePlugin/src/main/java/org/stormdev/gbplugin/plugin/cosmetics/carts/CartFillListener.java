@@ -90,7 +90,7 @@ public class CartFillListener implements Listener {
 		try{
 			
 			//TODO Fill IF they deserve it
-			CartFiller.putBlockInCar(m, 20, 0, 15);
+			//CartFiller.putBlockInCar(m, 20, 0, 15);
 			
 			m.removeMetadata(SET_META, GameBlade.plugin);
 			m.setMetadata(SET_META, new MetadataValue(true, GameBlade.plugin));
