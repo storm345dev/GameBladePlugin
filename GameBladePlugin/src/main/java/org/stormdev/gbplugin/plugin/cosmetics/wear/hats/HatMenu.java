@@ -13,6 +13,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -305,7 +306,7 @@ public class HatMenu implements Listener {
 		if(!holder.equals(player)){
 			return;
 		}
-		if(event.getRawSlot() == 5 && player.hasMetadata("wearingHat")){
+		if(event.getSlotType().equals(SlotType.ARMOR) && event.getRawSlot() == 5 && player.hasMetadata("wearingHat")){
 			//They clicked helmet
 			player.sendMessage(ChatColor.RED+"Use /hat to take off your hat!");
 			event.setCancelled(true);
