@@ -65,7 +65,7 @@ public class BanPanel {
 		
 		selectMode.setOption(0, new ItemStack(Material.STICK), ChatColor.GOLD+"Ban", ChatColor.RED+"Ban somebody");
 		selectMode.setOption(1, new ItemStack(Material.STICK), ChatColor.GOLD+"Kick", ChatColor.RED+"Kick somebody");
-		selectMode.setOption(2, new ItemStack(Material.STICK), ChatColor.GOLD+"Warm", ChatColor.RED+"Warn somebody");
+		selectMode.setOption(2, new ItemStack(Material.STICK), ChatColor.GOLD+"Warn", ChatColor.RED+"Warn somebody");
 		selectMode.setOption(3, new ItemStack(Material.PAPER), ChatColor.GOLD+"Profile", ChatColor.RED+"View a players' profile");
 	}
 	
