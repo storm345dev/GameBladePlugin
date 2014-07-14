@@ -47,7 +47,7 @@ public class ModSettingsMenu {
                 event.setWillDestroy(false);
                 event = onClick(event);
                 return;
-            }}, GameBlade.plugin);
+            }}, GameBlade.plugin, true);
 
         modSettingsMenu.setOption(0,
                 new ItemStack(Material.INK_SACK, 1, vanishStatus(p)),
