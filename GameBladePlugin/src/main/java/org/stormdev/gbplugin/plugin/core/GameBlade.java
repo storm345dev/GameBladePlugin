@@ -62,7 +62,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 	
 	@Override
 	public void onEnable(){
-		plugin = this;
+		GameBlade.plugin = this;
 		
 		config = new Config(new File(getDataFolder()+File.separator+"config.yml"));
 		

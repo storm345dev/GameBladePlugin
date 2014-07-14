@@ -72,6 +72,9 @@ public class HatMenu implements Listener {
 		final int startPos = (PAGE_SIZE - 3)*page; //if page 1 then (0*52) which is 0, if page 2 then it's 1*52 which is 52
 		int endPos = startPos + (PAGE_SIZE - 3); //If startPos = 0, endPos = 52
 		
+		if(GameBlade.plugin == null){
+			Bukkit.broadcastMessage("UH OH MEMORY LEAK ALERT SAFEGUARD #1 PLEASE REPORT");
+		}
 		final IconMenu menu = new IconMenu(ChatColor.YELLOW+"Hat Menu", PAGE_SIZE, new OptionClickEventHandler(){
 
 			@Override
@@ -133,7 +136,7 @@ public class HatMenu implements Listener {
 				event.setWillDestroy(true);
 				onHatClick(player, c);
 				return;
-			}}, GameBlade.plugin);
+			}}, GameBlade.plugin, true);
 		
 		int z = 1;
 		boolean valid = false;

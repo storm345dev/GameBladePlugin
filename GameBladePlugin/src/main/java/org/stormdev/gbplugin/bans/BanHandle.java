@@ -173,7 +173,13 @@ public class BanHandle implements BanHandler {
 				GameBlade.api.getPunishmentLogger().log(banned_uuid, PunishmentType.BAN, reason, admin.getName());
 				
 				if(player != null && player.isOnline()){
-					player.kickPlayer("Banned: "+Colors.colorise(reason));
+					Bukkit.getScheduler().runTask(GameBlade.plugin, new Runnable(){
+
+						@Override
+						public void run() {
+							player.kickPlayer("Banned: "+Colors.colorise(reason));
+							return;
+						}});
 				}
 				
 				return;
