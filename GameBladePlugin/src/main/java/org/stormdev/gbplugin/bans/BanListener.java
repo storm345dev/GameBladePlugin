@@ -31,9 +31,15 @@ public class BanListener implements Listener {
 			@Override
 			public void run() {
 				if(APIProvider.getAPI().getBans().isBanned(player)){
-					Time duration = APIProvider.getAPI().getBans().getBanDuration(player);
+					final Time duration = APIProvider.getAPI().getBans().getBanDuration(player);
 					player.setMetadata("banned", new MetaValue(null, GameBlade.plugin));
-					player.kickPlayer("Ban time remaining: "+duration.getRemainingTime());
+					Bukkit.getScheduler().runTask(GameBlade.plugin, new Runnable(){
+
+						@Override
+						public void run() {
+							player.kickPlayer("Ban time remaining: "+duration.getRemainingTime());
+							return;
+						}});
 				}
 				else {
 					//Join message
