@@ -72,7 +72,7 @@ public class HatMenu implements Listener {
 		final int startPos = (PAGE_SIZE - 3)*page; //if page 1 then (0*52) which is 0, if page 2 then it's 1*52 which is 52
 		int endPos = startPos + (PAGE_SIZE - 3); //If startPos = 0, endPos = 52
 		
-		IconMenu menu = new IconMenu(ChatColor.YELLOW+"Hat Menu", PAGE_SIZE, new OptionClickEventHandler(){
+		final IconMenu menu = new IconMenu(ChatColor.YELLOW+"Hat Menu", PAGE_SIZE, new OptionClickEventHandler(){
 
 			@Override
 			public void onOptionClick(OptionClickEvent event) {
@@ -147,13 +147,13 @@ public class HatMenu implements Listener {
 			valid = true;
 		}
 		if(!valid){
-			menu.destroy();
 			//Go to last page
 			final int newPage = pageNo-1;
 			Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
 
 				@Override
 				public void run() {
+					menu.destroy();
 					createDisplay(player, owned, newPage);
 					return;
 				}}, 2l);
