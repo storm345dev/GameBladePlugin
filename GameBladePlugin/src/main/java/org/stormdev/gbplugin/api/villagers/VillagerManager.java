@@ -48,6 +48,9 @@ public class VillagerManager implements org.stormdev.gbapi.villagers.VillagerMan
 
 	@Override
 	public Villager spawnVillager(String villagerName, Location location) {
+		if(!Bukkit.isPrimaryThread()){
+			throw new RuntimeException("ASYNC VILLAGERS OMFG ;(");
+		}
 		Villager villager = (Villager) location.getWorld().spawnEntity(location, EntityType.VILLAGER);
 		if(villager == null){
 			return null;
