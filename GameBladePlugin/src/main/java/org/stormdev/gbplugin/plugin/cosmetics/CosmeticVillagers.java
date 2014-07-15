@@ -1,5 +1,6 @@
 package org.stormdev.gbplugin.plugin.cosmetics;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.stormdev.gbapi.villagers.VillagerManager.VillagerAlreadyRegisteredException;
 import org.stormdev.gbapi.villagers.VillagerManager.VillagerListener;
@@ -11,8 +12,14 @@ public class CosmeticVillagers {
 			GameBlade.api.getMenuVillagerManager().registerVillagerListener("Cosmetics", new VillagerListener(){
 
 				@Override
-				public void onInteract(Player player) {
-					CosmeticPanel.getInstance().open(player);
+				public void onInteract(final Player player) {
+					Bukkit.getScheduler().runTask(GameBlade.plugin, new Runnable(){
+
+						@Override
+						public void run() {
+							CosmeticPanel.getInstance().open(player);
+							return;
+						}});
 					return;
 				}});
 		} catch (VillagerAlreadyRegisteredException e) {
