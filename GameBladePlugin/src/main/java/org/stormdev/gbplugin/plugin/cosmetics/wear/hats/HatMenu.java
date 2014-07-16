@@ -252,6 +252,10 @@ public class HatMenu implements Listener {
 	@EventHandler
 	void onJoin(PlayerJoinEvent event){
 		final Player player = event.getPlayer();
+		if(player != null){
+			takeOffHatPhysicallyIfHatIsWorn(player);
+		}
+		
 		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
 
 			@Override

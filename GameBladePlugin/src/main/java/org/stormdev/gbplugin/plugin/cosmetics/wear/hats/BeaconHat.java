@@ -1,21 +1,11 @@
 package org.stormdev.gbplugin.plugin.cosmetics.wear.hats;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
-import org.stormdev.gbapi.cosmetics.Rank;
-import org.stormdev.gbapi.storm.misc.MetadataValue;
-import org.stormdev.gbplugin.plugin.core.GameBlade;
 
-public class BeaconHat extends BlockhatBase {
+public class BeaconHat extends ChangingHat {
 	private static String META = "beaconhatmeta";
-	
-	@Override
-	public ItemStack getHeadWear() {
-		return new ItemStack(Material.PAPER);
-	}
 
 	@Override
 	public String getID() {
@@ -32,26 +22,7 @@ public class BeaconHat extends BlockhatBase {
 		return "Beacon Hat (Changes colour)";
 	}
 	
-	@Override
-	public boolean apply(final Player player) {
-		boolean b = super.apply(player);
-		if(!b){
-			return false;
-		}
-		
-		BukkitTask t = Bukkit.getScheduler().runTaskTimer(GameBlade.plugin, new Runnable(){
-
-			@Override
-			public void run() {
-				switchHat(player);
-				return;
-			}}, 20l, 20l);
-		player.removeMetadata(META, GameBlade.plugin);
-		player.setMetadata(META, new MetadataValue(t, GameBlade.plugin));
-		return true;
-	}
-	
-	private void switchHat(Player player){
+	public void switchHat(Player player){
 		ItemStack i = player.getInventory().getHelmet();
 		if(i == null){
 			i = new ItemStack(Material.BEACON, 1);
@@ -66,19 +37,10 @@ public class BeaconHat extends BlockhatBase {
 		
 		player.getInventory().setHelmet(i);
 	}
-	
+
 	@Override
-	public void remove(Player player) {
-		//Cancel task
-		if(player.hasMetadata(META)){
-			Object o = player.getMetadata(META).get(0).value();
-			if(o instanceof BukkitTask){
-				BukkitTask task = (BukkitTask) o;
-				task.cancel();
-			}
-			player.removeMetadata(META, GameBlade.plugin);
-		}
-		player.getInventory().setHelmet(null);
+	public String getMeta() {
+		return META;
 	}
 
 }

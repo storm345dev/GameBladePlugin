@@ -4,8 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.print.DocFlavor.CHAR_ARRAY;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -181,7 +179,7 @@ public class BanPanel {
 				event.setWillClose(true);
 				event.setWillDestroy(true);
 				return;
-			}}, GameBlade.plugin);
+			}}, GameBlade.plugin, true);
 		current.setOption(0, new ItemStack(Material.PAPER), ChatColor.GOLD+"Spamming", ChatColor.RED+"Kick for this reason");
 		current.setOption(1, new ItemStack(Material.PAPER), ChatColor.GOLD+"Using caps-lock", ChatColor.RED+"Kick for this reason");
 		current.setOption(2, new ItemStack(Material.PAPER), ChatColor.GOLD+"Swearing", ChatColor.RED+"Kick for this reason");
@@ -224,7 +222,7 @@ public class BanPanel {
 				event.setWillClose(true);
 				event.setWillDestroy(true);
 				return;
-			}}, GameBlade.plugin);
+			}}, GameBlade.plugin, true);
 		current.setOption(0, new ItemStack(Material.PAPER), ChatColor.GOLD+"Spamming", ChatColor.RED+"Kick for this reason");
 		current.setOption(1, new ItemStack(Material.PAPER), ChatColor.GOLD+"Using caps-lock", ChatColor.RED+"Kick for this reason");
 		current.setOption(2, new ItemStack(Material.PAPER), ChatColor.GOLD+"Swearing", ChatColor.RED+"Kick for this reason");
@@ -380,7 +378,7 @@ public class BanPanel {
 				event.setWillClose(true);
 				event.setWillDestroy(true);
 				return;
-			}}, GameBlade.plugin);
+			}}, GameBlade.plugin, true);
 		if(time.isForever()){
 			current.setOption(0, new ItemStack(Material.PAPER), ChatColor.GOLD+"Using a hacked client", ChatColor.RED+"Ban for this reason");
 			current.setOption(1, new ItemStack(Material.PAPER), ChatColor.GOLD+"Advertising", ChatColor.RED+"Ban for this reason");
@@ -456,7 +454,7 @@ public class BanPanel {
 				event.setWillClose(true);
 				event.setWillDestroy(true);
 				return;
-			}}, GameBlade.plugin);
+			}}, GameBlade.plugin, true);
 		current.setOption(0, new ItemStack(Material.PAPER), ChatColor.GOLD+"1 hour", ChatColor.RED+"Ban for this amount of time");
 		current.setOption(1, new ItemStack(Material.PAPER), ChatColor.GOLD+"1 day", ChatColor.RED+"Ban for this amount of time");
 		current.setOption(2, new ItemStack(Material.PAPER), ChatColor.GOLD+"1 week", ChatColor.RED+"Ban for this amount of time");
@@ -541,7 +539,7 @@ public class BanPanel {
 						event.setWillDestroy(true);
 						event.setWillClose(true);
 						return;
-					}}, GameBlade.plugin);
+					}}, GameBlade.plugin, true);
 				
 				ItemStack profile = new ItemStack(Material.SKULL_ITEM, 1);
 				SkullMeta skullMeta = (SkullMeta) profile.getItemMeta();
