@@ -63,7 +63,7 @@ public class HatMenu implements Listener {
 			}});
 	}
 	
-	private void createDisplay(final Player player, final List<Hat> owned, final int pageNo){
+	private void createDisplay(Player player, final List<Hat> owned, final int pageNo){
 		if(pageNo < 1){
 			createDisplay(player, owned, 1);
 			return;
@@ -75,10 +75,12 @@ public class HatMenu implements Listener {
 		if(GameBlade.plugin == null){
 			Bukkit.broadcastMessage("UH OH MEMORY LEAK ALERT SAFEGUARD #1 PLEASE REPORT");
 		}
+		final String pName = player.getName();
 		final IconMenu menu = new IconMenu(ChatColor.YELLOW+"Hat Menu", PAGE_SIZE, new OptionClickEventHandler(){
 
 			@Override
 			public void onOptionClick(OptionClickEvent event) {
+				Player player = event.getPlayer();
 				event.setWillDestroy(false);
 				
 				int i = event.getPosition();
@@ -92,11 +94,12 @@ public class HatMenu implements Listener {
 				else if(i == (PAGE_SIZE - 2)){
 					//Last page
 					final int newPage = pageNo-1;
+					final Player pl = player;
 					Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
 
 						@Override
 						public void run() {
-							createDisplay(player, owned, newPage);
+							createDisplay(pl, owned, newPage);
 							return;
 						}}, 2l);
 					event.setWillClose(true);
@@ -106,11 +109,12 @@ public class HatMenu implements Listener {
 				else if(i == (PAGE_SIZE - 1)){
 					//Next page
 					final int newPage = pageNo+1;
+					final Player pl = player;
 					Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
 
 						@Override
 						public void run() {
-							createDisplay(player, owned, newPage);
+							createDisplay(pl, owned, newPage);
 							return;
 						}}, 2l);
 					event.setWillClose(true);
@@ -152,12 +156,13 @@ public class HatMenu implements Listener {
 		if(!valid){
 			//Go to last page
 			final int newPage = pageNo-1;
+			final Player pl = player;
 			Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
 
 				@Override
 				public void run() {
 					menu.destroy();
-					createDisplay(player, owned, newPage);
+					createDisplay(pl, owned, newPage);
 					return;
 				}}, 2l);
 			return;
