@@ -143,14 +143,8 @@ public class CosmeticShop implements Listener {
 		cosmeticMenu.open(player);
 	}
 	
-	public void openHatMenu(final Player player){
-		Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
-
-			@Override
-			public void run() {
-				hatMenuPages.get(1).open(player);
-				return;
-			}}, 2l);
+	public void openHatMenu(Player player){
+		openLater(hatMenuPages.get(1), player);
 	}
 	
 	private void openLater(final IconMenu menu, final Player player){

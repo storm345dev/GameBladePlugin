@@ -30,9 +30,6 @@ public class AdminMenu implements Listener, CommandExecutor {
 
     public boolean chatDisabled = false;
 
-    public static ArrayList<String> vanishArray = new ArrayList<String>();
-    public static ArrayList<String> staffModeArray = new ArrayList<String>();
-
     public Inventory adminMenu = Bukkit.createInventory(null, 9, ChatColor.RED + "Admin Menu");
     public Inventory modSettingsMenu = Bukkit.createInventory(null, 9, ChatColor.RED + "Your Settings");
     public Inventory serverSettingsMenu = Bukkit.createInventory(null, 9, ChatColor.RED + "Server Settings");
@@ -140,7 +137,7 @@ public class AdminMenu implements Listener, CommandExecutor {
         short disabled = 8;
 
         ItemStack vanish = new ItemStack(Material.INK_SACK, 1);
-        if(!vanishArray.contains(p.getName())) vanish.setDurability(disabled);
+        if(!ModSettingsMenu.vanishArray.contains(p.getName())) vanish.setDurability(disabled);
         else vanish.setDurability(enabled);
         ItemMeta vanishim = vanish.getItemMeta();
         vanishim.setDisplayName(ChatColor.RED + "Toggle Vanish");
@@ -150,7 +147,7 @@ public class AdminMenu implements Listener, CommandExecutor {
         vanish.setItemMeta(vanishim);
 
         ItemStack staffMode = new ItemStack(Material.INK_SACK, 1);
-        if(!staffModeArray.contains(p.getName())) staffMode.setDurability(disabled);
+        if(!ModSettingsMenu.staffModeArray.contains(p.getName())) staffMode.setDurability(disabled);
         else staffMode.setDurability(enabled);
         ItemMeta staffModeim = vanish.getItemMeta();
         staffModeim.setDisplayName(ChatColor.RED + "Staff Mode");
@@ -288,8 +285,8 @@ public class AdminMenu implements Listener, CommandExecutor {
                 e.setCancelled(true);
                 p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
                 if(p.hasPermission("admin.vanish")) {
-                    if(vanishArray.contains(p.getName())) {
-                        vanishArray.remove(p.getName());
+                    if(ModSettingsMenu.vanishArray.contains(p.getName())) {
+                        ModSettingsMenu.vanishArray.remove(p.getName());
                         p.setCanPickupItems(true);
                         createDisplay(p);
                         for (Player allPlayers : Bukkit.getServer().getOnlinePlayers()) {
@@ -308,7 +305,7 @@ public class AdminMenu implements Listener, CommandExecutor {
                         p.sendMessage(ChatColor.RED + "[ADMIN ALERT] You're no longer vanished!");
                     }
                     else {
-                        vanishArray.add(p.getName());
+                        ModSettingsMenu.vanishArray.add(p.getName());
                         p.setCanPickupItems(false);
                         createDisplay(p);
                         for (Player allPlayers : Bukkit.getServer().getOnlinePlayers()) {
@@ -337,8 +334,8 @@ public class AdminMenu implements Listener, CommandExecutor {
                 e.setCancelled(true);
                 p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
                 if(p.hasPermission("admin.staffmode")) {
-                    if(staffModeArray.contains(p.getName())) {
-                        staffModeArray.remove(p.getName());
+                    if(ModSettingsMenu.staffModeArray.contains(p.getName())) {
+                        ModSettingsMenu.staffModeArray.remove(p.getName());
                         p.setGameMode(GameMode.ADVENTURE);
                         p.setAllowFlight(false);
                         p.playSound(p.getLocation(), Sound.FIREWORK_LARGE_BLAST2, 1F, 1F);
@@ -351,7 +348,7 @@ public class AdminMenu implements Listener, CommandExecutor {
                         p.sendMessage(ChatColor.RED + "[ADMIN ALERT] You're no longer in staff mode!");
                     }
                     else {
-                        staffModeArray.add(p.getName());
+                        ModSettingsMenu.staffModeArray.add(p.getName());
                         p.setGameMode(GameMode.CREATIVE);
                         p.setAllowFlight(true);
                         p.playSound(p.getLocation(), Sound.FIREWORK_LARGE_BLAST, 1F, 1F);
@@ -393,7 +390,7 @@ public class AdminMenu implements Listener, CommandExecutor {
         Player p = e.getPlayer();
         for (Player staff : Bukkit.getServer().getOnlinePlayers()) {
             if (!staff.getName().equalsIgnoreCase(p.getName())) {
-                if (vanishArray.contains(staff.getName())) {
+                if (ModSettingsMenu.vanishArray.contains(staff.getName())) {
                     p.hidePlayer(staff);
                 }
             }

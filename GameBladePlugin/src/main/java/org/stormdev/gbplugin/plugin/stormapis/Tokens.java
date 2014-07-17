@@ -1,6 +1,8 @@
 package org.stormdev.gbplugin.plugin.stormapis;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
@@ -36,6 +38,30 @@ public class Tokens implements SMListener, org.stormdev.gbapi.storm.tokens.Token
 	public Tokens(){
 		this.plugin = GameBlade.plugin;
 		GB_LOBBY_SERVER_ID = Config.lobbyServerNameMineManager.getValue();
+		Bukkit.getScheduler().runTaskTimerAsynchronously(GameBlade.plugin, new Runnable(){
+
+			@Override
+			public void run() { //Stops potential memory leak in tokenQueries
+				if(tokenQueries.size() > 50){ //TOO many queries, probably unable to connect
+					List<String> keys = new ArrayList<String>(tokenQueries.keySet());
+					long timeoutTime = System.currentTimeMillis()+10000;
+					
+					int i = 0;
+					while(tokenQueries.size() > 50 && System.currentTimeMillis() < timeoutTime){
+						try {
+							if(i>=keys.size()){
+								return;
+							}
+							String key = keys.get(i);
+							tokenQueries.remove(key);
+						} catch (Exception e) {
+							//Meh, error
+						}
+						i++;
+					}
+				}
+				return;
+			}}, 20*60*20l, 20*60*20l);
 		
 		if(Bukkit.getPluginManager().getPlugin("ServerManager") == null){
 			plugin.getLogger().info("Sorry this plugin requires ServerManager!");

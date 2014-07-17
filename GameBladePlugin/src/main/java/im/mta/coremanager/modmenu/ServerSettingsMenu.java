@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.Main;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.gui.IconMenu;

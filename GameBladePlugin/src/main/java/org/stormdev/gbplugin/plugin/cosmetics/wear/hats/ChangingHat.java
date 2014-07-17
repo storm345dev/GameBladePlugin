@@ -18,7 +18,7 @@ public abstract class ChangingHat extends BlockhatBase {
 	}
 	
 	@Override
-	public boolean apply(final Player player) {
+	public boolean apply(Player player) {
 		boolean b = super.apply(player);
 		if(!b){
 			return false;

@@ -61,6 +61,14 @@ public class BanListener implements Listener {
 	@EventHandler
 	void onLeave(PlayerQuitEvent event){
 		Player player = event.getPlayer();
+		if(player.hasMetadata("gameblade.chatinput")){
+			Object o = player.getMetadata("gameblade.chatinput");
+			if(o instanceof ChatInput){
+				ChatInput c = (ChatInput) o;
+				c.destroy();
+			}
+			player.removeMetadata("gameblade.chatinput", GameBlade.plugin);
+		}
 		if(player.hasMetadata("banned")){
 			player.removeMetadata("banned", GameBlade.plugin);
 			event.setQuitMessage(null);
