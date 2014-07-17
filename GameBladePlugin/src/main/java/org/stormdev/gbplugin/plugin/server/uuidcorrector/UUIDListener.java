@@ -28,6 +28,10 @@ public class UUIDListener implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST) //Called first
 	void prePreJoin(AsyncPlayerPreLoginEvent event){
 		final String name = event.getName();
+		if(Bukkit.isPrimaryThread() || !event.isAsynchronous()){
+			GameBlade.logger.info("The AsyncPlayerPreLoginEvent WASN'T async! LAG LAG LAG, didn't correct uuid for pre login");
+			return;
+		}
 		
 		try {
 			MojangID mid = PlayerIDFinder.getMojangID(name);
