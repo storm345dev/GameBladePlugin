@@ -151,6 +151,9 @@ public class ServerMonitor implements Runnable {
 		GameBlade.plugin.serverMonitor.cancel();
 		GameBlade.plugin.serverMonitor = Bukkit.getScheduler().runTaskTimer(GameBlade.plugin,
 				new ServerMonitor(), 100L, 1L);
+		if((getMemoryUse()/getMaxMemory()*100) > 95){
+			System.gc(); //Garbage collect!
+		}
 		return;
 	}
 }
