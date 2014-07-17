@@ -131,6 +131,19 @@ public class ServerMonitor implements Runnable {
 		return;
 	}
 	
+	public void checkMemory(){
+		double memPercentOrig = (getMemoryUse()/getMaxMemory()*100d);
+		if(memPercentOrig > 85){
+			System.gc(); //Garbage collect!
+			double memPercent = (getMemoryUse()/getMaxMemory()*100d);
+			double improvePercent = (memPercent-memPercentOrig)/memPercentOrig*100;
+			GameBlade.logger.info("Attempted to clear used memory, memory freed: "+improvePercent+"%");
+		}
+		else {
+			//GameBlade.logger.info("SYSTEM MEMORY STABLE (using "+memPercentOrig+"%)");
+		}
+	}
+	
 	public void start(){
 		TICK_COUNT = 0;
 		TICKS = new long[600];
@@ -139,6 +152,7 @@ public class ServerMonitor implements Runnable {
 		//GameBlade.plugin.lagReducer.cancel();
 		GameBlade.plugin.serverMonitor = Bukkit.getScheduler().runTaskTimer(GameBlade.plugin,
 				new ServerMonitor(), 100L, 1L);
+		checkMemory();
 		return;
 	}
 	
@@ -151,9 +165,8 @@ public class ServerMonitor implements Runnable {
 		GameBlade.plugin.serverMonitor.cancel();
 		GameBlade.plugin.serverMonitor = Bukkit.getScheduler().runTaskTimer(GameBlade.plugin,
 				new ServerMonitor(), 100L, 1L);
-		if((getMemoryUse()/getMaxMemory()*100) > 95){
-			System.gc(); //Garbage collect!
-		}
+		
+		checkMemory();
 		return;
 	}
 }
