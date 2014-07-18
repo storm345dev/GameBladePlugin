@@ -156,6 +156,10 @@ public class HatMenu implements Listener {
 		if(!valid){
 			//Go to last page
 			final int newPage = pageNo-1;
+			if(newPage < 1){
+				player.sendMessage(ChatColor.RED+"You don't own any hats!");
+				return;
+			}
 			final Player pl = player;
 			Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
 
