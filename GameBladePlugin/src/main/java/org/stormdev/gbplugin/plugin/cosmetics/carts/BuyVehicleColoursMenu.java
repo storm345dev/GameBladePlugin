@@ -2,6 +2,8 @@ package org.stormdev.gbplugin.plugin.cosmetics.carts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -112,17 +114,26 @@ public class BuyVehicleColoursMenu implements MenuDetails {
 	
 	
 	private List<MenuItem> toBuy = new ArrayList<MenuItem>();
+	private Map<String, ColourButton> cosmetics = new TreeMap<String, ColourButton>();
 	
 	public BuyVehicleColoursMenu(){
 		this.menu = new PagedMenu(this);
 		
-		toBuy.add(new ColourButton(new ItemStack(Material.GLASS), ChatColor.GOLD+"Glass", 
-				new String[]{ChatColor.RED+"Set your vehicle colour to clear glass"}, 99, Currency.STARS, Rank.DEFAULT, "vc_glass"));
-		toBuy.add(new ColourButton(new ItemStack(Material.ICE), ChatColor.GOLD+"Ice", 
-				new String[]{ChatColor.RED+"Set your vehicle colour to ice"}, 99, Currency.STARS, Rank.DEFAULT, "vc_ice"));
+		ColourButton glass = new ColourButton(new ItemStack(Material.GLASS), ChatColor.GOLD+"Glass", 
+				new String[]{ChatColor.RED+"Set your vehicle colour to clear glass"}, 99, Currency.STARS, Rank.DEFAULT, "vc_glass");
+		ColourButton ice = new ColourButton(new ItemStack(Material.ICE), ChatColor.GOLD+"Ice", 
+				new String[]{ChatColor.RED+"Set your vehicle colour to ice"}, 99, Currency.STARS, Rank.DEFAULT, "vc_ice");
+		toBuy.add(glass);
+		cosmetics.put(glass.getID(), glass);
+		toBuy.add(ice);
+		cosmetics.put(ice.getID(), ice);
 		for(DyeColor color:DyeColor.values()){
-			toBuy.add(new ColourButton(color, 199, Currency.STARS, Rank.VIP, "vc_"+color.name().toLowerCase()));
+			ColourButton but = new ColourButton(color, 199, Currency.STARS, Rank.VIP, "vc_"+color.name().toLowerCase());
+			toBuy.add(but);
+			cosmetics.put(but.getID(), but);
 		}
+		
+		//TODO Also a map of id->carDisplayItem
 	}
 	
 	public PagedMenu getMenu(){
