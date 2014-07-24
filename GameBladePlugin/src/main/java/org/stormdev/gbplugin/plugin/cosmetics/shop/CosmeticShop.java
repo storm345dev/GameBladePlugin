@@ -43,7 +43,7 @@ public class CosmeticShop implements Listener {
 				return;
 			}}, GameBlade.plugin);
 		cosmeticMenu.setOption(0, new ItemStack(Material.PUMPKIN), ChatColor.GOLD+"Hats", ChatColor.RED+"Buy Hats");
-		cosmeticMenu.setOption(1, new ItemStack(Material.MINECART), ChatColor.GOLD+"Vehicles", ChatColor.RED+"Buy Vehicle Cosmetics");
+		//cosmeticMenu.setOption(1, new ItemStack(Material.MINECART), ChatColor.GOLD+"Vehicles", ChatColor.RED+"Buy Vehicle Cosmetics");
 		updateShops();
 	}
 	
