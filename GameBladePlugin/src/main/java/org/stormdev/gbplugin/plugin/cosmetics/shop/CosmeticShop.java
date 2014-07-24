@@ -18,6 +18,7 @@ import org.stormdev.gbapi.gui.IconMenu.OptionClickEvent;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEventHandler;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.cosmetics.CosmeticManager;
+import org.stormdev.gbplugin.plugin.cosmetics.carts.BuyVehicleCosmeticsMenu;
 import org.stormdev.gbplugin.plugin.cosmetics.wear.hats.Hat;
 
 public class CosmeticShop implements Listener {
@@ -38,9 +39,11 @@ public class CosmeticShop implements Listener {
 				int pos = event.getPosition();
 				
 				if(pos == 0){	event.setWillClose(true); openHatMenu(event.getPlayer());}
+				else if(pos == 1){	event.setWillClose(true); openVehicleShopMenu(event.getPlayer());}
 				return;
 			}}, GameBlade.plugin);
 		cosmeticMenu.setOption(0, new ItemStack(Material.PUMPKIN), ChatColor.GOLD+"Hats", ChatColor.RED+"Buy Hats");
+		cosmeticMenu.setOption(1, new ItemStack(Material.MINECART), ChatColor.GOLD+"Vehicles", ChatColor.RED+"Buy Vehicle Cosmetics");
 		updateShops();
 	}
 	
@@ -145,6 +148,10 @@ public class CosmeticShop implements Listener {
 	
 	public void openHatMenu(Player player){
 		openLater(hatMenuPages.get(1), player);
+	}
+	
+	public void openVehicleShopMenu(Player player){
+		openLater(BuyVehicleCosmeticsMenu.getInstance().getMenu(), player);
 	}
 	
 	private void openLater(final IconMenu menu, final Player player){
