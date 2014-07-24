@@ -73,8 +73,16 @@ public class Stars implements org.stormdev.gbapi.stars.Stars{
 
 	@Override
 	public int getStars(String uuid) {
+		if(Bukkit.isPrimaryThread()){
+			throw new RuntimeException("NO synchronous star lookups!");
+		}
 		try {
-			return Integer.parseInt(GameBlade.plugin.GBSQL.searchTable("stars", "uuid", uuid, "stars").toString());
+			int amt = Integer.parseInt(GameBlade.plugin.GBSQL.searchTable("stars", "uuid", uuid, "stars").toString());
+			if(amt < 0){
+				setStars(uuid, 0);
+				amt = 0;
+			}
+			return amt;
 		} catch (Exception e) {
 		}
 		return 0;
@@ -107,6 +115,9 @@ public class Stars implements org.stormdev.gbapi.stars.Stars{
 			@Override
 			public void run() {
 				int i = getStars(uuid)-stars;
+				if(i < 0){
+					i = 0;
+				}
 				try {
 					GameBlade.plugin.GBSQL.setInTable("stars", "uuid", uuid, "stars", i);
 				} catch (SQLException e) {
