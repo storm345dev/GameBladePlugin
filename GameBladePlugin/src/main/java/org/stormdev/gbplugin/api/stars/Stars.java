@@ -65,6 +65,7 @@ public class Stars implements org.stormdev.gbapi.stars.Stars{
 	private void runAsync(Runnable run){
 		if(!(Bukkit.isPrimaryThread())){
 			run.run();
+			return;
 		}
 		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, run);
 	}
@@ -96,7 +97,8 @@ public class Stars implements org.stormdev.gbapi.stars.Stars{
 
 			@Override
 			public void run() {
-				int i = getStars(uuid)+stars;
+				int o = getStars(uuid);
+				int i = o+stars;
 				try {
 					GameBlade.plugin.GBSQL.setInTable("stars", "uuid", uuid, "stars", i);
 				} catch (SQLException e) {
