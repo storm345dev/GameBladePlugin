@@ -10,6 +10,7 @@ import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Wool;
 import org.stormdev.gbapi.cosmetics.Cosmetic;
 import org.stormdev.gbapi.cosmetics.CosmeticType;
 import org.stormdev.gbapi.cosmetics.Currency;
@@ -17,6 +18,7 @@ import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbapi.cosmetics.VehicleColours;
 import org.stormdev.gbapi.gui.PagedMenu;
 import org.stormdev.gbapi.gui.PagedMenu.MenuDetails;
+import org.stormdev.gbplugin.plugin.cosmetics.CosmeticManager;
 
 public class BuyVehicleColoursMenu implements MenuDetails {
 	
@@ -114,8 +116,10 @@ public class BuyVehicleColoursMenu implements MenuDetails {
 	
 	
 	private List<MenuItem> toBuy = new ArrayList<MenuItem>();
-	private Map<String, ColourButton> cosmetics = new TreeMap<String, ColourButton>();
+	private Map<String, ItemStack> cosmeticsCar = new TreeMap<String, ItemStack>();
+	private Map<String, ItemStack> cosmeticsStructure = new TreeMap<String, ItemStack>();
 	
+	@SuppressWarnings("deprecation")
 	public BuyVehicleColoursMenu(){
 		this.menu = new PagedMenu(this);
 		
@@ -124,16 +128,46 @@ public class BuyVehicleColoursMenu implements MenuDetails {
 		ColourButton ice = new ColourButton(new ItemStack(Material.ICE), ChatColor.GOLD+"Ice", 
 				new String[]{ChatColor.RED+"Set your vehicle colour to ice"}, 99, Currency.STARS, Rank.DEFAULT, "vc_ice");
 		toBuy.add(glass);
-		cosmetics.put(glass.getID(), glass);
+		cosmeticsCar.put(glass.getID(), new ItemStack(Material.GLASS));
+		cosmeticsStructure.put(glass.getID(), new ItemStack(Material.GLASS));
+		CosmeticManager.registerCosmetic(glass);
+		
+		ColourButton cop = new ColourButton(new ItemStack(Material.PAPER), ChatColor.GOLD+"Paper", 
+				new String[]{ChatColor.RED+"Set your vehicle colour to flash like a cop car"}, 299, Currency.STARS, Rank.PREMIUM, "vc_cop"); //TODO Actually make work		
+		toBuy.add(cop);
+		cosmeticsCar.put(cop.getID(), new ItemStack(Material.STAINED_GLASS));
+		cosmeticsStructure.put(cop.getID(), new ItemStack(Material.STAINED_GLASS));
+		CosmeticManager.registerCosmetic(cop);
+		
 		toBuy.add(ice);
-		cosmetics.put(ice.getID(), ice);
+		cosmeticsCar.put(ice.getID(), new ItemStack(Material.ICE));
+		cosmeticsStructure.put(ice.getID(), new ItemStack(Material.ICE));
+		CosmeticManager.registerCosmetic(ice);
+		
 		for(DyeColor color:DyeColor.values()){
 			ColourButton but = new ColourButton(color, 199, Currency.STARS, Rank.VIP, "vc_"+color.name().toLowerCase());
 			toBuy.add(but);
-			cosmetics.put(but.getID(), but);
+			
+			Wool w = new Wool();
+			w.setColor(color);
+			ItemStack glas = new ItemStack(Material.STAINED_GLASS, 1, w.getData());
+			
+			cosmeticsCar.put(but.getID(), glas);
+			cosmeticsStructure.put(but.getID(), new ItemStack(Material.STAINED_CLAY, 1, w.getData()));
+			CosmeticManager.registerCosmetic(but);
 		}
-		
-		//TODO Also a map of id->carDisplayItem
+	}
+	
+	public ItemStack getCarCosmeticBlock(String id){
+		return cosmeticsCar.get(id);
+	}
+	
+	public ItemStack getStructureCosmeticBlock(String id){
+		return cosmeticsStructure.get(id);
+	}
+	
+	public List<String> getCosmeticIDs(){
+		return new ArrayList<String>(cosmeticsCar.keySet());
 	}
 	
 	public PagedMenu getMenu(){

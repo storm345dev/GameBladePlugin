@@ -8,22 +8,26 @@ import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.stormdev.gbapi.cosmetics.Cosmetic;
+import org.stormdev.gbapi.cosmetics.CosmeticType;
 import org.stormdev.gbapi.cosmetics.VehicleColours;
 import org.stormdev.gbapi.gui.PagedMenu;
 import org.stormdev.gbapi.gui.PagedMenu.MenuDetails;
+import org.stormdev.gbplugin.plugin.core.GameBlade;
+import org.stormdev.gbplugin.plugin.cosmetics.carts.BuyVehicleColoursMenu.ColourButton;
 
 public class VehicleColoursMenu implements MenuDetails {
 	
-	public static class ColourButton extends AbstractMenuItem {
+	public static class ColouredButton extends AbstractMenuItem {
 
-		public ColourButton(DyeColor color){
+		public ColouredButton(DyeColor color){
 			this(VehicleColours.getItemStack(color), 
 					ChatColor.GOLD+VehicleColours.getCorrectName(color.name()), 
 					new String[]{ChatColor.RED+"Colour your vehicle:", 
 				ChatColor.WHITE+VehicleColours.getCorrectName(color.name())});
 		}
 		
-		public ColourButton(ItemStack display, String colouredTitle,
+		public ColouredButton(ItemStack display, String colouredTitle,
 				String... lore) {
 			super(display, colouredTitle, lore);
 		}
@@ -58,8 +62,19 @@ public class VehicleColoursMenu implements MenuDetails {
 	@Override
 	public List<MenuItem> getDisplayItems(Player player) {
 		List<MenuItem> owned =  Arrays.asList(new MenuItem[]{
-				new ColourButton(new ItemStack(Material.THIN_GLASS), ChatColor.GOLD+"Clear", ChatColor.RED+"Don't colour your vehicle")
+				new ColouredButton(new ItemStack(Material.THIN_GLASS), ChatColor.GOLD+"Clear", ChatColor.RED+"Don't colour your vehicle")
 		});
+		
+		List<Cosmetic> cosmetics = GameBlade.plugin.cosmeticManager.getOwnedByType(player, CosmeticType.VEHICLE_COLOUR);
+		for(Cosmetic c:cosmetics){
+			if(c instanceof ColourButton){
+				ColourButton cb = (ColourButton) c;
+				owned.add(new ColouredButton(((ColourButton) c).getDisplayItem().clone(), 
+						ChatColor.GOLD+cb.getColouredTitle(), 
+						ChatColor.RED+"Set your vehicle colour to:", 
+						ChatColor.WHITE+ChatColor.stripColor(cb.getColouredTitle())));
+			}
+		}
 		//TODO Add to owned all the colours they own (Using new ColourButton(DyeColor.xxx); )
 		return owned;
 	}

@@ -18,6 +18,7 @@ import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbapi.storm.tokens.Tokens.TokenServiceUnavailableException;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
+import org.stormdev.gbplugin.plugin.cosmetics.carts.BuyVehicleColoursMenu;
 import org.stormdev.gbplugin.plugin.cosmetics.shop.CosmeticShop;
 import org.stormdev.gbplugin.plugin.cosmetics.wear.hats.HatMenu;
 import org.stormdev.gbplugin.plugin.cosmetics.wear.hats.HatRegistry;
@@ -42,6 +43,8 @@ public class CosmeticManager implements Cosmetics{
 	public CosmeticManager(){
 		GameBlade.logger.info("Loading cosmetics...");
 		HatRegistry.load();
+		BuyVehicleColoursMenu.getInstance(); //Register cosmetics for vehicles
+		
 		GameBlade.logger.info("Cosmetics loaded!");
 		GameBlade.plugin.GBSQL.createTable(SQL_TABLE, new String[]{SQL_ID_KEY, SQL_COSMETICS_KEY, SQL_HAT_KEY}, new String[]{"varchar(255) NOT NULL PRIMARY KEY", "longtext", "varchar(255)"});
 		shop = new CosmeticShop(this);
@@ -62,6 +65,16 @@ public class CosmeticManager implements Cosmetics{
 	
 	public void registerACosmetic(Cosmetic cosmetic){
 		cosmetics.put(cosmetic.getID(), cosmetic);
+	}
+	
+	public List<Cosmetic> getOwnedByType(Player player, CosmeticType type){
+		List<Cosmetic> results = new ArrayList<Cosmetic>();
+		for(Cosmetic c:getOwnedCosmetics(player)){
+			if(c.getType().equals(type)){
+				results.add(c);
+			}
+		}
+		return results;
 	}
 	
 	public List<Cosmetic> getAllByType(CosmeticType type){
