@@ -148,7 +148,7 @@ public class BuyVehicleColoursMenu implements MenuDetails {
 		ColourButton ice = new ColourButton(new ItemStack(Material.ICE), "ice", 
 				399, Currency.STARS, Rank.PREMIUM_PLUS, "vc_ice");
 		toBuy.add(glass);
-		cosmeticsCar.put(glass.getID(), new BlockVehicleColour(new ItemStack(Material.GLASS)));
+		cosmeticsCar.put(glass.getID(), new BlockVehicleColour(new ItemStack(Material.GLASS), 5));
 		cosmeticsStructure.put(glass.getID(), new ItemStack(Material.GLASS));
 		CosmeticManager.registerCosmetic(glass);
 		
@@ -156,8 +156,8 @@ public class BuyVehicleColoursMenu implements MenuDetails {
 				299, Currency.STARS, Rank.PREMIUM, "vc_cop");	
 		toBuy.add(cop);
 		cosmeticsCar.put(cop.getID(), new BlockChangingVehicleColour(
-				40l, new BlockVehicleColour(new ItemStack(Material.STAINED_GLASS, 1, (byte) 11)), //Blue stained glass
-				new BlockVehicleColour(new ItemStack(Material.STAINED_GLASS, 1, (byte) 14)) //Red stained glass
+				20l, new BlockVehicleColour(new ItemStack(Material.WOOL, 1, (byte) 11), 5), //Blue stained glass
+				new BlockVehicleColour(new ItemStack(Material.WOOL, 1, (byte) 14), 5) //Red stained glass
 				));
 		cosmeticsStructure.put(cop.getID(), new ItemStack(Material.STAINED_GLASS));
 		CosmeticManager.registerCosmetic(cop);
@@ -175,29 +175,16 @@ public class BuyVehicleColoursMenu implements MenuDetails {
 				499, Currency.STARS, Rank.PREMIUM_PLUS, "vc_rainbow");
 		toBuy.add(rainbow);
 		cosmeticsCar.put(rainbow.getID(), new BlockChangingVehicleColour(
-				40l, getAllStainedGlass()));
+				20l, getAllStainedGlass()));
 		cosmeticsStructure.put(rainbow.getID(), new ItemStack(Material.STAINED_GLASS));
 		CosmeticManager.registerCosmetic(rainbow);
 		
 		toBuy.add(ice);
-		cosmeticsCar.put(ice.getID(), new BlockVehicleColour(new ItemStack(Material.ICE)));
+		cosmeticsCar.put(ice.getID(), new BlockVehicleColour(new ItemStack(Material.ICE), 5));
 		cosmeticsStructure.put(ice.getID(), new ItemStack(Material.ICE));
 		CosmeticManager.registerCosmetic(ice);
 		
-		Registry.registerAll(this);
-		
-		for(DyeColor color:DyeColor.values()){
-			ColourButton but = new ColourButton(color, 199, Currency.STARS, Rank.VIP, "vc_"+color.name().toLowerCase());
-			toBuy.add(but);
-			
-			Wool w = new Wool();
-			w.setColor(color);
-			ItemStack glas = new ItemStack(Material.STAINED_GLASS, 1, w.getData());
-			
-			cosmeticsCar.put(but.getID(), new BlockVehicleColour(glas));
-			cosmeticsStructure.put(but.getID(), new ItemStack(Material.STAINED_CLAY, 1, w.getData()));
-			CosmeticManager.registerCosmetic(but);
-		}
+		VehicleCosmeticRegistry.registerAll(this);
 	}
 	
 	public void register(ColourButton but, ColouredVehicle vehCol, ItemStack structure){
@@ -211,7 +198,7 @@ public class BuyVehicleColoursMenu implements MenuDetails {
 		List<BlockVehicleColour> list = new ArrayList<BlockVehicleColour>();
 		
 		for(int i=0;i<16;i++){ //From 0 to 15
-			list.add(new BlockVehicleColour(new ItemStack(Material.STAINED_GLASS, 1, (byte) i)));
+			list.add(new BlockVehicleColour(new ItemStack(Material.STAINED_CLAY, 1, (byte) i), 5));
 		}
 		
 		return list.toArray(new BlockVehicleColour[]{});
@@ -222,12 +209,12 @@ public class BuyVehicleColoursMenu implements MenuDetails {
 		
 		int z = 10;
 		for(int i=0;i<16;i++){ //From 0 to 15
-			list.add(new BlockVehicleColour(new ItemStack(Material.STAINED_GLASS, 1, (byte) i), z));
+			list.add(new BlockVehicleColour(new ItemStack(Material.STAINED_CLAY, 1, (byte) i), z));
 			z++;
 		}
 		
 		for(int i=0;i<16;i++){ //From 0 to 15
-			list.add(new BlockVehicleColour(new ItemStack(Material.STAINED_GLASS, 1, (byte) i), z));
+			list.add(new BlockVehicleColour(new ItemStack(Material.STAINED_CLAY, 1, (byte) i), z));
 			z--;
 		}
 		

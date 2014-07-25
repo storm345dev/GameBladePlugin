@@ -69,6 +69,7 @@ public interface ColouredVehicle {
 		}
 		
 		public void cancel(Minecart cart){
+			cart.removeMetadata(TASK_META_VAL, GameBlade.plugin);
 			if(!cart.hasMetadata(TASK_META)){
 				return;
 			}
@@ -101,6 +102,9 @@ public interface ColouredVehicle {
 				}
 			}
 			
+			if(pos >= colours.length){
+				pos = 0;
+			}
 			BlockVehicleColour c = colours[pos];
 			c.apply(m, null);
 			
