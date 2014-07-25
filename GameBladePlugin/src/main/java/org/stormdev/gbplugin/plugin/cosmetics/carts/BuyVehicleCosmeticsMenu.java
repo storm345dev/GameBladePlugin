@@ -3,7 +3,6 @@ package org.stormdev.gbplugin.plugin.cosmetics.carts;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.material.Dye;
 import org.stormdev.gbapi.gui.IconMenu;

@@ -254,6 +254,7 @@ public class HatMenu implements Listener {
 	private void runAsync(Runnable run){
 		if(!Bukkit.isPrimaryThread()){
 			run.run();
+			return;
 		}
 		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, run);
 	}

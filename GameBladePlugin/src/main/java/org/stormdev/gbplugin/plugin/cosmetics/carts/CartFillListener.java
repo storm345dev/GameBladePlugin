@@ -78,6 +78,14 @@ public class CartFillListener implements Listener {
 		
 		if(m.hasMetadata(SET_META)){
 			//Clear it
+			if(m.hasMetadata("vehicle.fillHandler")){
+				Object o = m.getMetadata("vehicle.fillHandler").get(0).value();
+				if(o instanceof ColouredVehicle){
+					ColouredVehicle cv = (ColouredVehicle) o;
+					cv.remove(m);
+				}
+				m.removeMetadata("vehicle.fillHandler", GameBlade.plugin);
+			}
 			CartFiller.putBlockInCar(m, 0, 0);
 			m.removeMetadata(SET_META, GameBlade.plugin);
 		}
@@ -89,8 +97,8 @@ public class CartFillListener implements Listener {
 		
 		try{
 			
-			//TODO Fill IF they deserve it
-			//CartFiller.putBlockInCar(m, 20, 0, 15);
+			GameBlade.plugin.cosmeticManager.getActiveCosmeticManager().fillMinecartVehicle(m, player);
+			//CartFiller.putBlockInCar(m, 159, 11);
 			
 			m.removeMetadata(SET_META, GameBlade.plugin);
 			m.setMetadata(SET_META, new MetadataValue(true, GameBlade.plugin));

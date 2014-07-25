@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.stormdev.gbapi.cosmetics.ActiveCosmeticManager;
 import org.stormdev.gbapi.cosmetics.Cosmetic;
 import org.stormdev.gbapi.cosmetics.CosmeticType;
 import org.stormdev.gbapi.cosmetics.Cosmetics;
@@ -40,6 +41,8 @@ public class CosmeticManager implements Cosmetics{
 		}
 	}
 	
+	private ActiveManager activeManager;
+	
 	public CosmeticManager(){
 		GameBlade.logger.info("Loading cosmetics...");
 		HatRegistry.load();
@@ -49,6 +52,7 @@ public class CosmeticManager implements Cosmetics{
 		GameBlade.plugin.GBSQL.createTable(SQL_TABLE, new String[]{SQL_ID_KEY, SQL_COSMETICS_KEY, SQL_HAT_KEY}, new String[]{"varchar(255) NOT NULL PRIMARY KEY", "longtext", "varchar(255)"});
 		shop = new CosmeticShop(this);
 		hatMenu = new HatMenu(this);
+		this.activeManager = new ActiveManager();
 	}
 	
 	public Cosmetic get(String id){
@@ -270,5 +274,10 @@ public class CosmeticManager implements Cosmetics{
 	public boolean ownsCosmetic(Player player, String cosmeticId) {
 		notSync();
 		return getOwnedCosmeticIds(player).contains(cosmeticId);
+	}
+
+	@Override
+	public ActiveCosmeticManager getActiveCosmeticManager() {
+		return activeManager;
 	}
 }

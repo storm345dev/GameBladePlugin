@@ -18,7 +18,10 @@ import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbapi.cosmetics.VehicleColours;
 import org.stormdev.gbapi.gui.PagedMenu;
 import org.stormdev.gbapi.gui.PagedMenu.MenuDetails;
+import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.cosmetics.CosmeticManager;
+import org.stormdev.gbplugin.plugin.cosmetics.carts.ColouredVehicle.BlockChangingVehicleColour;
+import org.stormdev.gbplugin.plugin.cosmetics.carts.ColouredVehicle.BlockVehicleColour;
 
 public class BuyVehicleColoursMenu implements MenuDetails {
 	
@@ -33,7 +36,11 @@ public class BuyVehicleColoursMenu implements MenuDetails {
 		public ColourButton(DyeColor color, int cost, Currency currency, Rank minimumRank, String id){
 			this(VehicleColours.getItemStack(color), 
 					ChatColor.GOLD+VehicleColours.getCorrectName(color.name()), 
-					new String[]{ChatColor.RED+"Colour your vehicle:", 
+					new String[]{
+				ChatColor.RED+"Cost:",
+				ChatColor.WHITE+""+cost+" "+currency.getName(),
+				minimumRank != Rank.DEFAULT ? ChatColor.YELLOW+minimumRank.getName()+" or higher":"",
+				ChatColor.RED+"Colour your vehicle:", 
 				ChatColor.WHITE+VehicleColours.getCorrectName(color.name())},
 				cost, currency, minimumRank, id
 			);
@@ -48,11 +55,24 @@ public class BuyVehicleColoursMenu implements MenuDetails {
 			this.name = ChatColor.stripColor(colouredTitle);
 			this.id = id;
 		}
+		
+		public ColourButton(ItemStack display, String color, int cost, Currency currency, Rank minimumRank, String id){
+			this(display, 
+					ChatColor.GOLD+VehicleColours.getCorrectName(color), 
+					new String[]{
+				ChatColor.RED+"Cost:",
+				ChatColor.WHITE+""+cost+" "+currency.getName(),
+				minimumRank != Rank.DEFAULT ? ChatColor.YELLOW+minimumRank.getName()+" or higher":"",
+				ChatColor.RED+"Colour your vehicle:", 
+				ChatColor.WHITE+VehicleColours.getCorrectName(color)},
+				cost, currency, minimumRank, id
+			);
+		}
 
 		@Override
 		public void onClick(Player player) {
-			player.sendMessage("You clicked "+super.getColouredTitle());
-			//TODO ACTUALLY do something useful
+			player.sendMessage("Selected: "+super.getColouredTitle());
+			GameBlade.plugin.cosmeticManager.purchaseCosmetic(player, this);
 		}
 
 		@Override
@@ -67,7 +87,7 @@ public class BuyVehicleColoursMenu implements MenuDetails {
 
 		@Override
 		public boolean apply(Player player) {
-			//TODO Set as their active vehicle colour
+			GameBlade.plugin.cosmeticManager.getActiveCosmeticManager().setActiveCosmeticIDForType(player, CosmeticType.VEHICLE_COLOUR, id);
 			return true;
 		}
 
@@ -78,7 +98,7 @@ public class BuyVehicleColoursMenu implements MenuDetails {
 
 		@Override
 		public void justBought(Player player) {
-			// TODO 
+			player.sendMessage(ChatColor.BLUE+"Nice vehicle colour! To apply it to your vehicle, go into 'Manage Cosmetics'->'Vehicle Paint' and select it!");
 		}
 
 		@Override
@@ -116,33 +136,55 @@ public class BuyVehicleColoursMenu implements MenuDetails {
 	
 	
 	private List<MenuItem> toBuy = new ArrayList<MenuItem>();
-	private Map<String, ItemStack> cosmeticsCar = new TreeMap<String, ItemStack>();
+	private Map<String, ColouredVehicle> cosmeticsCar = new TreeMap<String, ColouredVehicle>();
 	private Map<String, ItemStack> cosmeticsStructure = new TreeMap<String, ItemStack>();
 	
 	@SuppressWarnings("deprecation")
 	public BuyVehicleColoursMenu(){
 		this.menu = new PagedMenu(this);
 		
-		ColourButton glass = new ColourButton(new ItemStack(Material.GLASS), ChatColor.GOLD+"Glass", 
-				new String[]{ChatColor.RED+"Set your vehicle colour to clear glass"}, 99, Currency.STARS, Rank.DEFAULT, "vc_glass");
-		ColourButton ice = new ColourButton(new ItemStack(Material.ICE), ChatColor.GOLD+"Ice", 
-				new String[]{ChatColor.RED+"Set your vehicle colour to ice"}, 99, Currency.STARS, Rank.DEFAULT, "vc_ice");
+		ColourButton glass = new ColourButton(new ItemStack(Material.GLASS),
+				"glass", 99, Currency.STARS, Rank.DEFAULT, "vc_glass");
+		ColourButton ice = new ColourButton(new ItemStack(Material.ICE), "ice", 
+				399, Currency.STARS, Rank.PREMIUM_PLUS, "vc_ice");
 		toBuy.add(glass);
-		cosmeticsCar.put(glass.getID(), new ItemStack(Material.GLASS));
+		cosmeticsCar.put(glass.getID(), new BlockVehicleColour(new ItemStack(Material.GLASS)));
 		cosmeticsStructure.put(glass.getID(), new ItemStack(Material.GLASS));
 		CosmeticManager.registerCosmetic(glass);
 		
-		ColourButton cop = new ColourButton(new ItemStack(Material.PAPER), ChatColor.GOLD+"Paper", 
-				new String[]{ChatColor.RED+"Set your vehicle colour to flash like a cop car"}, 299, Currency.STARS, Rank.PREMIUM, "vc_cop"); //TODO Actually make work		
+		ColourButton cop = new ColourButton(new ItemStack(Material.PAPER), "Cop (Changes colour)",
+				299, Currency.STARS, Rank.PREMIUM, "vc_cop");	
 		toBuy.add(cop);
-		cosmeticsCar.put(cop.getID(), new ItemStack(Material.STAINED_GLASS));
+		cosmeticsCar.put(cop.getID(), new BlockChangingVehicleColour(
+				40l, new BlockVehicleColour(new ItemStack(Material.STAINED_GLASS, 1, (byte) 11)), //Blue stained glass
+				new BlockVehicleColour(new ItemStack(Material.STAINED_GLASS, 1, (byte) 14)) //Red stained glass
+				));
 		cosmeticsStructure.put(cop.getID(), new ItemStack(Material.STAINED_GLASS));
 		CosmeticManager.registerCosmetic(cop);
 		
+		ColourButton funky = new ColourButton(new ItemStack(Material.PAPER), "Funky (Changes colour & Height)",
+				999, Currency.STARS, Rank.PREMIUM_PLUS, "vc_funky");	
+		toBuy.add(funky);
+		cosmeticsCar.put(funky.getID(), new BlockChangingVehicleColour(
+				5l, getFunky() //Red stained glass
+				));
+		cosmeticsStructure.put(funky.getID(), new ItemStack(Material.STAINED_GLASS));
+		CosmeticManager.registerCosmetic(funky);
+		
+		ColourButton rainbow = new ColourButton(new ItemStack(Material.PAPER), "Rainbow (Changes colour)",
+				499, Currency.STARS, Rank.PREMIUM_PLUS, "vc_rainbow");
+		toBuy.add(rainbow);
+		cosmeticsCar.put(rainbow.getID(), new BlockChangingVehicleColour(
+				40l, getAllStainedGlass()));
+		cosmeticsStructure.put(rainbow.getID(), new ItemStack(Material.STAINED_GLASS));
+		CosmeticManager.registerCosmetic(rainbow);
+		
 		toBuy.add(ice);
-		cosmeticsCar.put(ice.getID(), new ItemStack(Material.ICE));
+		cosmeticsCar.put(ice.getID(), new BlockVehicleColour(new ItemStack(Material.ICE)));
 		cosmeticsStructure.put(ice.getID(), new ItemStack(Material.ICE));
 		CosmeticManager.registerCosmetic(ice);
+		
+		Registry.registerAll(this);
 		
 		for(DyeColor color:DyeColor.values()){
 			ColourButton but = new ColourButton(color, 199, Currency.STARS, Rank.VIP, "vc_"+color.name().toLowerCase());
@@ -152,13 +194,47 @@ public class BuyVehicleColoursMenu implements MenuDetails {
 			w.setColor(color);
 			ItemStack glas = new ItemStack(Material.STAINED_GLASS, 1, w.getData());
 			
-			cosmeticsCar.put(but.getID(), glas);
+			cosmeticsCar.put(but.getID(), new BlockVehicleColour(glas));
 			cosmeticsStructure.put(but.getID(), new ItemStack(Material.STAINED_CLAY, 1, w.getData()));
 			CosmeticManager.registerCosmetic(but);
 		}
 	}
 	
-	public ItemStack getCarCosmeticBlock(String id){
+	public void register(ColourButton but, ColouredVehicle vehCol, ItemStack structure){
+		toBuy.add(but);
+		cosmeticsCar.put(but.getID(), vehCol);
+		cosmeticsStructure.put(but.getID(), structure);
+		CosmeticManager.registerCosmetic(but);
+	}
+	
+	public BlockVehicleColour[] getAllStainedGlass(){
+		List<BlockVehicleColour> list = new ArrayList<BlockVehicleColour>();
+		
+		for(int i=0;i<16;i++){ //From 0 to 15
+			list.add(new BlockVehicleColour(new ItemStack(Material.STAINED_GLASS, 1, (byte) i)));
+		}
+		
+		return list.toArray(new BlockVehicleColour[]{});
+	}
+	
+	public BlockVehicleColour[] getFunky(){
+		List<BlockVehicleColour> list = new ArrayList<BlockVehicleColour>();
+		
+		int z = 10;
+		for(int i=0;i<16;i++){ //From 0 to 15
+			list.add(new BlockVehicleColour(new ItemStack(Material.STAINED_GLASS, 1, (byte) i), z));
+			z++;
+		}
+		
+		for(int i=0;i<16;i++){ //From 0 to 15
+			list.add(new BlockVehicleColour(new ItemStack(Material.STAINED_GLASS, 1, (byte) i), z));
+			z--;
+		}
+		
+		return list.toArray(new BlockVehicleColour[]{});
+	}
+	
+	public ColouredVehicle getCarCosmeticBlock(String id){
 		return cosmeticsCar.get(id);
 	}
 	
