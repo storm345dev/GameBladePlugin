@@ -148,7 +148,7 @@ public class BuyVehicleColoursMenu implements MenuDetails {
 		ColourButton ice = new ColourButton(new ItemStack(Material.ICE), "ice", 
 				399, Currency.STARS, Rank.PREMIUM_PLUS, "vc_ice");
 		toBuy.add(glass);
-		cosmeticsCar.put(glass.getID(), new BlockVehicleColour(new ItemStack(Material.GLASS), 5));
+		cosmeticsCar.put(glass.getID(), new BlockVehicleColour(new ItemStack(Material.GLASS)));
 		cosmeticsStructure.put(glass.getID(), new ItemStack(Material.GLASS));
 		CosmeticManager.registerCosmetic(glass);
 		
