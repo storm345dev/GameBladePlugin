@@ -12,6 +12,7 @@ import org.stormdev.gbapi.storm.misc.MetadataValue;
 import org.stormdev.gbapi.storm.misc.Sch;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.cosmetics.carts.BuyVehicleColoursMenu;
+import org.stormdev.gbplugin.plugin.cosmetics.carts.CartFiller;
 import org.stormdev.gbplugin.plugin.cosmetics.carts.ColouredVehicle;
 
 public class ActiveManager implements org.stormdev.gbapi.cosmetics.ActiveCosmeticManager {
@@ -124,11 +125,13 @@ public class ActiveManager implements org.stormdev.gbapi.cosmetics.ActiveCosmeti
 			public void run() {
 				String active = getActiveCosmeticIDForType(CosmeticType.VEHICLE_COLOUR, player);
 				if(active == null){ //None active
+					CartFiller.putBlockInCar(cart, 0, 0);
 					return;
 				}
 				
 				ColouredVehicle handler = BuyVehicleColoursMenu.getInstance().getCarCosmeticBlock(active);
 				if(handler == null){
+					CartFiller.putBlockInCar(cart, 0, 0);
 					return;
 				}
 				
