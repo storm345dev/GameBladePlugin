@@ -28,7 +28,12 @@ public class CosmeticManagePanel implements OptionClickEventHandler {
 		this.menu = new IconMenu(ChatColor.YELLOW+"Manage Cosmetics", 9, this, GameBlade.plugin);
 		menu.setOption(0, new ItemStack(Material.PUMPKIN), ChatColor.RED+"Hats", ChatColor.GOLD+"Manage your owned hats");
 		menu.setOption(1, new ItemStack(Material.MINECART), ChatColor.RED+"Vehicle Paint", ChatColor.GOLD+"Manage your vehicle colour");
-		menu.setOption(8, new ItemStack(Material.PAPER), ChatColor.RED+"My Stars", ChatColor.GOLD+"Click to see how many stars you have");
+		menu.setOption(8, new ItemStack(Material.PAPER), ChatColor.RED+"My Stars", ChatColor.GOLD+"Click to see how many stars you have"
+				,"",
+				ChatColor.RED+"About Stars:",
+				ChatColor.GOLD+"Stars are a currency",
+				ChatColor.GOLD+"used only for cosmetics.",
+				ChatColor.WHITE+"Buy stars at http://store.gameblade.net");
 	}
 	
 	public void open(Player player){
