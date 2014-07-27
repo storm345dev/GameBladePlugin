@@ -12,6 +12,7 @@ import org.stormdev.gbapi.storm.misc.MetadataValue;
 import org.stormdev.gbapi.storm.misc.Sch;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.cosmetics.carts.BuyVehicleColoursMenu;
+import org.stormdev.gbplugin.plugin.cosmetics.carts.CartFillListener;
 import org.stormdev.gbplugin.plugin.cosmetics.carts.CartFiller;
 import org.stormdev.gbplugin.plugin.cosmetics.carts.ColouredVehicle;
 
@@ -141,6 +142,12 @@ public class ActiveManager implements org.stormdev.gbapi.cosmetics.ActiveCosmeti
 				return;
 			}});
 		return;
+	}
+
+	@Override
+	public void clearMinecartOfCosmetics(Minecart cart) {
+		cart.setMetadata("noCosmetics", new MetadataValue(true, GameBlade.plugin));
+		CartFillListener.clearCar(cart);
 	}
 
 }

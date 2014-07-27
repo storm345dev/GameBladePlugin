@@ -44,6 +44,10 @@ public class CartFillListener implements Listener {
 		
 		Minecart mi = (Minecart) m;
 		
+		if(mi.hasMetadata("noCosmetics")){
+			return;
+		}
+		
 		fillCar(mi, player);
 	}
 	
@@ -64,7 +68,7 @@ public class CartFillListener implements Listener {
 		clearCar((Minecart) m);
 	}
 	
-	private void clearCar(Minecart m){
+	public static void clearCar(Minecart m){
 		long start = System.currentTimeMillis();
 		while(m.hasMetadata(SETTING_META)
 				&& (System.currentTimeMillis() - start) < 10000){
