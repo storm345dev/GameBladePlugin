@@ -259,6 +259,44 @@ public class HatMenu implements Listener {
 		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, run);
 	}
 	
+	public void calculateHat(final Player player){
+		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
+
+			@Override
+			public void run() {
+				if(player == null){
+					return;
+				}
+				Object o;
+				try {
+					o = GameBlade.plugin.GBSQL.searchTable(CosmeticManager.SQL_TABLE, CosmeticManager.SQL_ID_KEY, 
+							PlayerIDFinder.getMojangID(player).getID(), CosmeticManager.SQL_HAT_KEY);
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return;
+				}
+				
+				if(o != null && !o.toString().equals("null")){
+					String cId = o.toString();
+					Cosmetic c = GameBlade.plugin.cosmeticManager.get(cId);
+					if(c instanceof Hat){
+						final Hat hat = (Hat) c;
+						if(player != null){
+							if(!hat.apply(player)){
+								return;
+							}
+							player.removeMetadata("wearingHat", GameBlade.plugin);
+							if(!player.hasMetadata("wearingHat")){
+								player.setMetadata("wearingHat", new MetaValue(c, GameBlade.plugin));
+							}
+						}
+					}
+				}
+				
+				return;
+			}});
+	}
+	
 	@EventHandler
 	void onJoin(PlayerJoinEvent event){
 		final Player player = event.getPlayer();

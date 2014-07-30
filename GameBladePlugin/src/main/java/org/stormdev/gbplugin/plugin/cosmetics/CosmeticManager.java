@@ -280,4 +280,15 @@ public class CosmeticManager implements Cosmetics{
 	public ActiveCosmeticManager getActiveCosmeticManager() {
 		return activeManager;
 	}
+
+	@Override
+	public void clearHat(Player player) {
+		HatMenu.takeOffHatPhysicallyIfHatIsWorn(player);
+	}
+
+	@Override
+	public void recalculateHat(Player player) {
+		clearHat(player);
+		hatMenu.calculateHat(player);
+	}
 }
