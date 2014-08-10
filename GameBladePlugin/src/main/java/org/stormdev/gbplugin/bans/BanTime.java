@@ -25,4 +25,44 @@ public enum BanTime {
 	public String getUserFriendlyName(){
 		return name;
 	}
+	
+	public static Time getFromUserInput(String input){
+		input = input.toLowerCase();
+		if(input.equalsIgnoreCase("") || input.equalsIgnoreCase("forever")){
+			return FOREVER.getNewTime();
+		}
+		// "+\d{1}\D" -> regex for 9a, 5g, etc
+		if(!input.matches("\\d+\\D{1}")){
+			if(!input.matches("\\d+")){
+				return null;
+			}
+			System.out.println(Long.parseLong(input)+"minutes");
+			return new Time((long)(Times.minute*Long.parseLong(input)));
+		}
+		String timeRaw = input.replaceAll("\\D", "");//Remove all non-numbers
+		String timeMode = input.replaceAll("\\d", ""); //Remove all numbers
+		
+		long time = Long.parseLong(timeRaw);
+		long duration = 1*Times.minute;
+		
+		if(timeMode.equalsIgnoreCase("s")){
+			duration = time*(1/60)*Times.minute;
+		}
+		else if(timeMode.equalsIgnoreCase("h")){
+			duration = time * Times.hour;
+		}
+		else if(timeMode.equalsIgnoreCase("d")){
+			duration = time * Times.day;
+		}
+		else if(timeMode.equalsIgnoreCase("w")){
+			duration = time * Times.week;
+		}
+		else if(timeMode.equalsIgnoreCase("m")){
+			duration = time * Times.month;
+		}
+		else if(timeMode.equalsIgnoreCase("y")){
+			duration = time * Times.month*12;
+		}
+		return new Time(duration);
+	}
 }

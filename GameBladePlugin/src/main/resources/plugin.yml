@@ -17,7 +17,7 @@ commands:
         aliases: [tempban, punish]
         permission: gameblade.admin
         permission-message: Unknown command. Type "/help" for help.
-        usage: /<command>
+        usage: /<command> (<Player> <Time> <Reason>)
         default: op
     kick:
         description: Kick command

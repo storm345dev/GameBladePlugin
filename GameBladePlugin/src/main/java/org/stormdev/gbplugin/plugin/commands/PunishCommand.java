@@ -6,8 +6,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.stormdev.gbapi.bans.BanHandler.Time;
 import org.stormdev.gbapi.bans.PunishmentLogs.PunishmentType;
+import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbplugin.bans.BanPanel;
+import org.stormdev.gbplugin.bans.BanTime;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 
 public class PunishCommand implements CommandExecutor {
@@ -20,10 +23,59 @@ public class PunishCommand implements CommandExecutor {
 			return true;
 		}
 		
-		Player player = (Player) sender;
+		final Player player = (Player) sender;
 		
 		if(args.length > 0 && cmd.getName().equalsIgnoreCase("ban")){
-			player.sendMessage(ChatColor.RED+"I know you tried to do this with a command; but bans MUST use the mod panel (Reasons and times, etc)");
+			if(args.length < 3){
+				return false;
+			}
+			final String name = args[0];
+			String timeRaw = args[1];
+			
+			final StringBuilder reason = new StringBuilder(args[2]);
+			for(int i=3;i<args.length;i++){
+				reason.append(" ").append(args[i]);
+			}
+			
+			final Time time = BanTime.getFromUserInput(timeRaw);
+			if(time == null){
+				sender.sendMessage(ChatColor.RED+"Invalid time format!");
+				sender.sendMessage(ChatColor.RED+"Valid formats:");
+				sender.sendMessage(ChatColor.GREEN+"'forever' = forever");
+				sender.sendMessage(ChatColor.GREEN+"'1s' = 1 second");
+				sender.sendMessage(ChatColor.GREEN+"'1' = 1 minute");
+				sender.sendMessage(ChatColor.GREEN+"'1h' = 1 hour");
+				sender.sendMessage(ChatColor.GREEN+"'1d' = 1 day");
+				sender.sendMessage(ChatColor.GREEN+"'1w' = 1 week");
+				sender.sendMessage(ChatColor.GREEN+"'1m' = 1 month");
+				sender.sendMessage(ChatColor.GREEN+"'1y' = 1 year");
+				return true;
+			}
+			
+			Player toBan = Bukkit.getPlayerExact(name);
+			if(toBan != null){
+				GameBlade.api.getBans().ban(toBan, player, reason.toString(), time);
+			}
+			else {
+				Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
+
+					@Override
+					public void run() {
+						GameBlade.api.getBans().ban(PlayerIDFinder.getMojangID(name).getID(), player, reason.toString(), time);
+						return;
+					}});
+			}
+			
+			String duration = time.isForever() ? "forever":((int) (time.getDuration()/1000/60/60))+" hours";
+			player.sendMessage(ChatColor.GREEN+"Banned!");
+			
+			for(Player p:Bukkit.getOnlinePlayers()){
+				if(p.hasPermission("gameblade.admin")){
+					p.sendMessage(ChatColor.YELLOW+player.getName()+" has banned "+name+" for "+reason+" for "+duration+"!");
+				}
+			}
+			GameBlade.logger.info(ChatColor.YELLOW+player.getName()+" has banned "+name+" for "+reason+" for "+duration+"!");
+			return true;
 		}
 		else if(args.length > 0){
 			//They're tryng to do the commands
