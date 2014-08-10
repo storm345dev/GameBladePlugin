@@ -244,7 +244,7 @@ public class BanPanel {
 			return;
 		}
 		
-		player.sendMessage(ChatColor.GREEN+"Kicked!");
+		player.sendMessage(ChatColor.GREEN+"Warned!");
 		for(Player p:Bukkit.getOnlinePlayers()){
 			if(p.hasPermission("gameblade.admin")){
 				p.sendMessage(ChatColor.YELLOW+player.getName()+" has warned "+otherPlayer+" for "+reason+"!");
