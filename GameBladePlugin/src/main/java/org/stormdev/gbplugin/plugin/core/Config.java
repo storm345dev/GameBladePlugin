@@ -11,6 +11,7 @@ public class Config extends ConfigBase {
 	public static ConfigSetting<Boolean> overrideChat = new ConfigSetting<Boolean>("general.chat.override", false);
 	public static ConfigSetting<Boolean> enableHats = new ConfigSetting<Boolean>("general.hats.enable", true);
 	public static ConfigSetting<Boolean> enableFancyCars = new ConfigSetting<Boolean>("general.fancycars.enable", true);
+	public static ConfigSetting<Boolean> enableUUIDCorrection = new ConfigSetting<Boolean>("general.uuidCorrection.enable", true);
 	
 	public static ConfigSetting<Boolean> isLobby = new ConfigSetting<Boolean>("general.isLobby", false);
 	

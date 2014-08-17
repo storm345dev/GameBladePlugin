@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder.MojangID;
 import org.stormdev.gbapi.storm.UUIDAPI.UUIDLoadEvent;
+import org.stormdev.gbplugin.plugin.core.Config;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 
 public class UUIDListener implements Listener {
@@ -59,7 +60,9 @@ public class UUIDListener implements Listener {
 		final String pName = player.getName();
 		if(handledLogins.containsKey(pName)){
 			UUID id = PlayerIDFinder.getAsUUID(handledLogins.get(pName).getID());
-			PlayerIDFinder.PlayerReflect.setPlayerUUID(player, id);
+			if(Config.enableUUIDCorrection.getValue()){
+				PlayerIDFinder.PlayerReflect.setPlayerUUID(player, id);
+			}
 		}
 	}
 	
@@ -82,7 +85,9 @@ public class UUIDListener implements Listener {
 			id = handledLogins.get(player.getName());
 			uid = PlayerIDFinder.getAsUUID(id.getID());
 			handledLogins.remove(player.getName());
-			PlayerIDFinder.PlayerReflect.setPlayerUUID(player, uid);
+			if(Config.enableUUIDCorrection.getValue()){
+				PlayerIDFinder.PlayerReflect.setPlayerUUID(player, uid);
+			}
 		}
 		else {
 			
