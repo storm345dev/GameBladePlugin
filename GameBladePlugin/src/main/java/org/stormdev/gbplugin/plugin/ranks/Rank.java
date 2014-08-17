@@ -1,6 +1,5 @@
 package org.stormdev.gbplugin.plugin.ranks;
 
-
 public enum Rank {
 DEFAULT(1),
 VIP(2),

@@ -26,6 +26,13 @@ commands:
         permission-message: Unknown command. Type "/help" for help.
         usage: /<command> <Player>
         default: op
+    setrank:
+        description: See a player's inventory
+        aliases: [rankset]
+        permission: gameblade.admin
+        permission-message: Unknown command. Type "/help" for help.
+        usage: /<command> <Player> <Rank>
+        default: op
     kick:
         description: Kick command
         aliases: [arsekick]
