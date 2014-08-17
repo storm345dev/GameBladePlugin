@@ -19,6 +19,13 @@ commands:
         permission-message: Unknown command. Type "/help" for help.
         usage: /<command> (<Player> <Time> <Reason>)
         default: op
+    invsee:
+        description: See a player's inventory
+        aliases: [seeinv]
+        permission: gameblade.admin
+        permission-message: Unknown command. Type "/help" for help.
+        usage: /<command> <Player>
+        default: op
     kick:
         description: Kick command
         aliases: [arsekick]
