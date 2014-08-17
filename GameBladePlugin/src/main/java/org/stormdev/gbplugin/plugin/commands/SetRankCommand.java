@@ -28,7 +28,11 @@ public class SetRankCommand implements CommandExecutor{
 			int rankId = Integer.parseInt(rankRaw);
 			rank = Rank.getRank(rankId);
 		} catch (NumberFormatException e) {
-			rank = Rank.valueOf(rankRaw);
+			try {
+				rank = Rank.valueOf(rankRaw);
+			} catch (Exception e1) {
+				rank = null;
+			}
 		}
 		
 		if(rank == null){
