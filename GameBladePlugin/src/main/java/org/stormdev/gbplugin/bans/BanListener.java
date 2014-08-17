@@ -1,5 +1,7 @@
 package org.stormdev.gbplugin.bans;
 
+import im.mta.coremanager.modmenu.ModSettingsMenu;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
@@ -43,7 +45,7 @@ public class BanListener implements Listener {
 				}
 				else {
 					//Join message
-					if(player.hasPermission("global.premiumplus‏")){
+					if(player.hasPermission("global.premiumplus‏") && !ModSettingsMenu.vanishArray.contains(player.getName())){
 						//VIP join message
 						Bukkit.broadcastMessage(ChatColor.DARK_RED+"[*] "+ChatColor.GOLD+player.getName()+" joined the server.");
 					}
