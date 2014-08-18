@@ -34,6 +34,7 @@ public class ServerSelector implements CommandExecutor, Listener
     private ItemStack mta;
     private ItemMeta immk;
     private ItemStack mk;
+    private ItemStack plots;
 
     public ServerSelector(GameBlade instance)
     {
@@ -79,6 +80,47 @@ public class ServerSelector implements CommandExecutor, Listener
 			}}, 10*20l, 10*20l);
         immta.setLore(mtalore);
         mta.setItemMeta(immta);
+        
+        plots = new ItemStack(Material.GRASS, 1);
+        //mta.setDurability((short) 3);
+        final ItemMeta implots = plots.getItemMeta();
+        implots.setDisplayName(ChatColor.GREEN + "Plots");
+        ArrayList<String> plotslore = new ArrayList<String>();
+        plotslore.add("" + ChatColor.AQUA
+                        + ChatColor.ITALIC
+                        + "Minecraft Plots!");
+        plotslore.add(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
+        Bukkit.getScheduler().runTaskTimerAsynchronously(instance, new Runnable(){
+
+			@Override
+			public void run() {
+				 ArrayList<String> plotslore = new ArrayList<String>();
+			        plotslore.add("" + ChatColor.AQUA
+			                        + ChatColor.ITALIC
+			                        + "Minecraft Plots!");
+			        plotslore.add(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
+			        int online = 0;
+			        if(GameBlade.smApi != null){
+			        	//ServerID = "GB Plots 1";
+			        	List<String> ids = new ArrayList<String>(GameBlade.smApi.getServers().getServers().keySet());
+			        	for(String s:ids){
+			        		if(!s.toLowerCase().contains("plots") && !(s.toLowerCase().contains("plot"))){
+			        			continue;
+			        		}
+			        		Server serv = GameBlade.smApi.getServers().getServer(s);
+			        		if(serv != null){
+			        			online += serv.getOnlinePlayerCount();
+			        		}
+			        	}
+			        }
+			        plotslore.add(ChatColor.WHITE + "" + online + ChatColor.BOLD + "/" + ChatColor.WHITE + "100");
+			        implots.setLore(plotslore);
+			        plots.setItemMeta(implots);
+			        serverSelector.setItem(4, plots);
+				return;
+			}}, 10*20l, 10*20l);
+        implots.setLore(plotslore);
+        plots.setItemMeta(implots);
 
         mk = new ItemStack(Material.MINECART, 1);
         immk = mk.getItemMeta();
@@ -135,9 +177,9 @@ public class ServerSelector implements CommandExecutor, Listener
         serverSelector.setItem(8, vipservers);
         serverSelector.setItem(2, mta);
         serverSelector.setItem(3, mk);
+        serverSelector.setItem(4, plots);
         serverSelector.setItem(0, close);
 
-        serverSelector.setItem(4, wip);
         serverSelector.setItem(5, wip);
         serverSelector.setItem(6, wip);
         serverSelector.setItem(11, wip);
@@ -186,6 +228,19 @@ public class ServerSelector implements CommandExecutor, Listener
                     try {
                         out.writeUTF("Connect");
                         out.writeUTF("mklobby1");
+                    }
+                    catch (IOException localIOException1) {
+                    }
+                    p.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
+            }
+            if ((clicked.getType() == Material.GRASS) &&
+                    (clicked.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Plots"))) {
+                event.setCancelled(true);
+                p.closeInventory();
+                p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
+                    try {
+                        out.writeUTF("Connect");
+                        out.writeUTF("plots");
                     }
                     catch (IOException localIOException1) {
                     }
