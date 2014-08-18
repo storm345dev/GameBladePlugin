@@ -1,8 +1,9 @@
 package org.stormdev.gbplugin.plugin.cosmetics.wear.hats;
 
-import net.minecraft.server.v1_7_R3.Material;
+
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.cosmetics.CosmeticType;
