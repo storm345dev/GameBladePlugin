@@ -29,10 +29,9 @@ public abstract class PlayerSkullHat extends BlockhatBase {
 	
 	@Override
 	public ItemStack getHeadWear() {
-		ItemStack profile = new ItemStack(Material.SKULL_ITEM, 1);
+		ItemStack profile = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
 		SkullMeta skullMeta = (SkullMeta) profile.getItemMeta();
-		profile.setDurability((short) 3);
-		skullMeta.setDisplayName(getPlayerName());
+		//skullMeta.setDisplayName(getPlayerName());
 		skullMeta.setOwner(getPlayerName());
 		profile.setItemMeta(skullMeta);
 		return profile;

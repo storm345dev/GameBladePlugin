@@ -84,11 +84,14 @@ public class ServerSelector implements CommandExecutor, Listener
         plots = new ItemStack(Material.GRASS, 1);
         //mta.setDurability((short) 3);
         final ItemMeta implots = plots.getItemMeta();
-        implots.setDisplayName(ChatColor.GREEN + "Plots");
+        implots.setDisplayName(ChatColor.GREEN + "Creative Plots");
         ArrayList<String> plotslore = new ArrayList<String>();
-        plotslore.add("" + ChatColor.AQUA
+        plotslore.addAll(Arrays.asList(new String[]{"" + ChatColor.AQUA
                         + ChatColor.ITALIC
-                        + "Minecraft Plots!");
+                        + "Minecraft Plots!",
+                        "" + ChatColor.AQUA
+                        + ChatColor.ITALIC
+                        + "Build anything!"}));
         plotslore.add(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
         Bukkit.getScheduler().runTaskTimerAsynchronously(instance, new Runnable(){
 
