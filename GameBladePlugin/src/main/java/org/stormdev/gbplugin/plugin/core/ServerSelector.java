@@ -98,9 +98,12 @@ public class ServerSelector implements CommandExecutor, Listener
 			@Override
 			public void run() {
 				 ArrayList<String> plotslore = new ArrayList<String>();
-			        plotslore.add("" + ChatColor.AQUA
-			                        + ChatColor.ITALIC
-			                        + "Minecraft Plots!");
+				 plotslore.addAll(Arrays.asList(new String[]{"" + ChatColor.AQUA
+	                        + ChatColor.ITALIC
+	                        + "Minecraft Plots!",
+	                        "" + ChatColor.AQUA
+	                        + ChatColor.ITALIC
+	                        + "Build anything!"}));
 			        plotslore.add(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
 			        int online = 0;
 			        if(GameBlade.smApi != null){
