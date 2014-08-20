@@ -240,7 +240,7 @@ public class ServerSelector implements CommandExecutor, Listener
                     p.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
             }
             if ((clicked.getType() == Material.GRASS) &&
-                    (clicked.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Plots"))) {
+                    (clicked.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Creative Plots"))) {
                 event.setCancelled(true);
                 p.closeInventory();
                 p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
