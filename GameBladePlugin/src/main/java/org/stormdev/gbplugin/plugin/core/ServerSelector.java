@@ -35,6 +35,7 @@ public class ServerSelector implements CommandExecutor, Listener
     private ItemMeta immk;
     private ItemStack mk;
     private ItemStack plots;
+    private ItemStack mirrorsEdge;
 
     public ServerSelector(GameBlade instance)
     {
@@ -127,6 +128,53 @@ public class ServerSelector implements CommandExecutor, Listener
 			}}, 10*20l, 10*20l);
         implots.setLore(plotslore);
         plots.setItemMeta(implots);
+        
+        mirrorsEdge = new ItemStack(Material.IRON_BOOTS, 1);
+        //mta.setDurability((short) 3);
+        final ItemMeta imme = mirrorsEdge.getItemMeta();
+        imme.setDisplayName(ChatColor.AQUA + "Edgecraft");
+        ArrayList<String> melore = new ArrayList<String>();
+        melore.addAll(Arrays.asList(new String[]{"" + ChatColor.AQUA
+                        + ChatColor.ITALIC
+                        + "Mirrors edge!",
+                        "" + ChatColor.AQUA
+                        + ChatColor.ITALIC
+                        + "In minecraft!"}));
+        melore.add(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
+        Bukkit.getScheduler().runTaskTimerAsynchronously(instance, new Runnable(){
+
+			@Override
+			public void run() {
+				 ArrayList<String> melore = new ArrayList<String>();
+				 melore.addAll(Arrays.asList(new String[]{"" + ChatColor.AQUA
+	                        + ChatColor.ITALIC
+	                        + "Mirrors edge!",
+	                        "" + ChatColor.AQUA
+	                        + ChatColor.ITALIC
+	                        + "In minecraft!"}));
+			        melore.add(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
+			        int online = 0;
+			        if(GameBlade.smApi != null){
+			        	//ServerID = "GB Plots 1";
+			        	List<String> ids = new ArrayList<String>(GameBlade.smApi.getServers().getServers().keySet());
+			        	for(String s:ids){
+			        		if(!s.toLowerCase().contains("mirrorsedge") && !(s.toLowerCase().contains("mirrors edge"))){
+			        			continue;
+			        		}
+			        		Server serv = GameBlade.smApi.getServers().getServer(s);
+			        		if(serv != null){
+			        			online += serv.getOnlinePlayerCount();
+			        		}
+			        	}
+			        }
+			        melore.add(ChatColor.WHITE + "" + online + ChatColor.BOLD + "/" + ChatColor.WHITE + "50");
+			        imme.setLore(melore);
+			        mirrorsEdge.setItemMeta(imme);
+			        serverSelector.setItem(5, mirrorsEdge);
+				return;
+			}}, 10*20l, 10*20l);
+        imme.setLore(melore);
+        mirrorsEdge.setItemMeta(implots);
 
         mk = new ItemStack(Material.MINECART, 1);
         immk = mk.getItemMeta();
@@ -184,9 +232,9 @@ public class ServerSelector implements CommandExecutor, Listener
         serverSelector.setItem(2, mta);
         serverSelector.setItem(3, mk);
         serverSelector.setItem(4, plots);
+        serverSelector.setItem(5, mirrorsEdge);
         serverSelector.setItem(0, close);
 
-        serverSelector.setItem(5, wip);
         serverSelector.setItem(6, wip);
         serverSelector.setItem(11, wip);
         serverSelector.setItem(12, wip);
@@ -251,6 +299,19 @@ public class ServerSelector implements CommandExecutor, Listener
                     catch (IOException localIOException1) {
                     }
                     p.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
+            }
+            if(clicked.getType().equals(Material.IRON_BOOTS) && clicked.getItemMeta().getDisplayName() != null
+            		&& clicked.getItemMeta().getDisplayName().equals(ChatColor.AQUA + "Edgecraft")){
+            	 event.setCancelled(true);
+                 p.closeInventory();
+                 p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
+                     try {
+                         out.writeUTF("Connect");
+                         out.writeUTF("mirrorsedge1");
+                     }
+                     catch (IOException localIOException1) {
+                     }
+                     p.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
             }
             if ((clicked.getType() == Material.NETHER_STAR) &&
                     (clicked.getItemMeta().getDisplayName().equals(ChatColor.YELLOW + "VIP Servers"))) {
