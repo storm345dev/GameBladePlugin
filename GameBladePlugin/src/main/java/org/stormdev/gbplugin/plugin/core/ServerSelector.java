@@ -174,7 +174,7 @@ public class ServerSelector implements CommandExecutor, Listener
 				return;
 			}}, 10*20l, 10*20l);
         imme.setLore(melore);
-        mirrorsEdge.setItemMeta(implots);
+        mirrorsEdge.setItemMeta(imme);
 
         mk = new ItemStack(Material.MINECART, 1);
         immk = mk.getItemMeta();
