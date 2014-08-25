@@ -217,10 +217,10 @@ public class ServerSelector implements CommandExecutor, Listener
         mk.setItemMeta(immk);
 
         ItemStack lobby = new ItemStack(Material.BOOKSHELF, 1);
-        ItemMeta imclose = close.getItemMeta();
-        imclose.setDisplayName(ChatColor.RED + "Main Lobby");
-        imclose.setLore(Arrays.asList(new String[] { "" + ChatColor.GRAY + ChatColor.ITALIC + "Go back to the Main Lobby" }));
-        close.setItemMeta(imclose);
+        ItemMeta imlobby = lobby.getItemMeta();
+        imlobby.setDisplayName(ChatColor.RED + "Main Lobby");
+        imlobby.setLore(Arrays.asList(new String[] { "" + ChatColor.GRAY + ChatColor.ITALIC + "Go back to the Main Lobby" }));
+        lobby.setItemMeta(imlobby);
 
         ItemStack wip = new ItemStack(Material.CLAY_BRICK, 1);
         ItemMeta imwip = wip.getItemMeta();
@@ -233,7 +233,7 @@ public class ServerSelector implements CommandExecutor, Listener
         serverSelector.setItem(3, mk);
         serverSelector.setItem(4, plots);
         serverSelector.setItem(5, mirrorsEdge);
-        serverSelector.setItem(0, close);
+        serverSelector.setItem(0, lobby);
 
         serverSelector.setItem(6, wip);
         serverSelector.setItem(11, wip);
