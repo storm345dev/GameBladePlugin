@@ -26,7 +26,7 @@ import org.stormdev.servermanager.api.messaging.Server;
 
 public class ServerSelector implements CommandExecutor, Listener
 {
-	private static final String INVENTORY_TITLE = ChatColor.GREEN + "Choose a server";
+	private static final String INVENTORY_TITLE = ChatColor.RED + "Choose a server";
     public String data = null;
     static GameBlade plugin;
     public static Inventory serverSelector = Bukkit.createInventory(null, 18, INVENTORY_TITLE);
@@ -43,7 +43,7 @@ public class ServerSelector implements CommandExecutor, Listener
         Bukkit.getPluginManager().registerEvents(this, instance);
         ItemStack vipservers = new ItemStack(Material.NETHER_STAR, 1);
         ItemMeta imvipservers = vipservers.getItemMeta();
-        imvipservers.setDisplayName(ChatColor.YELLOW + "VIP Servers");
+        imvipservers.setDisplayName(ChatColor.YELLOW + "Event Server");
         imvipservers.setLore(Arrays.asList(new String[] { "" + ChatColor.GRAY + ChatColor.ITALIC + "Special servers for our VIPS!" }));
         vipservers.setItemMeta(imvipservers);
 
@@ -89,10 +89,10 @@ public class ServerSelector implements CommandExecutor, Listener
         ArrayList<String> plotslore = new ArrayList<String>();
         plotslore.addAll(Arrays.asList(new String[]{"" + ChatColor.AQUA
                         + ChatColor.ITALIC
-                        + "Minecraft Plots!",
+                        + "Want to be creative? Build what",
                         "" + ChatColor.AQUA
                         + ChatColor.ITALIC
-                        + "Build anything!"}));
+                        + "you want in your own plot!"}));
         plotslore.add(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
         Bukkit.getScheduler().runTaskTimerAsynchronously(instance, new Runnable(){
 
@@ -101,10 +101,10 @@ public class ServerSelector implements CommandExecutor, Listener
 				 ArrayList<String> plotslore = new ArrayList<String>();
 				 plotslore.addAll(Arrays.asList(new String[]{"" + ChatColor.AQUA
 	                        + ChatColor.ITALIC
-	                        + "Minecraft Plots!",
+	                        + "Want to be creative? Build what",
 	                        "" + ChatColor.AQUA
 	                        + ChatColor.ITALIC
-	                        + "Build anything!"}));
+	                        + "you want in your own plot!"}));
 			        plotslore.add(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
 			        int online = 0;
 			        if(GameBlade.smApi != null){
@@ -132,14 +132,14 @@ public class ServerSelector implements CommandExecutor, Listener
         mirrorsEdge = new ItemStack(Material.IRON_BOOTS, 1);
         //mta.setDurability((short) 3);
         final ItemMeta imme = mirrorsEdge.getItemMeta();
-        imme.setDisplayName(ChatColor.AQUA + "Edgecraft");
+        imme.setDisplayName(ChatColor.RED + "Mirror's" + ChatColor.WHITE + " Edge");
         ArrayList<String> melore = new ArrayList<String>();
         melore.addAll(Arrays.asList(new String[]{"" + ChatColor.AQUA
                         + ChatColor.ITALIC
-                        + "Mirrors edge!",
+                        + "The famous parkour game meets",
                         "" + ChatColor.AQUA
                         + ChatColor.ITALIC
-                        + "In minecraft!"}));
+                        + "Minecraft, including a storyline!"}));
         melore.add(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
         Bukkit.getScheduler().runTaskTimerAsynchronously(instance, new Runnable(){
 
@@ -148,10 +148,10 @@ public class ServerSelector implements CommandExecutor, Listener
 				 ArrayList<String> melore = new ArrayList<String>();
 				 melore.addAll(Arrays.asList(new String[]{"" + ChatColor.AQUA
 	                        + ChatColor.ITALIC
-	                        + "Mirrors edge!",
+	                        + "The famous parkour game meets",
 	                        "" + ChatColor.AQUA
 	                        + ChatColor.ITALIC
-	                        + "In minecraft!"}));
+	                        + "Minecraft, including a storyline!"}));
 			        melore.add(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
 			        int online = 0;
 			        if(GameBlade.smApi != null){
@@ -216,10 +216,10 @@ public class ServerSelector implements CommandExecutor, Listener
         immk.setLore(mklore);
         mk.setItemMeta(immk);
 
-        ItemStack close = new ItemStack(Material.REDSTONE, 1);
+        ItemStack lobby = new ItemStack(Material.BOOKSHELF, 1);
         ItemMeta imclose = close.getItemMeta();
-        imclose.setDisplayName(ChatColor.RED + "Exit");
-        imclose.setLore(Arrays.asList(new String[] { "" + ChatColor.GRAY + ChatColor.ITALIC + "Close this screen" }));
+        imclose.setDisplayName(ChatColor.RED + "Main Lobby");
+        imclose.setLore(Arrays.asList(new String[] { "" + ChatColor.GRAY + ChatColor.ITALIC + "Go back to the Main Lobby" }));
         close.setItemMeta(imclose);
 
         ItemStack wip = new ItemStack(Material.CLAY_BRICK, 1);
@@ -245,7 +245,7 @@ public class ServerSelector implements CommandExecutor, Listener
     
     public void open(Player p){
     	p.openInventory(serverSelector);
-        p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
+        p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 10.0F);
     }
 
     @EventHandler
@@ -265,7 +265,7 @@ public class ServerSelector implements CommandExecutor, Listener
                     (clicked.getItemMeta().getDisplayName().equals(ChatColor.RED + "MineTheftAuto"))) {
                 event.setCancelled(true);
                 p.closeInventory();
-                p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 10.0F);
                 try {
                     out.writeUTF("Connect");
                     out.writeUTF("mtasa");
@@ -278,7 +278,7 @@ public class ServerSelector implements CommandExecutor, Listener
                     (clicked.getItemMeta().getDisplayName().equals(ChatColor.RED + "MarioKart"))) {
                 event.setCancelled(true);
                 p.closeInventory();
-                p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 10.0F);
                     try {
                         out.writeUTF("Connect");
                         out.writeUTF("mklobby1");
@@ -291,7 +291,7 @@ public class ServerSelector implements CommandExecutor, Listener
                     (clicked.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Creative Plots"))) {
                 event.setCancelled(true);
                 p.closeInventory();
-                p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 10.0F);
                     try {
                         out.writeUTF("Connect");
                         out.writeUTF("plots");
@@ -304,7 +304,7 @@ public class ServerSelector implements CommandExecutor, Listener
             		&& clicked.getItemMeta().getDisplayName().equals(ChatColor.AQUA + "Edgecraft")){
             	 event.setCancelled(true);
                  p.closeInventory();
-                 p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
+                 p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 10.0F);
                      try {
                          out.writeUTF("Connect");
                          out.writeUTF("mirrorsedge1");
@@ -317,19 +317,26 @@ public class ServerSelector implements CommandExecutor, Listener
                     (clicked.getItemMeta().getDisplayName().equals(ChatColor.YELLOW + "VIP Servers"))) {
                 event.setCancelled(true);
                 p.closeInventory();
-                p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
-                p.sendMessage(ChatColor.YELLOW + "Lobby " + ChatColor.BLACK + "Â» " + ChatColor.RED + "VIP Servers are coming very soon(tm)!");
+                p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 10.0F);
+                p.sendMessage(ChatColor.YELLOW + "Lobby " + ChatColor.BLACK + "» " + ChatColor.RED + "VIP Servers are coming very soon(tm)!");
             }
-            if ((clicked.getType() == Material.REDSTONE) &&
-                    (clicked.getItemMeta().getDisplayName().equals(ChatColor.RED + "Exit"))) {
-                event.setCancelled(true);
+            if ((clicked.getType() == Material.BOOKSHELF) &&
+                    (clicked.getItemMeta().getDisplayName().equals(ChatColor.RED + "Main Lobby"))) {
+            	event.setCancelled(true);
                 p.closeInventory();
-                p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 10.0F);
+                try {
+                    out.writeUTF("Connect");
+                    out.writeUTF("hub1");
+                }
+                catch (IOException localIOException1) {
+                }
+                p.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
             }
             if ((clicked.getType() == Material.CLAY_BRICK) &&
                     (clicked.getItemMeta().getDisplayName().equals(ChatColor.RED + "Work in progress!"))) {
                 event.setCancelled(true);
-                p.sendMessage(ChatColor.YELLOW + "Lobby " + ChatColor.BLACK + "Â» " + ChatColor.RED + "There'll be a server here, soon!");
+                p.sendMessage(ChatColor.YELLOW + "Lobby " + ChatColor.BLACK + "» " + ChatColor.RED + "There'll be a server here, soon!");
                 p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
                 p.closeInventory();
             }
