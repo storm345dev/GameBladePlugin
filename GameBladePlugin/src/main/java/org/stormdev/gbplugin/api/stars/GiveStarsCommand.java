@@ -34,6 +34,12 @@ public class GiveStarsCommand implements CommandExecutor {
 		
 		final int tokens = toGive;
 		
+		double multiplier = 1.0; //TODO
+		if(args.length > 2){
+			String rank = args[2];
+			multiplier = StarMultipliers.getMultiplier(rank);
+		}
+		
 		sender.sendMessage(ChatColor.GRAY+"Awarding stars...");
 		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
 
