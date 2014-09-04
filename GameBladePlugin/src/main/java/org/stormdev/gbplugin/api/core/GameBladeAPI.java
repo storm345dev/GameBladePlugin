@@ -1,5 +1,8 @@
 package org.stormdev.gbplugin.api.core;
 
+import net.minecraft.server.v1_7_R4.NetworkManager;
+
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.stormdev.gbapi.bans.BanHandler;
@@ -69,6 +72,14 @@ public class GameBladeAPI implements org.stormdev.gbapi.core.GameBladeAPI{
 	@Override
 	public void showCosmeticPanel(Player player) {
 		CosmeticPanel.getInstance().open(player);
+	}
+	
+	@Override
+	public boolean is1_8(Player player) { //TODO
+	    NetworkManager net = ((CraftPlayer) player).getHandle().playerConnection.networkManager;
+	    
+	    return false;
+	    //return net.getVersion() >= 47; // Minecraft 1.8
 	}
 
 }

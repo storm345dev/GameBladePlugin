@@ -17,8 +17,6 @@ public class HatRegistry {
 		CosmeticManager.registerCosmetic(new RedstoneTorchHat());
 		CosmeticManager.registerCosmetic(new RailHat());
 		CosmeticManager.registerCosmetic(new IceHat());
-		CosmeticManager.registerCosmetic(new FireHat());
-		CosmeticManager.registerCosmetic(new LavaHat());
 		CosmeticManager.registerCosmetic(new WaterHat());
 		PlayerSkullHat.registerAll();
 		ColouredClayHat.registerAll();

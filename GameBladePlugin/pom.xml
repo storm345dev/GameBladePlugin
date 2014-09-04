@@ -125,6 +125,10 @@
    		 	<id>pex-repo</id>
   		  	<url>http://pex-repo.zachsthings.com</url>
 		</repository>
+		<repository>
+   		 	<id>md_5-repo</id>
+  		  	<url>http://repo.md-5.net</url>
+		</repository>
     </repositories>
     <dependencies>
     	<dependency>
@@ -132,6 +136,14 @@
    			<artifactId>PermissionsEx</artifactId>
    			<version>1.22</version>
 		</dependency>
+		  <!-- 
+		<dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.7.9-R0.4</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
@@ -146,6 +158,7 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
+        -->
 	   <dependency>
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>Vault</artifactId>
