@@ -44,7 +44,7 @@ public class ServerSelector implements CommandExecutor, Listener
         ItemStack vipservers = new ItemStack(Material.NETHER_STAR, 1);
         ItemMeta imvipservers = vipservers.getItemMeta();
         imvipservers.setDisplayName(ChatColor.YELLOW + "Event Server");
-        imvipservers.setLore(Arrays.asList(new String[] { "" + ChatColor.GRAY + ChatColor.ITALIC + "Special servers for our VIPS!" }));
+        imvipservers.setLore(Arrays.asList(new String[] { "" + ChatColor.RED + ChatColor.ITALIC + "There's currently no event running." }));
         vipservers.setItemMeta(imvipservers);
 
         mta = new ItemStack(Material.IRON_SWORD, 1);
@@ -314,11 +314,11 @@ public class ServerSelector implements CommandExecutor, Listener
                      p.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
             }
             if ((clicked.getType() == Material.NETHER_STAR) &&
-                    (clicked.getItemMeta().getDisplayName().equals(ChatColor.YELLOW + "VIP Servers"))) {
+                    (clicked.getItemMeta().getDisplayName().equals(ChatColor.YELLOW + "Event Server"))) {
                 event.setCancelled(true);
                 p.closeInventory();
                 p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 10.0F);
-                p.sendMessage(ChatColor.YELLOW + "Lobby " + ChatColor.BLACK + "» " + ChatColor.RED + "VIP Servers are coming very soon(tm)!");
+                p.sendMessage(ChatColor.GOLD + "Game" + ChatColor.BLUE + "Blade" + ChatColor.BLACK + "» " + ChatColor.RED + "There's currently no event running!");
             }
             if ((clicked.getType() == Material.BOOKSHELF) &&
                     (clicked.getItemMeta().getDisplayName().equals(ChatColor.RED + "Main Lobby"))) {
@@ -336,7 +336,7 @@ public class ServerSelector implements CommandExecutor, Listener
             if ((clicked.getType() == Material.CLAY_BRICK) &&
                     (clicked.getItemMeta().getDisplayName().equals(ChatColor.RED + "Work in progress!"))) {
                 event.setCancelled(true);
-                p.sendMessage(ChatColor.YELLOW + "Lobby " + ChatColor.BLACK + "» " + ChatColor.RED + "There'll be a server here, soon!");
+                p.sendMessage(ChatColor.GOLD + "Game" + ChatColor.BLUE + "Blade" + ChatColor.BLACK + "» " + ChatColor.RED + "There'll be a server here, soon!");
                 p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
                 p.closeInventory();
             }
