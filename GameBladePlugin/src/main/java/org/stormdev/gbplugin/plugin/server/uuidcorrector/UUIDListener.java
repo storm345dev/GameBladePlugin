@@ -10,9 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder.MojangID;
 import org.stormdev.gbapi.storm.UUIDAPI.UUIDLoadEvent;
@@ -26,6 +25,7 @@ public class UUIDListener implements Listener {
 	
 	private Map<String, MojangID> handledLogins = new HashMap<String, MojangID>();
 	
+	/*
 	@EventHandler(priority = EventPriority.LOWEST) //Called first
 	void prePreJoin(AsyncPlayerPreLoginEvent event){
 		final String name = event.getName();
@@ -66,6 +66,8 @@ public class UUIDListener implements Listener {
 		}
 	}
 	
+	*/
+	
 	@EventHandler(priority = EventPriority.LOWEST)
 	void join(PlayerJoinEvent event){
 		final Player player = event.getPlayer();
@@ -73,11 +75,16 @@ public class UUIDListener implements Listener {
 
 			@Override
 			public void run() {
-				loadUUID(player);
+				loadUUID(player, Config.enableUUIDCorrection.getValue());
 			}});
 	}
 	
-	private UUID loadUUID(Player player){
+	@EventHandler(priority = EventPriority.HIGHEST)
+	void quit(PlayerQuitEvent event){
+		event.getPlayer().removeMetadata("uuid", GameBlade.plugin);
+	}
+	
+	private UUID loadUUID(Player player, boolean reflect){
 		MojangID id;
 		UUID uid;
 		
@@ -85,7 +92,7 @@ public class UUIDListener implements Listener {
 			id = handledLogins.get(player.getName());
 			uid = PlayerIDFinder.getAsUUID(id.getID());
 			handledLogins.remove(player.getName());
-			if(Config.enableUUIDCorrection.getValue()){
+			if(reflect){
 				PlayerIDFinder.PlayerReflect.setPlayerUUID(player, uid);
 			}
 		}

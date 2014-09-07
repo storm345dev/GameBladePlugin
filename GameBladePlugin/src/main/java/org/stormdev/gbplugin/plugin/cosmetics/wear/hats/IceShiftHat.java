@@ -5,40 +5,45 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.cosmetics.Rank;
 
-public class BeaconHat extends ChangingHat {
-	private static String META = "beaconhatmeta";
+public class IceShiftHat extends ChangingHat {
+	private static String META = "iceshifthatmeta";
+	
+	@Override
+	public ItemStack getHeadWear() {
+		return new ItemStack(Material.PAPER);
+	}
 
 	@Override
 	public String getID() {
-		return "beaconhat";
+		return "iceshifthat";
 	}
 
 	@Override
 	public double getPrice() {
-		return 249;
+		return 549;
 	}
 
 	@Override
 	public String getUserFriendlyName() {
-		return "Beacon Hat (Changes colour)";
+		return "Ice Shift Hat (Changes ice)";
 	}
 	
 	@Override
 	public Rank minimumRank(){
-		return Rank.VIP_PLUS;
+		return Rank.PREMIUM;
 	}
 	
 	public void switchHat(Player player){
 		ItemStack i = player.getInventory().getHelmet();
-		if(i == null){
-			i = new ItemStack(Material.BEACON, 1);
+		if(i == null || !(i.getType().equals(Material.ICE))){
+			i = new ItemStack(Material.PACKED_ICE);
 		}
 		
-		if(i.getType().equals(Material.BEACON)){
-			i = new ItemStack(Material.GLOWSTONE, 1);
+		if(i.getType().equals(Material.ICE)){
+			i = new ItemStack(Material.PACKED_ICE);
 		}
-		else {//if(i.getData().getData() == (byte) 14)
-			i = new ItemStack(Material.BEACON, 1);
+		else {
+			i = new ItemStack(Material.ICE);
 		}
 		
 		player.getInventory().setHelmet(i);

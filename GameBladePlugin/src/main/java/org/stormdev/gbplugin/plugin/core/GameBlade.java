@@ -100,6 +100,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         
         GBSQL = new SQLManager(new MySQL(this, Config.sqlURL.getValue(), Config.sqlUser.getValue(), Config.sqlPass.getValue()), this);
+        GBSQL.checkConnection();
         GBSQL.createTable("stars", new String[]{"uuid"
         		,"stars"
         }, new String[]{"varchar(255) NOT NULL PRIMARY KEY", "int(20)"});

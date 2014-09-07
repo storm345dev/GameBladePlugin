@@ -85,6 +85,7 @@ public class Stars implements org.stormdev.gbapi.stars.Stars{
 			}
 			return amt;
 		} catch (Exception e) {
+			//They have no stars e.printStackTrace();
 		}
 		return 0;
 	}

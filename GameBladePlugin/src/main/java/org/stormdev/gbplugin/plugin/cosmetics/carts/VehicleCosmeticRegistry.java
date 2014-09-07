@@ -12,11 +12,21 @@ import org.stormdev.gbplugin.plugin.cosmetics.carts.ColouredVehicle.BlockVehicle
 
 public class VehicleCosmeticRegistry {
 	public static void registerAll(BuyVehicleColoursMenu m){
-		for(int i=0;i<16;i++){
+		for(int i=0;i<8;i++){
+			if(i == 2){
+				continue;
+			}
 			ItemStack step = new ItemStack(Material.STEP, 1, (byte) i);
 			int offset = 31;
 			m.register(new ColourButton(step, "Slab Roof", 
 					99, Currency.STARS, Rank.VIP, "vc_r"+i), new BlockVehicleColour(step, offset), step);
+		}
+		//For each wood step
+		for(int i=0;i<6;i++){
+			ItemStack step = new ItemStack(Material.WOOD_STEP, 1, (byte) i);
+			int offset = 31;
+			m.register(new ColourButton(step, "Slab Roof", 
+					99, Currency.STARS, Rank.VIP, "vc_rws"+i), new BlockVehicleColour(step, offset), step);
 		}
 		
 		for(DyeColor color:DyeColor.values()){

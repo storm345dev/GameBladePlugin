@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
+import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbapi.storm.misc.MetadataValue;
 import org.stormdev.gbapi.storm.misc.ObjectWrapper;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
@@ -15,6 +16,11 @@ public abstract class ChangingHat extends BlockhatBase {
 	@Override
 	public ItemStack getHeadWear() {
 		return new ItemStack(Material.PAPER);
+	}
+	
+	@Override
+	public Rank minimumRank(){
+		return Rank.PREMIUM;
 	}
 	
 	@Override

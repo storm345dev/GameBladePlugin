@@ -56,6 +56,12 @@ public abstract class PlayerSkullHat extends BlockhatBase {
 		@Override public String getPlayerName() { 	return "ItsJustBjarn";  	}
 	}
 	
+	public static class CurdledHat extends PlayerSkullHat{
+		@Override public String getID() {	 return "curdhat";	 }
+		@Override public String getUserFriendlyName()  {	return "Curdled Hat (Needs 1.8+)";	  }
+		@Override public String getPlayerName() { 	return "CurdledLight";  	}
+	}
+	
 	public static class JesseHat extends PlayerSkullHat{
 		@Override public String getID() {	 return "jessehat";	 }
 		@Override public String getUserFriendlyName()  {	return "Jesse Hat (Needs 1.8+)";	  }

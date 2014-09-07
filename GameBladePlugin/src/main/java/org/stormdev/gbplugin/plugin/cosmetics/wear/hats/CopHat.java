@@ -25,7 +25,7 @@ public class CopHat extends ChangingHat {
 	
 	@Override
 	public Rank minimumRank(){
-		return Rank.VIP;
+		return Rank.PREMIUM_PLUS;
 	}
 	
 	public void switchHat(Player player){

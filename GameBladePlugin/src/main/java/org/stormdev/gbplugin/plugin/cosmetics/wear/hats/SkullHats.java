@@ -3,6 +3,7 @@ package org.stormdev.gbplugin.plugin.cosmetics.wear.hats;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.cosmetics.Cosmetic;
+import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbplugin.plugin.cosmetics.CosmeticManager;
 
 public class SkullHats {
@@ -55,5 +56,6 @@ public class SkullHats {
 		@Override public ItemStack getHeadWear() { 	return new ItemStack(Material.SKULL_ITEM, 1, (byte) 4); 	}
 		@Override public double getPrice() { 	return 1049;	}
 		@Override public String getUserFriendlyName()  {	return "Creeper Hat";	}
+		@Override public Rank minimumRank() {	return Rank.VIP;	}
 	}
 }
