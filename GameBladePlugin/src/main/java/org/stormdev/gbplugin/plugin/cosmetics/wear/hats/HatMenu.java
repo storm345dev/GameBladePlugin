@@ -3,6 +3,8 @@ package org.stormdev.gbplugin.plugin.cosmetics.wear.hats;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -224,14 +226,18 @@ public class HatMenu implements Listener {
 				Cosmetic c = GameBlade.plugin.cosmeticManager.get(cId);
 				if(c instanceof Hat){
 					final Hat hat = (Hat) c;
-					Bukkit.getScheduler().runTask(GameBlade.plugin, new Runnable(){
+					
+					Future<Void> f = Bukkit.getScheduler().callSyncMethod(GameBlade.plugin, new Callable<Void>(){
 
 						@Override
-						public void run() {
+						public Void call() throws Exception {
 							hat.remove(player);
 							player.removeMetadata("wearingHat", GameBlade.plugin);
-							return;
+							return null;
 						}});
+					while(!f.isDone() && !f.isCancelled()){
+						//Wait
+					}
 					GameBlade.plugin.GBSQL.setInTable(CosmeticManager.SQL_TABLE, CosmeticManager.SQL_ID_KEY, 
 							PlayerIDFinder.getMojangID(player).getID(), CosmeticManager.SQL_HAT_KEY, "null");
 				}
