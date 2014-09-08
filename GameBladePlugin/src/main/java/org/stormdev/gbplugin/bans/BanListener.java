@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.stormdev.gbapi.bans.BanHandler.Time;
 import org.stormdev.gbapi.core.APIProvider;
+import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.utils.MetaValue;
 
@@ -45,9 +46,13 @@ public class BanListener implements Listener {
 				}
 				else {
 					//Join message
-					if(player.hasPermission("global.premiumplus‏") && !ModSettingsMenu.vanishArray.contains(player.getName())){
+					Rank r = Rank.getRank(player);
+					if(r.canUse(Rank.PREMIUM_PLUS) && !r.canUse(Rank.ULTIMATE) && !ModSettingsMenu.vanishArray.contains(player.getName())){
 						//VIP join message
 						Bukkit.broadcastMessage(ChatColor.DARK_RED+"[*] "+ChatColor.GOLD+player.getName()+" joined the server.");
+					}
+					else if(r.canUse(Rank.ULTIMATE)){
+						Bukkit.broadcastMessage(ChatColor.GOLD+"[*] "+ChatColor.GREEN+"[ULTIMATE]"+ChatColor.AQUA+player.getName()+" joined the server.");
 					}
 				}
 				return;

@@ -32,6 +32,7 @@ import org.stormdev.gbplugin.plugin.cosmetics.CosmeticManager;
 import org.stormdev.gbplugin.plugin.cosmetics.CosmeticVillagers;
 import org.stormdev.gbplugin.plugin.cosmetics.carts.CartFillListener;
 import org.stormdev.gbplugin.plugin.cosmetics.wear.hats.HatMenu;
+import org.stormdev.gbplugin.plugin.events.ServerJoinListener;
 import org.stormdev.gbplugin.plugin.mkTokens.TokenChecker;
 import org.stormdev.gbplugin.plugin.modpanel.ModMenu;
 import org.stormdev.gbplugin.plugin.server.ServerInfo;
@@ -195,6 +196,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		new BanListener();
 		new CartFillListener();
 		new VillagerManager();
+		new ServerJoinListener();
 		CosmeticVillagers.register();
 	}
 

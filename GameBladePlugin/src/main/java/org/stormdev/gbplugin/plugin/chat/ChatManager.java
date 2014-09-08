@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbplugin.plugin.core.Config;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.utils.Colors;
@@ -18,6 +19,9 @@ public class ChatManager implements Listener {
 	public static ChatColor getMsgColour(Player player){
 		if(player.hasPermission("mta.chatcolor.staff")){
 			return ChatColor.AQUA;
+		}
+		else if(Rank.getRank(player).canUse(Rank.ULTIMATE)){
+			return ChatColor.GOLD;
 		}
 		else if(player.hasPermission("mta.chatcolor.vip")){
 			return ChatColor.WHITE;
