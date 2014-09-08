@@ -51,7 +51,7 @@ public class BanListener implements Listener {
 						//VIP join message
 						Bukkit.broadcastMessage(ChatColor.DARK_RED+"[*] "+ChatColor.GOLD+player.getName()+" joined the server.");
 					}
-					else if(r.canUse(Rank.ULTIMATE)){
+					else if(r.canUse(Rank.ULTIMATE) && !r.canUse(Rank.STAFF)){
 						Bukkit.broadcastMessage(ChatColor.GOLD+"[*] "+ChatColor.GREEN+"[ULTIMATE]"+ChatColor.AQUA+player.getName()+" joined the server.");
 					}
 				}
