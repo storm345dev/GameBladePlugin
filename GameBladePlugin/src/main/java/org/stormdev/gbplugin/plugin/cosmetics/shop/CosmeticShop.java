@@ -40,11 +40,20 @@ public class CosmeticShop implements Listener {
 				
 				if(pos == 0){	event.setWillClose(true); openHatMenu(event.getPlayer());}
 				else if(pos == 1){	event.setWillClose(true); openVehicleShopMenu(event.getPlayer());}
+				else if(pos == 8){event.setWillClose(true); showStars(event.getPlayer());}
 				return;
 			}}, GameBlade.plugin);
 		cosmeticMenu.setOption(0, new ItemStack(Material.PUMPKIN), ChatColor.GOLD+"Hats", ChatColor.RED+"Buy Hats");
 		cosmeticMenu.setOption(1, new ItemStack(Material.MINECART), ChatColor.GOLD+"Vehicles", ChatColor.RED+"Buy Vehicle Cosmetics");
+		cosmeticMenu.setOption(8, new ItemStack(Material.EMERALD), ChatColor.GOLD+"Get Stars", ChatColor.RED+"Click here to get stars");
 		updateShops();
+	}
+	
+	public static void showStars(Player player){
+		player.sendMessage(ChatColor.GOLD+"Game"+ChatColor.BLUE+"Blade"+ChatColor.WHITE+" Stars:");
+		player.sendMessage(ChatColor.YELLOW+"These are for in-game cosmetic items and are obtainable from our online store:");
+		player.sendMessage(ChatColor.YELLOW+"Go to the following link to purchase stars:");
+		player.sendMessage(GameBlade.plugin.starsURL);
 	}
 	
 	public void updateShops(){

@@ -33,7 +33,7 @@ public class CosmeticManagePanel implements OptionClickEventHandler {
 				ChatColor.RED+"About Stars:",
 				ChatColor.GOLD+"Stars are a currency",
 				ChatColor.GOLD+"used only for cosmetics.",
-				ChatColor.WHITE+"Buy stars at http://store.gameblade.net");
+				ChatColor.WHITE+"Buy stars at http://gamebla.de/stars");
 	}
 	
 	public void open(Player player){

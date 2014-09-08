@@ -11,6 +11,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.bukkit.scheduler.BukkitTask;
 import org.stormdev.gbapi.core.GameBladeAPI;
+import org.stormdev.gbapi.links.LinkShortener;
+import org.stormdev.gbapi.links.LinkShortener.ShorteningError;
 import org.stormdev.gbapi.storm.SQL.MySQL;
 import org.stormdev.gbapi.storm.SQL.SQLManager;
 import org.stormdev.gbplugin.api.stars.GiveStarsCommand;
@@ -55,6 +57,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 	public static ServerManagerAPI smApi;
 	public static BanHandle banHandler;
 	
+	public String starsURL = "http://gamebla.de/stars";
 	public BukkitTask serverMonitor;
 	public ServerSelector selector;
 	public CosmeticManager cosmeticManager;
@@ -108,6 +111,19 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
         
         banHandler = new BanHandle();
         cosmeticManager = new CosmeticManager();
+        
+        Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
+
+			@Override
+			public void run() {
+				try {
+					starsURL = LinkShortener.shorten("http://store.gameblade.net/category/309777", "stars");
+					logger.info("Using stars URL as "+starsURL);
+				} catch (ShorteningError e) {
+					e.printStackTrace();
+				}
+				return;
+			}});
         
 		logger.info("GameBladePlugin "+ChatColor.GREEN+"enabled!");
 	}
