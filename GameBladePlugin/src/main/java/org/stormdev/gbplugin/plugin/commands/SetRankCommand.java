@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.ranks.Rank;
-import org.stormdev.gbplugin.plugin.ranks.RankSetting;
+import org.stormdev.gbplugin.plugin.ranks.RankSQL;
 
 public class SetRankCommand implements CommandExecutor{
 
@@ -47,10 +47,10 @@ public class SetRankCommand implements CommandExecutor{
 			@Override
 			public void run() {
 				if(name){
-					RankSetting.setRankByName(player, rnk);
+					RankSQL.setRankByName(player, rnk);
 				}
 				else {
-					RankSetting.setRankByUUID(player, rnk);
+					RankSQL.setRankByUUID(player, rnk);
 				}
 				return;
 			}});

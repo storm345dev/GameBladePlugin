@@ -1,19 +1,25 @@
 package org.stormdev.gbplugin.plugin.ranks;
 
 public enum Rank {
-DEFAULT(1),
-VIP(2),
-VIP_PLUS(3),
-PREMIUM(4),
-PREMIUM_PLUS(5),
-STAFF(6),
-EPIC_STAFF(7),
-ULTIMATE(8);
+DEFAULT(1, org.stormdev.gbapi.cosmetics.Rank.DEFAULT),
+VIP(2, org.stormdev.gbapi.cosmetics.Rank.VIP),
+VIP_PLUS(3, org.stormdev.gbapi.cosmetics.Rank.VIP_PLUS),
+PREMIUM(4, org.stormdev.gbapi.cosmetics.Rank.PREMIUM),
+PREMIUM_PLUS(5, org.stormdev.gbapi.cosmetics.Rank.PREMIUM_PLUS),
+STAFF(6, org.stormdev.gbapi.cosmetics.Rank.STAFF),
+EPIC_STAFF(7, org.stormdev.gbapi.cosmetics.Rank.STAFF),
+ULTIMATE(8, org.stormdev.gbapi.cosmetics.Rank.ULTIMATE);
 
 private int dbId;
+private org.stormdev.gbapi.cosmetics.Rank cosmeticRank;
 
-private Rank(int dbId){
+private Rank(int dbId, org.stormdev.gbapi.cosmetics.Rank cosmeticRank){
 	this.dbId = dbId;
+	this.cosmeticRank = cosmeticRank;
+}
+
+public org.stormdev.gbapi.cosmetics.Rank getCosmeticRank(){
+	return cosmeticRank;
 }
 
 public int getDbId(){
