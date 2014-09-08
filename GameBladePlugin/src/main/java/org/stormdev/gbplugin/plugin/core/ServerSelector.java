@@ -301,7 +301,7 @@ public class ServerSelector implements CommandExecutor, Listener
                     p.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
             }
             if(clicked.getType().equals(Material.IRON_BOOTS) && clicked.getItemMeta().getDisplayName() != null
-            		&& clicked.getItemMeta().getDisplayName().equals(ChatColor.AQUA + "Edgecraft")){
+            		&& clicked.getItemMeta().getDisplayName().equals(ChatColor.RED + "Mirror's" + ChatColor.WHITE + " Edge")){
             	 event.setCancelled(true);
                  p.closeInventory();
                  p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 10.0F);
