@@ -21,7 +21,7 @@ public abstract class BlockhatBase implements Hat {
 	public void remove(Player player){
 		ItemStack h = player.getInventory().getHelmet();
 		try {
-			if(h.isSimilar(getHeadWear())){
+			if(h.isSimilar(getHeadWear()) || player.hasMetadata("wearingHat")){
 				player.getInventory().setHelmet(null);
 			}
 		} catch (Exception e) {

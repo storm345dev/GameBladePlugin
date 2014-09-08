@@ -63,6 +63,7 @@ public abstract class ChangingHat extends BlockhatBase {
 			}
 			player.removeMetadata(getMeta(), GameBlade.plugin);
 		}
+		//Remove hat
 		player.getInventory().setHelmet(null);
 	}
 
