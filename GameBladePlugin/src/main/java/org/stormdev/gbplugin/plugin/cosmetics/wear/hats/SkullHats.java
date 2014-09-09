@@ -16,7 +16,7 @@ public class SkullHats {
 				try {
 					CosmeticManager.registerCosmetic((Cosmetic)cl.newInstance());
 				} catch (InstantiationException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				} catch (IllegalAccessException e) {
 					e.printStackTrace();
 				}
