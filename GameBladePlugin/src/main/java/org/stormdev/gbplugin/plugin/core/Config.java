@@ -22,6 +22,9 @@ public class Config extends ConfigBase {
 	public static ConfigSetting<String> sqlUser = new ConfigSetting<String>("general.sql.user", "root");
 	public static ConfigSetting<String> sqlPass = new ConfigSetting<String>("general.sql.pass", "password");
 	
+	public static ConfigSetting<String> joinRank = new ConfigSetting<String>("general.join.rank", "DEFAULT");
+	public static ConfigSetting<String> joinKickMsg = new ConfigSetting<String>("general.join.kickmsg", "This server is currently in a vip only beta stage!");
+	
 	public Config(File file){
 		super(file);
 		load();
