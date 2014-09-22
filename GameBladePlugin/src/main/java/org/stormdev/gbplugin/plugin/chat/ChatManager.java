@@ -53,7 +53,7 @@ public class ChatManager implements Listener {
 	private void chat(Player player, String msg){
 		ChatColor color = getMsgColour(player);
 		boolean colour = false;
-		colour = player.hasPermission("mta.chat.colors");
+		colour = player.hasPermission("mta.chat.colors") || Rank.getRank(player).canUse(Rank.ULTIMATE);
 		msg = Colors.colorise(msg);
 		if(!colour){
 			msg = ChatColor.stripColor(msg);
