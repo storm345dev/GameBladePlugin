@@ -42,6 +42,9 @@ public class VillagerManager implements org.stormdev.gbapi.villagers.VillagerMan
 
 	@Override
 	public boolean isVillagerRegistered(String name) {
+		if(name == null){
+			return false;
+		}
 		name = ChatColor.stripColor(Colors.colorise(name));
 		return registered.containsKey(name);
 	}
@@ -75,6 +78,9 @@ public class VillagerManager implements org.stormdev.gbapi.villagers.VillagerMan
 		}
 		
 		Villager villager = (Villager) hurt;
+		if(villager.getCustomName() == null){
+			return;
+		}
 		if(!isVillagerRegistered(villager.getCustomName())){
 			return;
 		}

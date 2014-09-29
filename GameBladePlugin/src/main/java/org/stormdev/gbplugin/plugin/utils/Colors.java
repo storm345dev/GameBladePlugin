@@ -39,6 +39,7 @@ public class Colors {
 	}
 	
 	public static String colorise(String prefix) {
+		if(prefix == null){return prefix;}
 		return ChatColor.translateAlternateColorCodes('&', prefix);
 	}
 }
