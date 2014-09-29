@@ -22,6 +22,7 @@ import org.stormdev.gbplugin.bans.BanHandle;
 import org.stormdev.gbplugin.bans.BanListener;
 import org.stormdev.gbplugin.plugin.chat.ChatManager;
 import org.stormdev.gbplugin.plugin.commands.BroadcastCommandExecutor;
+import org.stormdev.gbplugin.plugin.commands.CallBackCommand;
 import org.stormdev.gbplugin.plugin.commands.CreateVillagerCommand;
 import org.stormdev.gbplugin.plugin.commands.HatCommand;
 import org.stormdev.gbplugin.plugin.commands.InvSeeCommand;
@@ -203,6 +204,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		getCommand("createmenuvillager").setExecutor(new CreateVillagerCommand());
 		getCommand("invsee").setExecutor(new InvSeeCommand());
 		getCommand("setrank").setExecutor(new SetRankCommand());
+		getCommand("callback").setExecutor(new CallBackCommand());
 	}
 	
 	private void setupListeners(){

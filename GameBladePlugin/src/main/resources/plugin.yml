@@ -91,6 +91,10 @@ commands:
     hat:
         description: Wear hats you own
         usage: /<command>
+    callback:
+        description: Callback from command to code
+        usage: /<command>
+        default: true
     givestars:
         description: Give stars to a player
         usage: /<command> <Player> <Tokens>

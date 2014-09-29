@@ -36,6 +36,7 @@ public class ServerSelector implements CommandExecutor, Listener
     private ItemStack mk;
     private ItemStack plots;
     private ItemStack mirrorsEdge;
+    private ItemStack survival;
 
     public ServerSelector(GameBlade instance)
     {
@@ -128,6 +129,46 @@ public class ServerSelector implements CommandExecutor, Listener
 			}}, 10*20l, 10*20l);
         implots.setLore(plotslore);
         plots.setItemMeta(implots);
+        
+        survival = new ItemStack(Material.DIAMOND_SWORD, 1);
+        //mta.setDurability((short) 3);
+        final ItemMeta imsurvival = survival.getItemMeta();
+        imsurvival.setDisplayName(ChatColor.GOLD + "Survival");
+        final ArrayList<String> survivallore = new ArrayList<String>();
+        survivallore.addAll(Arrays.asList(new String[]{"" + ChatColor.AQUA
+                        + ChatColor.ITALIC
+                        + "Survival Minecraft",
+                        "" + ChatColor.AQUA
+                        + ChatColor.ITALIC
+                        + "Build, Explore and battle with friends"}));
+        survivallore.add(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
+        Bukkit.getScheduler().runTaskTimerAsynchronously(instance, new Runnable(){
+
+			@Override
+			public void run() {
+				 ArrayList<String> slore = new ArrayList<String>(survivallore);
+			        int online = 0;
+			        if(GameBlade.smApi != null){
+			        	//ServerID = "GB Survival 1";
+			        	List<String> ids = new ArrayList<String>(GameBlade.smApi.getServers().getServers().keySet());
+			        	for(String s:ids){
+			        		if(!s.toLowerCase().contains("survival") && !(s.toLowerCase().contains("survivals"))){
+			        			continue;
+			        		}
+			        		Server serv = GameBlade.smApi.getServers().getServer(s);
+			        		if(serv != null){
+			        			online += serv.getOnlinePlayerCount();
+			        		}
+			        	}
+			        }
+			        slore.add(ChatColor.WHITE + "" + online + ChatColor.BOLD + "/" + ChatColor.WHITE + "100");
+			        imsurvival.setLore(slore);
+			        survival.setItemMeta(imsurvival);
+			        serverSelector.setItem(6, survival);
+				return;
+			}}, 10*20l, 10*20l);
+        imsurvival.setLore(survivallore);
+        survival.setItemMeta(imsurvival);
         
         mirrorsEdge = new ItemStack(Material.IRON_BOOTS, 1);
         //mta.setDurability((short) 3);
@@ -233,9 +274,9 @@ public class ServerSelector implements CommandExecutor, Listener
         serverSelector.setItem(3, mk);
         serverSelector.setItem(4, plots);
         serverSelector.setItem(5, mirrorsEdge);
+        serverSelector.setItem(6, survival);
         serverSelector.setItem(0, lobby);
 
-        serverSelector.setItem(6, wip);
         serverSelector.setItem(11, wip);
         serverSelector.setItem(12, wip);
         serverSelector.setItem(13, wip);
@@ -295,6 +336,19 @@ public class ServerSelector implements CommandExecutor, Listener
                     try {
                         out.writeUTF("Connect");
                         out.writeUTF("plots");
+                    }
+                    catch (IOException localIOException1) {
+                    }
+                    p.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
+            }
+            if(clicked.getType().equals(Material.DIAMOND_SWORD)
+            		&& clicked.getItemMeta().getDisplayName().equals(ChatColor.GOLD + "Survival")){
+            	event.setCancelled(true);
+                p.closeInventory();
+                p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 10.0F);
+                    try {
+                        out.writeUTF("Connect");
+                        out.writeUTF("survival1");
                     }
                     catch (IOException localIOException1) {
                     }
