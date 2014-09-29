@@ -14,6 +14,7 @@ import org.stormdev.gbapi.storm.tokens.Tokens;
 import org.stormdev.gbapi.villagers.VillagerManager;
 import org.stormdev.gbplugin.bans.PunishmentLogger;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
+import org.stormdev.gbplugin.plugin.core.PlayerServerSender;
 import org.stormdev.gbplugin.plugin.cosmetics.CosmeticPanel;
 
 public class GameBladeAPI implements org.stormdev.gbapi.core.GameBladeAPI{
@@ -72,6 +73,11 @@ public class GameBladeAPI implements org.stormdev.gbapi.core.GameBladeAPI{
 	@Override
 	public void showCosmeticPanel(Player player) {
 		CosmeticPanel.getInstance().open(player);
+	}
+	
+	@Override
+	public void sendToServer(Player player, String server){
+		PlayerServerSender.sendToServer(player, server);
 	}
 	
 	@Override
