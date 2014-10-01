@@ -12,6 +12,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.stormdev.gbapi.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbapi.cosmetics.Rank;
+import org.stormdev.gbapi.storm.misc.SubtitleBar;
 import org.stormdev.gbplugin.plugin.core.Config;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.ranks.RankSQL;
@@ -39,6 +40,7 @@ public class ServerJoinListener implements Listener {
 	@EventHandler(priority = EventPriority.LOW)
 	void onJoinGame(PlayerJoinEvent event){
 		Player player = event.getPlayer();
+		
 		if(joinRank.equals(Rank.DEFAULT)){
 			return;
 		}
