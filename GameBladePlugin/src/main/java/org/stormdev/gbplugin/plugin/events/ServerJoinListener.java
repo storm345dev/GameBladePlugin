@@ -2,6 +2,8 @@ package org.stormdev.gbplugin.plugin.events;
 
 import java.util.UUID;
 
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,9 +12,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.spigotmc.ProtocolInjector.PacketTitle.Action;
 import org.stormdev.gbapi.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbapi.cosmetics.Rank;
-import org.stormdev.gbapi.storm.misc.SubtitleBar;
+import org.stormdev.gbapi.storm.misc.Popups;
 import org.stormdev.gbplugin.plugin.core.Config;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.ranks.RankSQL;
@@ -39,7 +42,17 @@ public class ServerJoinListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOW)
 	void onJoinGame(PlayerJoinEvent event){
-		Player player = event.getPlayer();
+		final Player player = event.getPlayer();
+		
+		//Popups.showTitle(player, ChatColor.RED+"Game Blade", 20, 500, 40, Action.TITLE);
+		String header = ChatColor.RED + "➹ " + ChatColor.WHITE + "Welcome to the " + 
+		ChatColor.GOLD + "" + ChatColor.BOLD + "Game" + ChatColor.BLUE + "" + ChatColor.BOLD + "Blade" + 
+				ChatColor.WHITE + "" + ChatColor.BOLD + " Network" + ChatColor.WHITE + "!" + ChatColor.RED + " ➹";
+		
+		String footer = ChatColor.DARK_GREEN + "Vote for daily tokens! Vote now on " + 
+		ChatColor.GREEN + "www.gamebla.de/vote" + ChatColor.DARK_GREEN + "!";
+		
+		Popups.setTabHeader(player, header+"\n", "\n"+footer);
 		
 		if(joinRank.equals(Rank.DEFAULT)){
 			return;

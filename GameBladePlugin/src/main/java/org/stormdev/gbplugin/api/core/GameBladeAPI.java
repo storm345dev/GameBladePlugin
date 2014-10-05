@@ -1,8 +1,8 @@
 package org.stormdev.gbplugin.api.core;
 
-import net.minecraft.server.v1_7_R4.NetworkManager;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.stormdev.gbapi.bans.BanHandler;
@@ -10,6 +10,7 @@ import org.stormdev.gbapi.bans.PunishmentLogs;
 import org.stormdev.gbapi.cosmetics.Cosmetics;
 import org.stormdev.gbapi.servers.ServerInfo;
 import org.stormdev.gbapi.stars.Stars;
+import org.stormdev.gbapi.storm.misc.Reflect;
 import org.stormdev.gbapi.storm.tokens.Tokens;
 import org.stormdev.gbapi.villagers.VillagerManager;
 import org.stormdev.gbplugin.bans.PunishmentLogger;
@@ -81,11 +82,32 @@ public class GameBladeAPI implements org.stormdev.gbapi.core.GameBladeAPI{
 	}
 	
 	@Override
-	public boolean is1_8(Player player) { //TODO
-	    NetworkManager net = ((CraftPlayer) player).getHandle().playerConnection.networkManager;
-	    
-	    return false;
-	    //return net.getVersion() >= 47; // Minecraft 1.8
+	public boolean is1_8(Player player) {
+		try {
+			Class<?> PlayerConnection = Reflect.getNMSClass("PlayerConnection");
+			Class<?> NetworkManager = Reflect.getNMSClass("NetworkManager");
+			Class<?> CraftPlayer = Reflect.getCBClass("entity.CraftPlayer");
+			Class<?> NMSPlayer = Reflect.getNMSClass("EntityPlayer");
+			
+			Object craftPlayer = CraftPlayer.cast(player);
+			Method GetHandleMethod = CraftPlayer.getMethod("getHandle");
+			Object nmsPlayer = GetHandleMethod.invoke(craftPlayer);
+			
+			Field playerConnection = NMSPlayer.getDeclaredField("playerConnection");
+			playerConnection.setAccessible(true);
+			Field networkManager = PlayerConnection.getDeclaredField("networkManager");
+			networkManager.setAccessible(true);
+
+			Object net = networkManager.get(playerConnection.get(nmsPlayer));
+
+			Method GetVersion = NetworkManager.getMethod("getVersion");
+			int ver = (int) GetVersion.invoke(net);
+
+			return ver >= 47; // Minecraft 1.8
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }
