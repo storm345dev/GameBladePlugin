@@ -15,6 +15,7 @@ import org.stormdev.gbapi.links.LinkShortener;
 import org.stormdev.gbapi.links.LinkShortener.ShorteningError;
 import org.stormdev.gbapi.storm.SQL.MySQL;
 import org.stormdev.gbapi.storm.SQL.SQLManager;
+import org.stormdev.gbplugin.api.notifications.NotificationManager;
 import org.stormdev.gbplugin.api.stars.GiveStarsCommand;
 import org.stormdev.gbplugin.api.stars.MyStarsCommand;
 import org.stormdev.gbplugin.api.villagers.VillagerManager;
@@ -62,6 +63,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 	public BukkitTask serverMonitor;
 	public ServerSelector selector;
 	public CosmeticManager cosmeticManager;
+	public NotificationManager notifications;
 	
 	private ServerMonitor serverStats;
 	
@@ -112,6 +114,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
         
         banHandler = new BanHandle();
         cosmeticManager = new CosmeticManager();
+        notifications = new NotificationManager();
         
         Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
 

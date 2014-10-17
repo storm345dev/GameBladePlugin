@@ -8,6 +8,7 @@ import org.bukkit.plugin.Plugin;
 import org.stormdev.gbapi.bans.BanHandler;
 import org.stormdev.gbapi.bans.PunishmentLogs;
 import org.stormdev.gbapi.cosmetics.Cosmetics;
+import org.stormdev.gbapi.notifications.Notifications;
 import org.stormdev.gbapi.servers.ServerInfo;
 import org.stormdev.gbapi.stars.Stars;
 import org.stormdev.gbapi.storm.misc.Reflect;
@@ -108,6 +109,11 @@ public class GameBladeAPI implements org.stormdev.gbapi.core.GameBladeAPI{
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public Notifications getNotificationsManager() {
+		return GameBlade.plugin.notifications;
 	}
 
 }
