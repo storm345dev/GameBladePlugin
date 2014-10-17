@@ -5,10 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import net.md_5.bungee.api.ChatColor;
-import net.stormdev.mario.utils.Colors;
-
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,6 +15,7 @@ import org.stormdev.gbapi.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbapi.notifications.Notifications;
 import org.stormdev.gbapi.storm.misc.Sch;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
+import org.stormdev.gbplugin.plugin.utils.Colors;
 
 public class NotificationManager implements Listener,Notifications {
 	
