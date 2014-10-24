@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
-import org.stormdev.gbplugin.plugin.stormapis.Tokens;
+import org.stormdev.gbplugin.plugin.stormapis.RemoteTokens;
 
 public class MyTokensCommand implements CommandExecutor {
 
@@ -25,7 +25,7 @@ public class MyTokensCommand implements CommandExecutor {
 			@Override
 			public void run() {
 				try {
-					int tokens = Tokens.getInstance().getTokens(player);
+					int tokens = RemoteTokens.getInstance().getTokens(player);
 					player.sendMessage(ChatColor.WHITE+"You have: "+ChatColor.RED+tokens+" tokens");
 				} catch (Exception e) {
 					player.sendMessage(ChatColor.RED+"Failed to load your token balance, sorry :(");

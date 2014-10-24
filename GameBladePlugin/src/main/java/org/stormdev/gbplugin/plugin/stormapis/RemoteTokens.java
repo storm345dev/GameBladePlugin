@@ -1,38 +1,43 @@
 package org.stormdev.gbplugin.plugin.stormapis;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
-import org.stormdev.gbapi.storm.misc.Sch;
+import org.stormdev.gbplugin.plugin.core.Config;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
+import org.stormdev.servermanager.api.APIProvider;
+import org.stormdev.servermanager.api.APIProviderType;
+import org.stormdev.servermanager.api.ServerManagerAPI;
+import org.stormdev.servermanager.api.events.MessageReceiveEvent;
+import org.stormdev.servermanager.api.listeners.SMEventHandler;
+import org.stormdev.servermanager.api.listeners.SMListener;
+import org.stormdev.servermanager.api.messaging.MessageRecipient;
 
-public class Tokens implements org.stormdev.gbapi.storm.tokens.Tokens { //Requires ServerManagerAPI
-	private static Tokens instance;
-	//public static ServerManagerAPI api= null;
-	//public static String GB_LOBBY_SERVER_ID = "GB Lobby 1";
+public class RemoteTokens implements SMListener, org.stormdev.gbapi.storm.tokens.Tokens { //Requires ServerManagerAPI
+	private static RemoteTokens instance;
+	public static ServerManagerAPI api= null;
+	public static String GB_LOBBY_SERVER_ID = "GB Lobby 1";
 	private Plugin plugin;
-	public static String SQL_TABLE = "playerTokens";
-	public static String SQL_ID = "id";
-	public static String SQL_TOKENS = "tokens";
 	
-	public static Tokens getInstance(){
+	public static RemoteTokens getInstance(){
 		if(instance == null){
-			instance = new Tokens();
+			instance = new RemoteTokens();
 		}
 		return instance;
 	}
 	
+	private MessageRecipient lobbyServer;
 	private Map<String, Integer> tokenQueries = new HashMap<String, Integer>();
 	
-	public Tokens(){
+	public RemoteTokens(){
 		this.plugin = GameBlade.plugin;
-		//GB_LOBBY_SERVER_ID = Config.lobbyServerNameMineManager.getValue();
-		/*
+		GB_LOBBY_SERVER_ID = Config.lobbyServerNameMineManager.getValue();
 		Bukkit.getScheduler().runTaskTimerAsynchronously(GameBlade.plugin, new Runnable(){
 
 			@Override
@@ -57,9 +62,7 @@ public class Tokens implements org.stormdev.gbapi.storm.tokens.Tokens { //Requir
 				}
 				return;
 			}}, 20*60*20l, 20*60*20l);
-			*/
 		
-		/*
 		if(Bukkit.getPluginManager().getPlugin("ServerManager") == null){
 			plugin.getLogger().info("Sorry this plugin requires ServerManager!");
 			plugin.getServer().getPluginManager().disablePlugin(plugin);
@@ -89,26 +92,6 @@ public class Tokens implements org.stormdev.gbapi.storm.tokens.Tokens { //Requir
 		
 		lobbyServer = MessageRecipient.create(GB_LOBBY_SERVER_ID);
 		api.getEventManager().registerListener(this);
-		*/
-	}
-	
-	private int getTokens(String uuid) throws TokenServiceUnavailableException{
-		Sch.notSync();
-		Object o;
-		try {
-			o = GameBlade.plugin.GBSQL.searchTable(SQL_TABLE, SQL_ID, uuid, SQL_TOKENS);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-			throw new TokenServiceUnavailableException();
-		}
-		if(o == null){
-			return 0;
-		}
-		try {
-			return Integer.parseInt(o.toString());
-		} catch (Exception e) {
-			return 0;
-		}
 	}
 	
 	@Override
@@ -119,8 +102,7 @@ public class Tokens implements org.stormdev.gbapi.storm.tokens.Tokens { //Requir
 		
 		String uuid = PlayerIDFinder.getMojangID(player).getID();
 		
-		return getTokens(uuid);
-		/*tokenQueries.put(uuid, -1);
+		tokenQueries.put(uuid, -1);
 		
 		try {
 			api.getMessenger().sendMessage(lobbyServer, "getTokens", uuid);
@@ -142,8 +124,8 @@ public class Tokens implements org.stormdev.gbapi.storm.tokens.Tokens { //Requir
 		int tokens = tokenQueries.get(uuid);
 		if(tokens < 0){
 			throw new TokenServiceUnavailableException();
-		}*/
-		//return tokens;
+		}
+		return tokens;
 	}
 	
 	@Override
@@ -152,22 +134,13 @@ public class Tokens implements org.stormdev.gbapi.storm.tokens.Tokens { //Requir
 
 			public void run() {
 				String uuid = PlayerIDFinder.getMojangID(playerName).getID();
-				try {
-					int bal = getTokens(uuid);
-					bal += tokens;
-					GameBlade.plugin.GBSQL.setInTable(SQL_TABLE, SQL_ID, uuid, SQL_TOKENS, bal);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
 				
-				/*
 				try {
 					api.getMessenger().sendMessage(lobbyServer, "awardTokens", tokens+"|"+uuid);
 				} catch (Exception e) {
 					//Oh well :( They don't get their tokens
 					System.out.println("Failed to give "+playerName+" their awarded tokens :(  ("+tokens+")");
 				}
-				*/
 				return;
 			}};
 			
@@ -187,11 +160,10 @@ public class Tokens implements org.stormdev.gbapi.storm.tokens.Tokens { //Requir
 				String uuid = PlayerIDFinder.getMojangID(player).getID();
 				
 				try {
-					int bal = getTokens(uuid);
-					bal += tokens;
-					GameBlade.plugin.GBSQL.setInTable(SQL_TABLE, SQL_ID, uuid, SQL_TOKENS, bal);
+					api.getMessenger().sendMessage(lobbyServer, "awardTokens", tokens+"|"+uuid);
 				} catch (Exception e) {
-					e.printStackTrace();
+					//Oh well :( They don't get their tokens
+					System.out.println("Failed to give "+player.getName()+" their awarded tokens :(  ("+tokens+")");
 				}
 				return;
 			}};
@@ -212,13 +184,10 @@ public class Tokens implements org.stormdev.gbapi.storm.tokens.Tokens { //Requir
 				String uuid = PlayerIDFinder.getMojangID(playerName).getID();
 				
 				try {
-					int bal = getTokens(uuid);
-					bal -= tokens;
-					if(bal < 0) { bal = 0; }
-					
-					GameBlade.plugin.GBSQL.setInTable(SQL_TABLE, SQL_ID, uuid, SQL_TOKENS, bal);
+					api.getMessenger().sendMessage(lobbyServer, "takeTokens", tokens+"|"+uuid);
 				} catch (Exception e) {
-					e.printStackTrace();
+					//Oh well :( They don't get their tokens
+					System.out.println("Failed to give "+playerName+" their awarded tokens :(  ("+tokens+")");
 				}
 				return;
 			}};
@@ -239,13 +208,10 @@ public class Tokens implements org.stormdev.gbapi.storm.tokens.Tokens { //Requir
 				String uuid = PlayerIDFinder.getMojangID(player).getID();
 				
 				try {
-					int bal = getTokens(uuid);
-					bal -= tokens;
-					if(bal < 0) { bal = 0; }
-					
-					GameBlade.plugin.GBSQL.setInTable(SQL_TABLE, SQL_ID, uuid, SQL_TOKENS, bal);
+					api.getMessenger().sendMessage(lobbyServer, "takeTokens", tokens+"|"+uuid);
 				} catch (Exception e) {
-					e.printStackTrace();
+					//Oh well :( They don't get their tokens
+					System.out.println("Failed to give "+player.getName()+" their awarded tokens :(  ("+tokens+")");
 				}
 				return;
 			}};
@@ -255,6 +221,37 @@ public class Tokens implements org.stormdev.gbapi.storm.tokens.Tokens { //Requir
 		}
 		else {
 			run.run();
+		}
+	}
+	
+	@SMEventHandler
+	void messageReceive(MessageReceiveEvent event){
+		if(event.getMessage().getTitle().equals("tokenBalance")){
+			String msg = event.getMessage().getMessage();
+			
+			int split = msg.indexOf("|");
+			int tokens = 0;
+			String uuid = "";
+			if(split < 1){
+				//Tokens invalid string
+				uuid = msg; //Maybe?
+			}
+			else {
+				try {
+					String tokensRaw = msg.substring(0, split);
+					uuid = msg.substring(split+1);
+					tokens = Integer.parseInt(tokensRaw);
+				} catch (Exception e) {
+					tokens = 0;
+				}
+			}
+			
+			//Handle 'tokens' passing back to method
+			if(tokenQueries.containsKey(uuid)){
+				tokenQueries.put(uuid, tokens);
+			}
+			
+			return;
 		}
 	}
 }
