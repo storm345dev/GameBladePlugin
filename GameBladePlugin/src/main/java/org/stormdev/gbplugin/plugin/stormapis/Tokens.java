@@ -27,8 +27,6 @@ public class Tokens implements org.stormdev.gbapi.storm.tokens.Tokens { //Requir
 		return instance;
 	}
 	
-	private Map<String, Integer> tokenQueries = new HashMap<String, Integer>();
-	
 	public Tokens(){
 		this.plugin = GameBlade.plugin;
 		//GB_LOBBY_SERVER_ID = Config.lobbyServerNameMineManager.getValue();
