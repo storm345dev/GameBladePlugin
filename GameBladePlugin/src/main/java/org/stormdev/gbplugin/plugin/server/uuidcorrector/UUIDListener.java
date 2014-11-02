@@ -12,9 +12,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.stormdev.gbapi.core.APIProvider;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder.MojangID;
 import org.stormdev.gbapi.storm.UUIDAPI.UUIDLoadEvent;
+import org.stormdev.gbapi.storm.misc.State;
+import org.stormdev.gbplugin.api.core.GameBladeAPI;
 import org.stormdev.gbplugin.plugin.core.Config;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 
@@ -85,13 +88,29 @@ public class UUIDListener implements Listener {
 	}
 	
 	private UUID loadUUID(Player player, boolean reflect){
+		
 		MojangID id;
 		UUID uid;
 		
-		if(handledLogins.containsKey(player.getName())){
+		if(APIProvider.getAPI().isEntityUUIDsCorrect().isTrue()){
+			id = new MojangID(player.getName(), PlayerIDFinder.toUUIDString(player.getUniqueId()));
+			PlayerIDFinder.setMeta(player, id);
+			uid = player.getUniqueId();
+		}
+		else if(handledLogins.containsKey(player.getName())){
 			id = handledLogins.get(player.getName());
 			uid = PlayerIDFinder.getAsUUID(id.getID());
 			handledLogins.remove(player.getName());
+			if(APIProvider.getAPI().isEntityUUIDsCorrect().isUnknown()){
+				if(uid.toString().equals(player.getUniqueId().toString())){ //They're equal
+					GameBlade.logger.info("Entity UUIDs are correct!");
+					GameBladeAPI.entityUUIDsCorrect = State.TRUE;
+				}
+				else {
+					GameBlade.logger.info("Entity UUIDs are NOT correct!");
+					GameBladeAPI.entityUUIDsCorrect = State.FALSE;
+				}
+			}
 			if(reflect){
 				PlayerIDFinder.PlayerReflect.setPlayerUUID(player, uid);
 			}
@@ -106,6 +125,14 @@ public class UUIDListener implements Listener {
 			}
 			if(id == null){
 				return UUID.randomUUID();
+			}
+			if(uid.toString().equals(player.getUniqueId().toString())){ //They're equal
+				GameBlade.logger.info("Entity UUIDs are correct!");
+				GameBladeAPI.entityUUIDsCorrect = State.TRUE;
+			}
+			else {
+				GameBlade.logger.info("Entity UUIDs are NOT correct!");
+				GameBladeAPI.entityUUIDsCorrect = State.FALSE;
 			}
 		}
 		

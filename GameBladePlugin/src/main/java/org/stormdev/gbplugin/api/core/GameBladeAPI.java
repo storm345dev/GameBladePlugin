@@ -12,6 +12,7 @@ import org.stormdev.gbapi.notifications.Notifications;
 import org.stormdev.gbapi.servers.ServerInfo;
 import org.stormdev.gbapi.stars.Stars;
 import org.stormdev.gbapi.storm.misc.Reflect;
+import org.stormdev.gbapi.storm.misc.State;
 import org.stormdev.gbapi.storm.tokens.Tokens;
 import org.stormdev.gbapi.villagers.VillagerManager;
 import org.stormdev.gbplugin.bans.PunishmentLogger;
@@ -21,6 +22,8 @@ import org.stormdev.gbplugin.plugin.cosmetics.CosmeticPanel;
 
 public class GameBladeAPI implements org.stormdev.gbapi.core.GameBladeAPI{
 	private static final double VERSION = 0.1;
+	
+	public static State entityUUIDsCorrect = State.UNKNOWN;
 	
 	@Override
 	public double getAPIVersionNumber() {
@@ -114,6 +117,11 @@ public class GameBladeAPI implements org.stormdev.gbapi.core.GameBladeAPI{
 	@Override
 	public Notifications getNotificationsManager() {
 		return GameBlade.plugin.notifications;
+	}
+
+	@Override
+	public State isEntityUUIDsCorrect() {
+		return entityUUIDsCorrect;
 	}
 
 }
