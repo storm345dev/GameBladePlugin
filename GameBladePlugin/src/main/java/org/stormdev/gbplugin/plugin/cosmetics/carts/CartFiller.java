@@ -1,5 +1,6 @@
 package org.stormdev.gbplugin.plugin.cosmetics.carts;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import org.bukkit.Bukkit;
@@ -71,9 +72,11 @@ public class CartFiller {
 			getNMSEntity.setAccessible(true);
 			Object ce = cb.cast(car);
 			Object nmsE = nmsEntity.cast(getNMSEntity.invoke(ce));
+			
 			carId.invoke(nmsE, id);
 			carData.invoke(nmsE, data);
 			carOffset.invoke(nmsE, offset);
+			
 		} catch (Exception e) {
 			useFallingBlock = true;
 		}
