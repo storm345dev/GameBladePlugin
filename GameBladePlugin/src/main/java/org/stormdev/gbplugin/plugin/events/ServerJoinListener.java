@@ -13,6 +13,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.spigotmc.ProtocolInjector.PacketTitle.Action;
+import org.stormdev.chattranslator.api.TranslatorToolkit;
 import org.stormdev.gbapi.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbapi.storm.misc.Popups;
@@ -62,5 +63,15 @@ public class ServerJoinListener implements Listener {
 			event.setJoinMessage(null);
 			player.kickPlayer(Config.joinKickMsg.getValue());
 		}
+		
+		Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
+
+			@Override
+			public void run() {
+				if(!TranslatorToolkit.getToolkit().getLanguageManager().hasSetLang(player)){
+					player.sendMessage(ChatColor.RED+"You haven't got a language set! Please use /lang to set your language!");
+				}
+				return;
+			}}, 20*5l);
 	}
 }
