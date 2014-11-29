@@ -4,9 +4,12 @@ package org.stormdev.gbplugin.plugin.core;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,6 +25,12 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.stormdev.gbapi.core.APIProvider;
+import org.stormdev.gbapi.gui.IconMenu;
+import org.stormdev.gbapi.gui.IconMenu.OptionClickEvent;
+import org.stormdev.gbplugin.plugin.server.ping.ServerListPing;
+import org.stormdev.gbplugin.plugin.server.ping.ServerListPing.StatusResponse;
+import org.stormdev.gbplugin.plugin.utils.Colors;
 import org.stormdev.servermanager.api.messaging.Server;
 
 public class ServerSelector implements CommandExecutor, Listener
@@ -37,6 +46,8 @@ public class ServerSelector implements CommandExecutor, Listener
     private ItemStack plots;
     private ItemStack mirrorsEdge;
     private ItemStack survival;
+    
+    private IconMenu MKSelect;
 
     public ServerSelector(GameBlade instance)
     {
@@ -47,6 +58,97 @@ public class ServerSelector implements CommandExecutor, Listener
         imvipservers.setDisplayName(ChatColor.YELLOW + "Event Server");
         imvipservers.setLore(Arrays.asList(new String[] { "" + ChatColor.RED + ChatColor.ITALIC + "There's currently no event running." }));
         vipservers.setItemMeta(imvipservers);
+        
+        MKSelect = new IconMenu(ChatColor.BLUE+"Select a server", 9, new IconMenu.OptionClickEventHandler() {
+			
+			@Override
+			public void onOptionClick(OptionClickEvent event) {
+				event.setWillClose(true);
+				event.setWillDestroy(false);
+				int pos = event.getPosition();
+				ItemStack item = event.getInventory().getItem(pos);
+				if(item == null){
+					return;
+				}
+				String name = ChatColor.stripColor(item.getItemMeta().getDisplayName()); //MK <No>
+				if(!name.matches("MK (\\d+)")){
+					return;
+				}
+				Pattern p = Pattern.compile("MK (\\d+)");
+				Matcher matcher = p.matcher(name);
+				
+				int mkNo = 1;
+				while(matcher.find()){
+					//Should be one match
+					mkNo = Integer.parseInt(matcher.group(1));
+				}
+				
+				event.getPlayer().sendMessage(ChatColor.GRAY+"Connecting...");
+				APIProvider.getAPI().sendToServer(event.getPlayer(), "mk"+mkNo);
+				return;
+			}
+		}, GameBlade.plugin);
+        
+        Bukkit.getScheduler().runTaskTimerAsynchronously(GameBlade.plugin, new Runnable(){
+
+			@Override
+			public void run() {
+				//Update MK server list
+				@SuppressWarnings("unused")
+				int foundNo = 0;
+				for(int i=4010;i<4020;i++){
+					try {
+						StatusResponse resp = ServerListPing.fetchData(new InetSocketAddress("localhost", i));
+						if(resp == null){
+							continue;
+						}
+						String MOTD = resp.getDescription();
+						//System.out.println(MOTD);
+						int playerCount = resp.getPlayers().getOnline();
+						int playerMax = resp.getPlayers().getMax();
+						
+						int serverNumber = i - 4010;
+						
+						foundNo++;
+						
+						ItemStack[] selector = MKSelect.getOptions().clone();
+						boolean found = false;
+						
+						for(int z=0;z<selector.length;z++){
+							ItemStack it = selector[z];
+							if(it == null){
+								continue;
+							}
+							String name = it.getItemMeta().getDisplayName();
+							if(ChatColor.stripColor(name).equalsIgnoreCase("MK "+serverNumber)){
+								//Update it
+								ItemMeta im = it.getItemMeta();
+								im.setDisplayName(ChatColor.BLUE+"MK "+serverNumber);
+								List<String> lore = new ArrayList<String>();
+								lore.add(ChatColor.WHITE+Colors.colorise(MOTD));
+								lore.add(ChatColor.WHITE+""+playerCount+"/"+playerMax);
+								im.setLore(lore);
+								it.setItemMeta(im);
+								found = true;
+							}
+						}
+						
+						if(!found){ //Append it
+							ItemStack it = new ItemStack(Material.MINECART);
+							List<String> lore = new ArrayList<String>();
+							lore.add(ChatColor.WHITE+Colors.colorise(MOTD));
+							lore.add(ChatColor.WHITE+""+playerCount+"/"+playerMax);
+							//Append it
+							MKSelect.appendOption(it, ChatColor.BLUE+"MK "+serverNumber, lore);
+						}
+					} catch (Exception e) {
+						// Server is offline
+						e.printStackTrace();
+					}
+				}
+				//GameBlade.logger.info("Found "+foundNo+" MK servers!");
+				return;
+			}}, 0l, 15*20l);
 
         mta = new ItemStack(Material.IRON_SWORD, 1);
         //mta.setDurability((short) 3);
@@ -320,13 +422,8 @@ public class ServerSelector implements CommandExecutor, Listener
                 event.setCancelled(true);
                 p.closeInventory();
                 p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 10.0F);
-                    try {
-                        out.writeUTF("Connect");
-                        out.writeUTF("mklobby1");
-                    }
-                    catch (IOException localIOException1) {
-                    }
-                    p.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
+                //Open MK server select menu
+                MKSelect.open(p);
             }
             if ((clicked.getType() == Material.GRASS) &&
                     (clicked.getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Creative Plots"))) {

@@ -1,7 +1,11 @@
 package org.stormdev.gbplugin.plugin.utils;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
+import net.minecraft.server.v1_8_R1.EnumParticle;
+import net.minecraft.server.v1_8_R1.PacketPlayOutWorldParticles;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,22 +14,24 @@ import org.bukkit.entity.Player;
 
 
 public enum ParticleEffects {
+	
+	
 
-	HUGE_EXPLODE("hugeexplosion", 0), LARGE_EXPLODE("largeexplode", 1), FIREWORK_SPARK(
-			"fireworksSpark", 2), AIR_BUBBLE("bubble", 3), SUSPEND("suspend", 4), DEPTH_SUSPEND(
-			"depthSuspend", 5), TOWN_AURA("townaura", 6), CRITICAL_HIT("crit",
-			7), MAGIC_CRITICAL_HIT("magicCrit", 8), MOB_SPELL("mobSpell", 9), MOB_SPELL_AMBIENT(
-			"mobSpellAmbient", 10), SPELL("spell", 11), INSTANT_SPELL(
-			"instantSpell", 12), BLUE_SPARKLE("witchMagic", 13), NOTE_BLOCK(
-			"note", 14), ENDER("portal", 15), ENCHANTMENT_TABLE(
-			"enchantmenttable", 16), EXPLODE("explode", 17), FIRE("flame", 18), LAVA_SPARK(
-			"lava", 19), FOOTSTEP("footstep", 20), SPLASH("splash", 21), LARGE_SMOKE(
-			"largesmoke", 22), CLOUD("cloud", 23), REDSTONE_DUST("reddust", 24), SNOWBALL_HIT(
-			"snowballpoof", 25), DRIP_WATER("dripWater", 26), DRIP_LAVA(
-			"dripLava", 27), SNOW_DIG("snowshovel", 28), SLIME("slime", 29), HEART(
-			"heart", 30), ANGRY_VILLAGER("angryVillager", 31), GREEN_SPARKLE(
-			"happyVillager", 32), ICONCRACK("iconcrack", 33), TILECRACK(
-			"tilecrack", 34);
+	HUGE_EXPLODE(EnumParticle.EXPLOSION_HUGE.name(), 0), LARGE_EXPLODE(EnumParticle.EXPLOSION_LARGE.name(), 1), FIREWORK_SPARK(
+			EnumParticle.FIREWORKS_SPARK.name(), 2), AIR_BUBBLE(EnumParticle.WATER_BUBBLE.name(), 3), SUSPEND(EnumParticle.SUSPENDED.name(), 4), DEPTH_SUSPEND(
+			EnumParticle.SUSPENDED_DEPTH.name(), 5), TOWN_AURA(EnumParticle.TOWN_AURA.name(), 6), CRITICAL_HIT(EnumParticle.CRIT.name(),
+			7), MAGIC_CRITICAL_HIT(EnumParticle.CRIT_MAGIC.name(), 8), MOB_SPELL(EnumParticle.SPELL_MOB.name(), 9), MOB_SPELL_AMBIENT(
+					EnumParticle.SPELL_MOB_AMBIENT.name(), 10), SPELL(EnumParticle.SPELL.name(), 11), INSTANT_SPELL(
+			EnumParticle.SPELL_INSTANT.name(), 12), BLUE_SPARKLE(EnumParticle.SPELL_WITCH.name(), 13), NOTE_BLOCK(
+			EnumParticle.NOTE.name(), 14), ENDER(EnumParticle.PORTAL.name(), 15), ENCHANTMENT_TABLE(
+			EnumParticle.ENCHANTMENT_TABLE.name(), 16), EXPLODE(EnumParticle.EXPLOSION_NORMAL.name(), 17), FIRE(EnumParticle.FLAME.name(), 18), LAVA_SPARK(
+			EnumParticle.LAVA.name(), 19), FOOTSTEP(EnumParticle.FOOTSTEP.name(), 20), SPLASH(EnumParticle.WATER_SPLASH.name(), 21), LARGE_SMOKE(
+			EnumParticle.SMOKE_LARGE.name(), 22), CLOUD(EnumParticle.CLOUD.name(), 23), REDSTONE_DUST(EnumParticle.REDSTONE.name(), 24), SNOWBALL_HIT(
+			EnumParticle.SNOWBALL.name(), 25), DRIP_WATER(EnumParticle.DRIP_WATER.name(), 26), DRIP_LAVA(
+			EnumParticle.DRIP_LAVA.name(), 27), SNOW_DIG(EnumParticle.SNOW_SHOVEL.name(), 28), SLIME(EnumParticle.SLIME.name(), 29), HEART(
+			EnumParticle.HEART.name(), 30), ANGRY_VILLAGER(EnumParticle.VILLAGER_ANGRY.name(), 31), GREEN_SPARKLE(
+			EnumParticle.VILLAGER_HAPPY.name(), 32), ICONCRACK(EnumParticle.BLOCK_CRACK.name(), 33), TILECRACK(
+			EnumParticle.BLOCK_CRACK.name(), 34);
 
 	private static Object createPacket(ParticleEffects effect,
 			Location location, float offsetX, float offsetY, float offsetZ,
@@ -33,17 +39,49 @@ public enum ParticleEffects {
 		if (count <= 0) {
 			count = 1;
 		}
-		Class<?> packetClass = getCraftClass("PacketPlayOutWorldParticles");
-		Object packet = packetClass.getConstructor(String.class, float.class,
-				float.class, float.class, float.class, float.class,
-				float.class, float.class, int.class).newInstance(effect.name,
-				(float) location.getX(), (float) location.getY(),
+		
+		Constructor<?>[] cc = PacketPlayOutWorldParticles.class.getDeclaredConstructors();
+		for(Constructor<?> c:cc){
+			Class<?>[] classes = c.getParameterTypes();
+			StringBuilder sb = new StringBuilder();
+			for(Class<?> cl:classes){
+				sb.append("[").append(cl.getName()).append("]");
+			}
+			System.out.println(sb.toString());
+		}
+		
+		//[Enum Particle (NMS)] [Boolean] [Float] [Float] [Float] [Float] [Float] [Float] [Float] [Float] [int] [int...]
+		PacketPlayOutWorldParticles pp = new PacketPlayOutWorldParticles(EnumParticle.valueOf(effect.name.toUpperCase()), true, (float) location.getX(), (float) location.getY(),
 				(float) location.getZ(), offsetX, offsetY, offsetZ, speed,
 				count);
-		return packet;
+		return pp;
+	}
+	
+	private static Object createPacket(EnumParticle effect,
+			Location location, float offsetX, float offsetY, float offsetZ,
+			float speed, int count) throws Exception {
+		if (count <= 0) {
+			count = 1;
+		}
+		
+		Constructor<?>[] cc = PacketPlayOutWorldParticles.class.getDeclaredConstructors();
+		for(Constructor<?> c:cc){
+			Class<?>[] classes = c.getParameterTypes();
+			StringBuilder sb = new StringBuilder();
+			for(Class<?> cl:classes){
+				sb.append("[").append(cl.getName()).append("]");
+			}
+			System.out.println(sb.toString());
+		}
+		
+		//[Enum Particle (NMS)] [Boolean] [Float] [Float] [Float] [Float] [Float] [Float] [Float] [Float] [int] [int...]
+		PacketPlayOutWorldParticles pp = new PacketPlayOutWorldParticles(effect, true, (float) location.getX(), (float) location.getY(),
+				(float) location.getZ(), offsetX, offsetY, offsetZ, speed,
+				count);
+		return pp;
 	}
 
-	private static Class<?> getCraftClass(String name) {
+	/*private static Class<?> getCraftClass(String name) {
 		String version = getVersion() + ".";
 		String className = "net.minecraft.server." + version + name;
 		Class<?> clazz = null;
@@ -53,7 +91,7 @@ public enum ParticleEffects {
 			e.printStackTrace();
 		}
 		return clazz;
-	}
+	}*/
 
 	private static Object getHandle(Entity entity) {
 		try {
@@ -66,10 +104,10 @@ public enum ParticleEffects {
 		}
 	}
 
-	private static String getVersion() {
+	/*private static String getVersion() {
 		return Bukkit.getServer().getClass().getPackage().getName()
 				.replace(".", ",").split(",")[3];
-	}
+	}*/
 
 	private static void sendPacket(Player p, Object packet) throws Exception {
 		Object eplayer = getHandle(p);
@@ -104,6 +142,20 @@ public enum ParticleEffects {
 	 *            The count of effects
 	 */
 	public static void sendToLocation(ParticleEffects effect,
+			Location location, float offsetX, float offsetY, float offsetZ,
+			float speed, int count) {
+		try {
+			Object packet = createPacket(effect, location, offsetX, offsetY,
+					offsetZ, speed, count);
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				sendPacket(player, packet);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void sendToLocation(EnumParticle effect,
 			Location location, float offsetX, float offsetY, float offsetZ,
 			float speed, int count) {
 		try {
@@ -174,7 +226,7 @@ public enum ParticleEffects {
 	 * 
 	 * @return The particle effect name
 	 */
-	public String getName() {
+	String getName() {
 		return name;
 	}
 

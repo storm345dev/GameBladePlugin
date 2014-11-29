@@ -137,6 +137,14 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		for(Player player:Bukkit.getOnlinePlayers()){
 			HatMenu.takeOffHatPhysicallyIfHatIsWorn(player);
 		}
+		try {
+			for(Player player:Bukkit.getOnlinePlayers()){
+				org.stormdev.gbapi.core.APIProvider.getAPI().sendToServer(player, "void");
+			}
+			Thread.sleep(1000); //try and let them send
+		} catch(Exception e){
+			//Oh well
+		}
 		Bukkit.getScheduler().cancelTasks(this);
 		logger.info("GameBladePlugin "+ChatColor.RED+"disabled!");
 	}
