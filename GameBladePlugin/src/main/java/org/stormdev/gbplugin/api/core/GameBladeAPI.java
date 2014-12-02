@@ -87,7 +87,7 @@ public class GameBladeAPI implements org.stormdev.gbapi.core.GameBladeAPI{
 	
 	@Override
 	public boolean is1_8(Player player) {
-		try {
+		/*try {
 			Class<?> PlayerConnection = Reflect.getNMSClass("PlayerConnection");
 			Class<?> NetworkManager = Reflect.getNMSClass("NetworkManager");
 			Class<?> CraftPlayer = Reflect.getCBClass("entity.CraftPlayer");
@@ -111,7 +111,8 @@ public class GameBladeAPI implements org.stormdev.gbapi.core.GameBladeAPI{
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
-		}
+		}*/
+		return true;
 	}
 
 	@Override

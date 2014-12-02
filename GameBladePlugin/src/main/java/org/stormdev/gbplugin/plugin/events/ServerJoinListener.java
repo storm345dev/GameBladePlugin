@@ -52,6 +52,7 @@ public class ServerJoinListener implements Listener {
 		ChatColor.GREEN + "www.gamebla.de/vote" + ChatColor.DARK_GREEN + "!";
 		
 		Popups.setTabHeader(player, header+"\n", "\n"+footer);
+		player.sendMessage("Tab List Header and footer supposedly set");
 		
 		if(joinRank.equals(Rank.DEFAULT)){
 			return;
