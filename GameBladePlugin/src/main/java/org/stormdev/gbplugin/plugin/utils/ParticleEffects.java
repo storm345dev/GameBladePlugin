@@ -40,7 +40,7 @@ public enum ParticleEffects {
 			count = 1;
 		}
 		
-		Constructor<?>[] cc = PacketPlayOutWorldParticles.class.getDeclaredConstructors();
+		/*Constructor<?>[] cc = PacketPlayOutWorldParticles.class.getDeclaredConstructors();
 		for(Constructor<?> c:cc){
 			Class<?>[] classes = c.getParameterTypes();
 			StringBuilder sb = new StringBuilder();
@@ -48,7 +48,7 @@ public enum ParticleEffects {
 				sb.append("[").append(cl.getName()).append("]");
 			}
 			System.out.println(sb.toString());
-		}
+		}*/
 		
 		//[Enum Particle (NMS)] [Boolean] [Float] [Float] [Float] [Float] [Float] [Float] [Float] [Float] [int] [int...]
 		PacketPlayOutWorldParticles pp = new PacketPlayOutWorldParticles(effect.get(), true, (float) location.getX(), (float) location.getY(),
