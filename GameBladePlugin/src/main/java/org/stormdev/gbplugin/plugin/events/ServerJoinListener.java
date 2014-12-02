@@ -15,6 +15,7 @@ import org.stormdev.chattranslator.api.TranslatorToolkit;
 import org.stormdev.gbapi.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbapi.storm.misc.Popups;
+import org.stormdev.gbapi.storm.misc.SubtitleBar;
 import org.stormdev.gbplugin.plugin.core.Config;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.ranks.RankSQL;
@@ -52,7 +53,6 @@ public class ServerJoinListener implements Listener {
 		ChatColor.GREEN + "www.gamebla.de/vote" + ChatColor.DARK_GREEN + "!";
 		
 		Popups.setTabHeader(player, header+"\n", "\n"+footer);
-		player.sendMessage("Tab List Header and footer supposedly set");
 		
 		if(joinRank.equals(Rank.DEFAULT)){
 			return;
