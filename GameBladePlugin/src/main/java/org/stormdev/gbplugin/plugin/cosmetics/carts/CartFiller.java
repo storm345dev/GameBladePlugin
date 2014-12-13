@@ -1,16 +1,18 @@
 package org.stormdev.gbplugin.plugin.cosmetics.carts;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Minecart;
+import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 
 public class CartFiller {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void putBlockInCar(Minecart car, int id, int data){
-		Boolean useFallingBlock = false;
+		ItemStack item = new ItemStack(id, 1, (short) data);
+		car.setDisplayBlock(item.getData());
+		/*Boolean useFallingBlock = false;
 		// net.minecraft.server.v1_7_R1.EntityMinecartAbstract;
 		// org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
 		String NMSversion = "net.minecraft.server." + Bukkit.getServer().getClass().getPackage()
@@ -42,13 +44,16 @@ public class CartFiller {
 			//Don't use falling blocks as they're derpy
 			GameBlade.logger.info("[ALERT] Unable to place a block in a car,"
 					+ " please check for an update.");
-		}
+		}*/
 		return;
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void putBlockInCar(Minecart car, int id, int data, int offset){
-		Boolean useFallingBlock = false;
+		ItemStack item = new ItemStack(id, 1, (short) data);
+		car.setDisplayBlock(item.getData());
+		car.setDisplayBlockOffset(offset);
+		/*Boolean useFallingBlock = false;
 		// net.minecraft.server.v1_7_R1.EntityMinecartAbstract;
 		// org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
 		String NMSversion = "net.minecraft.server." + Bukkit.getServer().getClass().getPackage()
@@ -84,7 +89,7 @@ public class CartFiller {
 			//Don't use falling blocks as they're derpy
 			GameBlade.logger.info("[ALERT] Unable to place a block in a car,"
 					+ " please check for an update.");
-		}
+		}*/
 		return;
 	}
 }
