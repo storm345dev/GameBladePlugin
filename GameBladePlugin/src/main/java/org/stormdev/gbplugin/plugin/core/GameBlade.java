@@ -13,12 +13,15 @@ import org.bukkit.scheduler.BukkitTask;
 import org.stormdev.gbapi.core.GameBladeAPI;
 import org.stormdev.gbapi.links.LinkShortener;
 import org.stormdev.gbapi.links.LinkShortener.ShorteningError;
+import org.stormdev.gbapi.storm.SQL.MySQL;
+import org.stormdev.gbapi.storm.SQL.SQLManager;
 import org.stormdev.gbplugin.api.notifications.NotificationManager;
 import org.stormdev.gbplugin.api.stars.GiveStarsCommand;
 import org.stormdev.gbplugin.api.stars.MyStarsCommand;
 import org.stormdev.gbplugin.api.villagers.VillagerManager;
 import org.stormdev.gbplugin.bans.BanHandle;
 import org.stormdev.gbplugin.bans.BanListener;
+import org.stormdev.gbplugin.plugin.autodeploy.UpdateDeployer;
 import org.stormdev.gbplugin.plugin.chat.ChatManager;
 import org.stormdev.gbplugin.plugin.commands.BroadcastCommandExecutor;
 import org.stormdev.gbplugin.plugin.commands.CallBackCommand;
@@ -43,8 +46,6 @@ import org.stormdev.gbplugin.plugin.server.uuidcorrector.UUIDListener;
 import org.stormdev.gbplugin.plugin.utils.JarUtils;
 import org.stormdev.servermanager.api.APIProvider;
 import org.stormdev.servermanager.api.ServerManagerAPI;
-import org.stormdev.stormapi.SQL.MySQL;
-import org.stormdev.stormapi.SQL.SQLManager;
 import org.stormdev.tokenhandler.commands.GiveTokensCommand;
 import org.stormdev.tokenhandler.commands.MyTokensCommand;
 
@@ -128,6 +129,8 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 				}
 				return;
 			}});
+        
+        new UpdateDeployer();
         
 		logger.info("GameBladePlugin "+ChatColor.GREEN+"enabled!");
 	}
