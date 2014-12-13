@@ -7,8 +7,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbapi.storm.misc.MetadataValue;
-import org.stormdev.gbapi.storm.misc.ObjectWrapper;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
+import org.stormdev.stormapi.misc.ObjectWrapper;
 
 public abstract class ChangingHat extends BlockhatBase {
 	public abstract String getMeta();

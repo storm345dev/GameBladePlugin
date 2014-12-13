@@ -13,8 +13,6 @@ import org.bukkit.scheduler.BukkitTask;
 import org.stormdev.gbapi.core.GameBladeAPI;
 import org.stormdev.gbapi.links.LinkShortener;
 import org.stormdev.gbapi.links.LinkShortener.ShorteningError;
-import org.stormdev.gbapi.storm.SQL.MySQL;
-import org.stormdev.gbapi.storm.SQL.SQLManager;
 import org.stormdev.gbplugin.api.notifications.NotificationManager;
 import org.stormdev.gbplugin.api.stars.GiveStarsCommand;
 import org.stormdev.gbplugin.api.stars.MyStarsCommand;
@@ -45,6 +43,8 @@ import org.stormdev.gbplugin.plugin.server.uuidcorrector.UUIDListener;
 import org.stormdev.gbplugin.plugin.utils.JarUtils;
 import org.stormdev.servermanager.api.APIProvider;
 import org.stormdev.servermanager.api.ServerManagerAPI;
+import org.stormdev.stormapi.SQL.MySQL;
+import org.stormdev.stormapi.SQL.SQLManager;
 import org.stormdev.tokenhandler.commands.GiveTokensCommand;
 import org.stormdev.tokenhandler.commands.MyTokensCommand;
 

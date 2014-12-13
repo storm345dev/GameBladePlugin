@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 import org.stormdev.gbapi.storm.misc.MetadataValue;
-import org.stormdev.gbapi.storm.misc.ObjectWrapper;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
+import org.stormdev.stormapi.misc.ObjectWrapper;
 
 public interface ColouredVehicle {
 	public void apply(Minecart m, Player player);
