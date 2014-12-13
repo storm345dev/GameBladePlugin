@@ -14,16 +14,18 @@ public class UpdateCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String alias,
 			String[] args) {
 		if((sender instanceof Player) && !((Player)sender).isOp()){
+			sender.sendMessage("No access to this command");
 			return true;
 		}
 		if(args.length < 2){
+			sender.sendMessage("Invalid usage:");
 			return false;
 		}
 		
 		final String plugName = args[0];
 		final String URL = args[1];
 		
-		sender.sendMessage("Updating...");
+		sender.sendMessage("Updating "+plugName+" from "+URL+"...");
 		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
 
 			@Override

@@ -55,7 +55,15 @@ public class UpdateDeployer implements SMListener {
 			return;
 		}
 		
-		String fileName = url.getFile();
+		String[] URLParts = url.getPath().split(Pattern.quote(File.separator));
+		String fileName;
+		if(URLParts.length < 1){
+			System.out.println("Error in handling auto update deployment: Unable to determine FileName to download");
+			return;
+		}
+		else {
+			fileName = URLParts[URLParts.length - 1];
+		}
 		if(fileName == null || fileName.length() < 1){
 			System.out.println("Error in handling auto update deployment: Unable to determine FileName to download");
 			return;
@@ -71,7 +79,7 @@ public class UpdateDeployer implements SMListener {
 				return;
 			}
 		}
-		System.out.println("Downloading update for plugin: "+name);
+		System.out.println("Downloading update for plugin: "+name+" to "+dest.getAbsolutePath());
 		
 		try {
 			IOUtils.copy(url.openStream(), new BufferedWriter(new FileWriter(dest)));
