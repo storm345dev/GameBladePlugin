@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
@@ -82,7 +84,7 @@ public class UpdateDeployer implements SMListener {
 		System.out.println("Downloading update for plugin: "+name+" to "+dest.getAbsolutePath());
 		
 		try {
-			IOUtils.copy(url.openStream(), new BufferedWriter(new FileWriter(dest)));
+			Files.copy(url.openStream(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Update failed...");
