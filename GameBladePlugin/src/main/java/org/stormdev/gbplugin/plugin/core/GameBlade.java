@@ -33,6 +33,7 @@ import org.stormdev.gbplugin.plugin.commands.PunishCommand;
 import org.stormdev.gbplugin.plugin.commands.SetRankCommand;
 import org.stormdev.gbplugin.plugin.commands.StarShopCommand;
 import org.stormdev.gbplugin.plugin.commands.UnbanCommand;
+import org.stormdev.gbplugin.plugin.commands.UpdateCommand;
 import org.stormdev.gbplugin.plugin.cosmetics.CosmeticManager;
 import org.stormdev.gbplugin.plugin.cosmetics.CosmeticVillagers;
 import org.stormdev.gbplugin.plugin.cosmetics.carts.CartFillListener;
@@ -219,6 +220,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		getCommand("invsee").setExecutor(new InvSeeCommand());
 		getCommand("setrank").setExecutor(new SetRankCommand());
 		getCommand("callback").setExecutor(new CallBackCommand());
+		getCommand("update").setExecutor(new UpdateCommand());;
 	}
 	
 	private void setupListeners(){

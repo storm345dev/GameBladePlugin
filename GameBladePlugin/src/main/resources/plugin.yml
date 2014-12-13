@@ -18,6 +18,13 @@ commands:
         permission-message: Unknown command. Type "/help" for help.
         usage: /<command> (<Player> <Time> <Reason>)
         default: op
+    update:
+        description: Update a plugin on EVERY server
+        aliases: [updateplugin]
+        permission: gameblade.admin
+        permission-message: Unknown command. Type "/help" for help.
+        usage: /<command> <PluginNameFromPluginList> <URL>
+        default: op
     invsee:
         description: See a player's inventory
         aliases: [seeinv]
