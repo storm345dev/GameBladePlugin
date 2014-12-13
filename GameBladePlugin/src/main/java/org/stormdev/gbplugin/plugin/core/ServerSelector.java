@@ -98,7 +98,7 @@ public class ServerSelector implements CommandExecutor, Listener
 				int foundNo = 0;
 				for(int i=4010;i<4020;i++){
 					try {
-						StatusResponse resp = ServerListPing.fetchData(new InetSocketAddress("localhost", i));
+						StatusResponse resp = ServerListPing.fetchData(new InetSocketAddress("37.59.50.130", i));
 						if(resp == null){
 							continue;
 						}
