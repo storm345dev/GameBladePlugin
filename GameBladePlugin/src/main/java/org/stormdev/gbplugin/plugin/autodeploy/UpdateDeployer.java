@@ -1,8 +1,6 @@
 package org.stormdev.gbplugin.plugin.autodeploy;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -10,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.regex.Pattern;
 
-import org.apache.commons.io.IOUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.stormdev.servermanager.api.APIProvider;
