@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.stormdev.gbapi.bans.BanHandler;
 import org.stormdev.gbapi.bans.PunishmentLogs;
+import org.stormdev.gbapi.core.APIProvider;
 import org.stormdev.gbapi.cosmetics.Cosmetics;
 import org.stormdev.gbapi.notifications.Notifications;
 import org.stormdev.gbapi.servers.ServerInfo;
