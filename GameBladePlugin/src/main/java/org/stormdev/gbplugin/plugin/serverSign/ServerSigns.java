@@ -240,7 +240,7 @@ public class ServerSigns implements Listener {
 				GameBlade.logger.info("Unable to de-serialize server signs from save file!");
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return;
 		} finally {
 			if(oi != null){
