@@ -145,6 +145,9 @@ public class ServerSigns implements Listener {
 				if(MOTD.length() >= 15){
 					MOTD = MOTD.substring(0, 15);
 				}
+				if(ChatColor.stripColor(MOTD).toLowerCase().startsWith("a minecraft")){
+					MOTD = ChatColor.GREEN+"Online";
+				}
 				playerCount = sr.getPlayers().getOnline();
 				maxPlayers = sr.getPlayers().getMax();
 			} catch (IOException e) {
@@ -174,6 +177,9 @@ public class ServerSigns implements Listener {
 					s.setLine(2, motd);
 					if(isOnline){
 						s.setLine(3, players);
+					}
+					else {
+						s.setLine(3, "");
 					}
 					s.update(false);
 					return;
