@@ -169,6 +169,7 @@ public class ServerSigns implements Listener {
 						return;
 					}
 					Sign s = (Sign) block.getState();
+					s.setLine(0, "");
 					s.setLine(1, sName);
 					s.setLine(2, motd);
 					if(isOnline){
