@@ -157,7 +157,7 @@ public class ServerSigns implements Listener {
 			
 			final String sName = name;
 			final String motd = MOTD;
-			final String players = ChatColor.GREEN+"["+playerCount+"/"+maxPlayers+"]";
+			final String players = ChatColor.WHITE+""+ChatColor.BOLD+"["+playerCount+"/"+maxPlayers+"]";
 			final boolean isOnline = online;
 			
 			Bukkit.getScheduler().runTask(GameBlade.plugin, new Runnable(){
