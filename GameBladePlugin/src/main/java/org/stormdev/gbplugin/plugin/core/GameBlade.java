@@ -44,6 +44,7 @@ import org.stormdev.gbplugin.plugin.modpanel.ModMenu;
 import org.stormdev.gbplugin.plugin.server.ServerInfo;
 import org.stormdev.gbplugin.plugin.server.ServerMonitor;
 import org.stormdev.gbplugin.plugin.server.uuidcorrector.UUIDListener;
+import org.stormdev.gbplugin.plugin.serverSign.ServerSigns;
 import org.stormdev.gbplugin.plugin.utils.JarUtils;
 import org.stormdev.servermanager.api.APIProvider;
 import org.stormdev.servermanager.api.ServerManagerAPI;
@@ -66,6 +67,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 	public ServerSelector selector;
 	public CosmeticManager cosmeticManager;
 	public NotificationManager notifications;
+	public ServerSigns serverSigns;
 	
 	private ServerMonitor serverStats;
 	
@@ -132,6 +134,8 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 			}});
         
         new UpdateDeployer();
+        
+        serverSigns = new ServerSigns(new File(getDataFolder()+File.separator+"serverSigns.bin"));
         
 		logger.info("GameBladePlugin "+ChatColor.GREEN+"enabled!");
 	}
