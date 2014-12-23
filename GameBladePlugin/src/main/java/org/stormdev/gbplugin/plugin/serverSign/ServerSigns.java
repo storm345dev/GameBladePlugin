@@ -141,6 +141,9 @@ public class ServerSigns implements Listener {
 			//Get data
 			try {
 				StatusResponse sr = ServerListPing.fetchData(new InetSocketAddress(sign.getIpNoPort(), sign.getPort()));
+				if(sr == null){
+					throw new IOException(); //Get it to break
+				}
 				MOTD = Colors.colorise(sr.getDescription());
 				if(MOTD.length() >= 15){
 					MOTD = MOTD.substring(0, 15);
