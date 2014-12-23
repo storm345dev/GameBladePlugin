@@ -1,5 +1,6 @@
 package org.stormdev.gbplugin.plugin.serverSign;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -37,8 +38,14 @@ public class ServerSignCreator {
 		}
 
 		@Override
-		public void onValidInput(Player player, String input) {
-			new ChatInput(player, new SecondStage(sign, input));
+		public void onValidInput(final Player player, final String input) {
+			Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
+
+				@Override
+				public void run() {
+					new ChatInput(player, new SecondStage(sign, input));
+					return;
+				}}, 3l);
 		}
 
 		@Override
@@ -69,8 +76,14 @@ public class ServerSignCreator {
 		}
 
 		@Override
-		public void onValidInput(Player player, String input) {
-			new ChatInput(player, new ThirdStage(sign, displayName, input));
+		public void onValidInput(final Player player, final String input) {
+			Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
+
+				@Override
+				public void run() {
+					new ChatInput(player, new ThirdStage(sign, displayName, input));
+					return;
+				}}, 3l);
 		}
 
 		@Override
@@ -103,8 +116,14 @@ public class ServerSignCreator {
 		}
 
 		@Override
-		public void onValidInput(Player player, String input) {
-			new ChatInput(player, new FourthStage(sign, display, bungee, input));
+		public void onValidInput(final Player player, final String input) {
+			Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
+
+				@Override
+				public void run() {
+					new ChatInput(player, new FourthStage(sign, display, bungee, input));
+					return;
+				}}, 3l);
 		}
 
 		@Override
@@ -139,8 +158,14 @@ public class ServerSignCreator {
 		}
 
 		@Override
-		public void onValidInput(Player player, String input) {
-			new ChatInput(player, new FifthStage(sign, display, bungee, mineManager, input));
+		public void onValidInput(final Player player, final String input) {
+			Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
+
+				@Override
+				public void run() {
+					new ChatInput(player, new FifthStage(sign, display, bungee, mineManager, input));
+					return;
+				}}, 3l);
 		}
 
 		@Override
@@ -182,8 +207,14 @@ public class ServerSignCreator {
 		}
 
 		@Override
-		public void onValidInput(Player player, String input) {
-			create(player, sign, display, bungee, mineManager, ip, Integer.parseInt(input));
+		public void onValidInput(final Player player, final String input) {
+			Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
+
+				@Override
+				public void run() {
+					create(player, sign, display, bungee, mineManager, ip, Integer.parseInt(input));
+					return;
+				}}, 3l);
 		}
 
 		@Override

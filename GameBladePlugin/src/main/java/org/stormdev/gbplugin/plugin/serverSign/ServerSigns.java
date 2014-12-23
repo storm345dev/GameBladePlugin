@@ -14,8 +14,6 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.stormdev.mario.utils.Colors;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -34,6 +32,7 @@ import org.stormdev.gbapi.storm.misc.Sch;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.server.ping.ServerListPing;
 import org.stormdev.gbplugin.plugin.server.ping.ServerListPing.StatusResponse;
+import org.stormdev.gbplugin.plugin.utils.Colors;
 
 public class ServerSigns implements Listener {
 	private List<ServerSign> signs = new ArrayList<ServerSign>();

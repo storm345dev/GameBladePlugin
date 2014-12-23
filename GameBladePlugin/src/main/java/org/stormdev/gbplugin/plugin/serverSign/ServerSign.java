@@ -2,10 +2,9 @@ package org.stormdev.gbplugin.plugin.serverSign;
 
 import java.io.Serializable;
 
-import net.stormdev.mario.utils.SerializableLocation;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.stormdev.gbapi.storm.misc.SerializableLocation;
 
 public class ServerSign implements Serializable {
 	private static final long serialVersionUID = 1L;
