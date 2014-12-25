@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.stormdev.gbapi.UUIDAPI.PlayerIDFinder;
+import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbapi.notifications.Notifications;
 import org.stormdev.gbapi.storm.misc.Sch;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
