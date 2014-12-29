@@ -25,6 +25,8 @@ public class Config extends ConfigBase {
 	public static ConfigSetting<String> joinRank = new ConfigSetting<String>("general.join.rank", "DEFAULT");
 	public static ConfigSetting<String> joinKickMsg = new ConfigSetting<String>("general.join.kickmsg", "This server is currently in a vip only beta stage!");
 	
+	public static ConfigSetting<String> GBSkullURL = new ConfigSetting<String>("general.serverselector.GBSkullURL", "https://gameblade.net/cdn/skins/gameblade.png");
+	
 	public Config(File file){
 		super(file);
 		load();

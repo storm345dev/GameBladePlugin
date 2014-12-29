@@ -15,6 +15,7 @@ import org.stormdev.gbapi.links.LinkShortener;
 import org.stormdev.gbapi.links.LinkShortener.ShorteningError;
 import org.stormdev.gbapi.storm.SQL.MySQL;
 import org.stormdev.gbapi.storm.SQL.SQLManager;
+import org.stormdev.gbapi.storm.skulls.CustomPlayerHeads;
 import org.stormdev.gbplugin.api.notifications.NotificationManager;
 import org.stormdev.gbplugin.api.stars.GiveStarsCommand;
 import org.stormdev.gbplugin.api.stars.MyStarsCommand;
@@ -136,6 +137,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
         new UpdateDeployer();
         
         serverSigns = new ServerSigns(new File(getDataFolder()+File.separator+"serverSigns.bin"));
+        CustomPlayerHeads.onEnable();
         
 		logger.info("GameBladePlugin "+ChatColor.GREEN+"enabled!");
 	}

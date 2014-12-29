@@ -28,6 +28,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.stormdev.gbapi.core.APIProvider;
 import org.stormdev.gbapi.gui.IconMenu;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEvent;
+import org.stormdev.gbapi.storm.skulls.CustomPlayerHeads;
 import org.stormdev.gbplugin.plugin.server.ping.ServerListPing;
 import org.stormdev.gbplugin.plugin.server.ping.ServerListPing.StatusResponse;
 import org.stormdev.gbplugin.plugin.utils.Colors;
@@ -46,6 +47,7 @@ public class ServerSelector implements CommandExecutor, Listener
     private ItemStack plots;
     private ItemStack mirrorsEdge;
     private ItemStack survival;
+    private ItemStack GBSite;
     
     private IconMenu MKSelect;
 
@@ -370,7 +372,14 @@ public class ServerSelector implements CommandExecutor, Listener
         imwip.setDisplayName(ChatColor.RED + "Work in progress!");
         imwip.setLore(Arrays.asList(new String[] { "" + ChatColor.GRAY + ChatColor.ITALIC + "What's coming here!?" }));
         wip.setItemMeta(imwip);
-
+        
+        GBSite = new ItemStack(Material.SKULL_ITEM, 1);
+        CustomPlayerHeads.setSkullWithNonPlayerProfile(Config.GBSkullURL.getValue(), true, GBSite);
+        ItemMeta im = GBSite.getItemMeta();
+        im.setDisplayName(ChatColor.GOLD+"Game"+ChatColor.BLUE+"Blade"+ChatColor.WHITE+" website");
+        im.setLore(Arrays.asList(new String[]{ChatColor.GRAY+"www.gameblade.net", ChatColor.GRAY+"Click to visit site"}));
+        GBSite.setItemMeta(im);
+        
         serverSelector.setItem(8, vipservers);
         serverSelector.setItem(2, mta);
         serverSelector.setItem(3, mk);
@@ -404,6 +413,10 @@ public class ServerSelector implements CommandExecutor, Listener
         }
 
         try {
+        	if(ChatColor.stripColor(clicked.getItemMeta().getDisplayName()).equalsIgnoreCase("GameBlade website")){
+        		p.sendMessage("http://www.gameblade.net <- Click to visit our website!");
+        		return;
+        	}
             if ((clicked.getType() == Material.IRON_SWORD) &&
                     (clicked.getItemMeta().getDisplayName().equals(ChatColor.RED + "MineTheftAuto"))) {
                 event.setCancelled(true);
