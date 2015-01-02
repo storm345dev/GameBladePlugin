@@ -144,6 +144,15 @@ public class UUIDListener implements Listener {
 				Bukkit.getPluginManager().callEvent(evt);
 				return null;
 			}});
+		
+		final org.stormdev.gbapi.UUIDAPI.UUIDLoadEvent evt2 = new org.stormdev.gbapi.UUIDAPI.UUIDLoadEvent(player, new org.stormdev.gbapi.UUIDAPI.PlayerIDFinder.MojangID(id.getName(), id.getID()), uid);
+		Bukkit.getScheduler().callSyncMethod(GameBlade.plugin, new Callable<Void>(){
+
+			@Override
+			public Void call() throws Exception {
+				Bukkit.getPluginManager().callEvent(evt2);
+				return null;
+			}});
 		return uid;
 	}
 }

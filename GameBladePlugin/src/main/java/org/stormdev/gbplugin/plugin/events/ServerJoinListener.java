@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.stormdev.chattranslator.api.TranslatorToolkit;
 import org.stormdev.gbapi.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbapi.cosmetics.Rank;
+import org.stormdev.gbapi.storm.UUIDAPI.UUIDLoadEvent;
 import org.stormdev.gbapi.storm.misc.Popups;
 import org.stormdev.gbapi.storm.skulls.CustomPlayerHeads;
 import org.stormdev.gbplugin.plugin.core.Config;
@@ -56,10 +57,10 @@ public class ServerJoinListener implements Listener {
 		
 		Popups.setTabHeader(player, header+"\n", "\n"+footer);
 		
+		Rank r = Rank.getRank(player);
 		if(joinRank.equals(Rank.DEFAULT)){
 			return;
 		}
-		Rank r = Rank.getRank(player);
 		if(!r.canUse(joinRank)){
 			event.setJoinMessage(null);
 			player.kickPlayer(Config.joinKickMsg.getValue());
@@ -74,5 +75,22 @@ public class ServerJoinListener implements Listener {
 				}
 				return;
 			}}, 20*5l);
+	}
+	
+	void uuidLoad(UUIDLoadEvent event){
+		final Player player = event.getPlayer();
+		final String uuid = PlayerIDFinder.toUUIDString(event.getUUID());
+		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
+
+			@Override
+			public void run() {
+				Rank r = Rank.getRank(player);
+				org.stormdev.gbplugin.plugin.ranks.Rank ra = org.stormdev.gbplugin.plugin.ranks.Rank.getRank(r);
+				if(!RankSQL.getRankByUUID(uuid).equals(ra)){
+					RankSQL.setRankByUUID(uuid, ra);
+					GameBlade.logger.info("Updated "+player.getName()+"'s rank in the playerdata database!");
+				}
+				return;
+			}});
 	}
 }

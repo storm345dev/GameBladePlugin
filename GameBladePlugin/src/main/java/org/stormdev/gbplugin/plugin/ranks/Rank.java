@@ -40,4 +40,26 @@ public static Rank getRank(int dbId){
 	
 	return DEFAULT;
 }
+
+public static Rank getRank(org.stormdev.gbapi.cosmetics.Rank rank){
+	switch(rank){
+	case DEFAULT:
+		return Rank.DEFAULT;
+	case PREMIUM:
+		return Rank.PREMIUM;
+	case PREMIUM_PLUS:
+		return Rank.PREMIUM_PLUS;
+	case STAFF:
+		return Rank.EPIC_STAFF;
+	case ULTIMATE:
+		return Rank.ULTIMATE;
+	case VIP:
+		return Rank.VIP;
+	case VIP_PLUS:
+		return Rank.VIP_PLUS;
+	default:
+		return Rank.DEFAULT;
+	}
+	//return Rank.DEFAULT;
+}
 }
