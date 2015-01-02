@@ -4,8 +4,6 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,8 +15,8 @@ import org.stormdev.chattranslator.api.TranslatorToolkit;
 import org.stormdev.gbapi.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbapi.storm.UUIDAPI.UUIDLoadEvent;
+import org.stormdev.gbapi.storm.misc.MetadataValue;
 import org.stormdev.gbapi.storm.misc.Popups;
-import org.stormdev.gbapi.storm.skulls.CustomPlayerHeads;
 import org.stormdev.gbplugin.plugin.core.Config;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.ranks.RankSQL;
@@ -57,6 +55,8 @@ public class ServerJoinListener implements Listener {
 		
 		Popups.setTabHeader(player, header+"\n", "\n"+footer);
 		
+		player.removeMetadata("uuidLoadEvent", GameBlade.plugin);
+		
 		Rank r = Rank.getRank(player);
 		if(joinRank.equals(Rank.DEFAULT)){
 			return;
@@ -77,8 +77,13 @@ public class ServerJoinListener implements Listener {
 			}}, 20*5l);
 	}
 	
+	@EventHandler
 	void uuidLoad(UUIDLoadEvent event){
 		final Player player = event.getPlayer();
+		if(player.hasMetadata("uuidLoadEvent")){
+			return;
+		}
+		player.setMetadata("uuidLoadEvent", new MetadataValue(true, GameBlade.plugin));
 		final String uuid = PlayerIDFinder.toUUIDString(event.getUUID());
 		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
 
