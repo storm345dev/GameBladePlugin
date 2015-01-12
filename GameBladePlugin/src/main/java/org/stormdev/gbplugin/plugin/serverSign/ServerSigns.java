@@ -92,7 +92,7 @@ public class ServerSigns implements Listener {
 		if(lines.length < 1){
 			return;
 		}
-		if(!lines[0].equalsIgnoreCase("[ServerSign]")){
+		if(!ChatColor.stripColor(lines[0]).equalsIgnoreCase("[ServerSign]")){
 			return;
 		}
 		Player player = event.getPlayer();
