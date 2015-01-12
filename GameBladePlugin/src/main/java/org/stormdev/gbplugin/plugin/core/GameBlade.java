@@ -139,7 +139,26 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
         serverSigns = new ServerSigns(new File(getDataFolder()+File.separator+"serverSigns.bin"));
         CustomPlayerHeads.onEnable();
         
+        preLoadAPIClasses();
+        
 		logger.info("GameBladePlugin "+ChatColor.GREEN+"enabled!");
+	}
+	
+	private void preLoad(Class<?> clas){
+		try {
+			Class.forName(clas.getName());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void preLoadAPIClasses(){
+		preLoad(org.stormdev.gbapi.UUIDAPI.PlayerIDFinder.class);
+		preLoad(org.stormdev.gbapi.UUIDAPI.UUIDLoadEvent.class);
+		preLoad(org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder.class);
+		preLoad(org.stormdev.gbapi.storm.UUIDAPI.UUIDLoadEvent.class);
+		preLoad(org.stormdev.gbapi.storm.SQL.MySQL.class);
+		preLoad(org.stormdev.gbapi.storm.SQL.SQLManager.class);
 	}
 	
 	@Override
