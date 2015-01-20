@@ -191,6 +191,7 @@ public class ServerSelector implements CommandExecutor, Listener, OptionClickEve
 		private String ip = null;
 		private int port = -1;
 		private String MOTD = null;
+		private String offlineMsg = ChatColor.RED+"Restarting...";
 		
 		public SingleServer(ItemStack icon, int slot, String displayName, String bungeeName, String mineManagerPrefix, String... lore){
 			this(icon, slot, displayName, bungeeName, mineManagerPrefix, null, lore);
@@ -215,6 +216,10 @@ public class ServerSelector implements CommandExecutor, Listener, OptionClickEve
 			
 			task();
 			callUpdate(this);
+		}
+		
+		public void setOfflineMessage(String message){
+			this.offlineMsg = message;
 		}
 		
 		public void setUseMOTD(String ip, int port){
@@ -286,14 +291,14 @@ public class ServerSelector implements CommandExecutor, Listener, OptionClickEve
 			List<String> lore = new ArrayList<String>();
 			lore.addAll(this.lore);
 			lore.add(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------");
-			if(MOTD != null){
-				lore.add(Colors.colorise(MOTD));
-			}
 			if(isOnline){
+				if(MOTD != null){
+					lore.add(Colors.colorise(MOTD));
+				}
 				lore.add(ChatColor.WHITE+""+online+"/"+maxPlayers);
 			}
 			else {
-				lore.add(ChatColor.RED+"Restarting...");
+				lore.add(offlineMsg);
 			}
 			return lore;
 		}
@@ -371,10 +376,17 @@ public class ServerSelector implements CommandExecutor, Listener, OptionClickEve
 				ChatColor.AQUA+""+ChatColor.ITALIC+"Survival Minecraft",
 				ChatColor.AQUA+""+ChatColor.ITALIC+"Build, explore and battle with friends!");
 		
+		SingleServer ctw = new SingleServer(new ItemStack(Material.WOOL), 11, 
+				ChatColor.BLUE+"Race For The Wool", 
+				"ctw1", "GB CTW", 
+				ChatColor.AQUA+""+ChatColor.ITALIC+"Race to be the first to collect the wool!");
+		
 		SingleServer events = new SingleServer(new ItemStack(Material.NETHER_STAR), 8, 
 				ChatColor.GOLD+"Event Server", 
-				"eventServer", "GB Event", 
-				ChatColor.RED+""+ChatColor.ITALIC+"Coming soon!");
+				"event1", "GB Event", 
+				ChatColor.YELLOW+""+ChatColor.ITALIC+"Join a game/event that we normally don't have!");
+		events.setOfflineMessage(ChatColor.RED+"There is currently no event running!");
+		
 	}
 	
 	public void open(final Player p){
