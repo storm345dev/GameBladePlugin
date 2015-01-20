@@ -376,10 +376,15 @@ public class ServerSelector implements CommandExecutor, Listener, OptionClickEve
 				ChatColor.AQUA+""+ChatColor.ITALIC+"Survival Minecraft",
 				ChatColor.AQUA+""+ChatColor.ITALIC+"Build, explore and battle with friends!");
 		
-		SingleServer ctw = new SingleServer(new ItemStack(Material.WOOL), 11, 
+		MultipleServer ctw = new MultipleServer(new ItemStack(Material.WOOL, 1, (byte)3), 11, 9,
 				ChatColor.BLUE+"Race For The Wool", 
-				"ctw1", "GB CTW", 
+				"GB CTW", 
 				ChatColor.AQUA+""+ChatColor.ITALIC+"Race to be the first to collect the wool!");
+		
+		SingleServer ctw1 = new SingleServer(new ItemStack(Material.WOOL, 1, (byte) 3), 11, 
+				ChatColor.BLUE+"Race For The Wool 1", 
+				"ctw1", "GB CTW 1", ctw,
+				ChatColor.AQUA+""+ChatColor.ITALIC+"Join Race For The Wool 1");
 		
 		SingleServer events = new SingleServer(new ItemStack(Material.NETHER_STAR), 8, 
 				ChatColor.GOLD+"Event Server", 
