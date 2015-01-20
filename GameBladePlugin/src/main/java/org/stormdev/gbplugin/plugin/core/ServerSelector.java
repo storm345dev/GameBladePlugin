@@ -385,6 +385,7 @@ public class ServerSelector implements CommandExecutor, Listener, OptionClickEve
 				ChatColor.BLUE+"Race For The Wool 1", 
 				"ctw1", "GB CTW 1", ctw,
 				ChatColor.AQUA+""+ChatColor.ITALIC+"Join Race For The Wool 1");
+		ctw1.setUseMOTD("alpha.gameblade.net", 7001);
 		
 		SingleServer events = new SingleServer(new ItemStack(Material.NETHER_STAR), 8, 
 				ChatColor.GOLD+"Event Server", 
