@@ -381,7 +381,7 @@ public class ServerSelector implements CommandExecutor, Listener, OptionClickEve
 				"GB CTW", 
 				ChatColor.AQUA+""+ChatColor.ITALIC+"Race to be the first to collect the wool!");
 		
-		SingleServer ctw1 = new SingleServer(new ItemStack(Material.WOOL, 1, (byte) 3), 11, 
+		SingleServer ctw1 = new SingleServer(new ItemStack(Material.WOOL, 1, (byte) 3), 0, 
 				ChatColor.BLUE+"Race For The Wool 1", 
 				"ctw1", "GB CTW 1", ctw,
 				ChatColor.AQUA+""+ChatColor.ITALIC+"Join Race For The Wool 1");
