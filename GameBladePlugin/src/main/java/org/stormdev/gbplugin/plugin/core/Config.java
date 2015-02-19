@@ -27,6 +27,14 @@ public class Config extends ConfigBase {
 	
 	public static ConfigSetting<String> GBSkullURL = new ConfigSetting<String>("general.serverselector.GBSkullURL", "https://gameblade.net/cdn/skins/gameblade.png");
 	
+	public static ConfigSetting<Boolean> autoRestartEnabled = new ConfigSetting<Boolean>("general.autorestart.enable", true);
+	public static ConfigSetting<Double> autoRestartTPSThreshold = new ConfigSetting<Double>("general.autorestart.tpsThreshold", 16.0d);
+	public static ConfigSetting<Double> autoRestartTPSTime = new ConfigSetting<Double>("general.autorestart.badTpsTimeSeconds", 120.0d);
+	public static ConfigSetting<String> autoRestartAlert = new ConfigSetting<String>("general.autorestart.warningMsg", "&4&lThe server will be performing a routine restart in a minute! Please leave vehicles or lose them!");
+	public static ConfigSetting<Double> autoRestartAlertTime = new ConfigSetting<Double>("general.autorestart.warningTimeSeconds", 60.0d);
+	public static ConfigSetting<String> autoRestartCommand = new ConfigSetting<String>("general.autorestart.command", "stop");
+	public static ConfigSetting<String> autoRestartServer = new ConfigSetting<String>("general.autorestart.sendToServer", "hub1");
+	
 	public Config(File file){
 		super(file);
 		load();

@@ -39,6 +39,7 @@ import org.stormdev.gbplugin.plugin.cosmetics.CosmeticManager;
 import org.stormdev.gbplugin.plugin.cosmetics.CosmeticVillagers;
 import org.stormdev.gbplugin.plugin.cosmetics.carts.CartFillListener;
 import org.stormdev.gbplugin.plugin.cosmetics.wear.hats.HatMenu;
+import org.stormdev.gbplugin.plugin.events.RestartCommandListener;
 import org.stormdev.gbplugin.plugin.events.ServerJoinListener;
 import org.stormdev.gbplugin.plugin.mkTokens.TokenChecker;
 import org.stormdev.gbplugin.plugin.modpanel.ModMenu;
@@ -140,6 +141,8 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
         CustomPlayerHeads.onEnable();
         
         preLoadAPIClasses();
+        
+        AutoRestart.start();
         
 		logger.info("GameBladePlugin "+ChatColor.GREEN+"enabled!");
 	}
@@ -256,6 +259,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		new CartFillListener();
 		new VillagerManager();
 		new ServerJoinListener();
+		new RestartCommandListener();
 		CosmeticVillagers.register();
 	}
 
