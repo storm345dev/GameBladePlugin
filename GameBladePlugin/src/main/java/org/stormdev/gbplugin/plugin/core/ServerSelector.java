@@ -347,10 +347,18 @@ public class ServerSelector implements CommandExecutor, Listener, OptionClickEve
 				ChatColor.RED+"Main Lobby", 
 				"hub1", "GB Lobby", 
 				ChatColor.GRAY+""+ChatColor.ITALIC+"Go back to the main lobby");
-		SingleServer mtasa = new SingleServer(new ItemStack(Material.IRON_SWORD), 2, 
-				ChatColor.RED+"MineTheftAuto", 
-				"mtasa", "GB MTASA", 
+		
+		MultipleServer mta = new MultipleServer(new ItemStack(Material.IRON_SWORD), 2, 9, ChatColor.RED+"MineTheftAuto", "MTA", ChatColor.GOLD+""+ChatColor.ITALIC+"Grand Theft Auto in Minecraft!");
+		
+		SingleServer mtasa = new SingleServer(new ItemStack(Material.IRON_SWORD), 0, 
+				ChatColor.RED+"San Andreas", 
+				"mtasa", "GB MTASA", mta,
 				ChatColor.GOLD+""+ChatColor.ITALIC+"Grand Theft Auto in Minecraft!");
+		SingleServer mtaDev = new SingleServer(new ItemStack(Material.IRON_SWORD), 1, 
+				ChatColor.RED+"San Andreas 2.0 ALPHA", 
+				"mtasaalpha", "GB MTAALPHA", mta,
+				ChatColor.GOLD+""+ChatColor.ITALIC+"ULTIMATE ONLY");
+		
 		MultipleServer mk = new MultipleServer(new ItemStack(Material.MINECART), 3, 9,
 				ChatColor.RED+"MarioKart", 
 				"GB MarioKart", 
@@ -378,14 +386,20 @@ public class ServerSelector implements CommandExecutor, Listener, OptionClickEve
 		
 		MultipleServer ctw = new MultipleServer(new ItemStack(Material.WOOL, 1, (byte)3), 11, 9,
 				ChatColor.BLUE+"Race For The Wool", 
-				"GB CTW", 
+				"GB RFTW", 
 				ChatColor.AQUA+""+ChatColor.ITALIC+"Race to be the first to collect the wool!");
 		
 		SingleServer ctw1 = new SingleServer(new ItemStack(Material.WOOL, 1, (byte) 3), 0, 
 				ChatColor.BLUE+"Race For The Wool 1", 
-				"ctw1", "GB CTW 1", ctw,
+				"rftw1", "GB RFTW 1", ctw,
 				ChatColor.AQUA+""+ChatColor.ITALIC+"Join Race For The Wool 1");
 		ctw1.setUseMOTD("alpha.gameblade.net", 7001);
+		
+		SingleServer ctw2 = new SingleServer(new ItemStack(Material.WOOL, 1, (byte) 3), 1, 
+				ChatColor.BLUE+"Race For The Wool 2", 
+				"rftw2", "GB RFTW 2", ctw,
+				ChatColor.AQUA+""+ChatColor.ITALIC+"Join Race For The Wool 2");
+		ctw2.setUseMOTD("alpha.gameblade.net", 7002);
 		
 		SingleServer events = new SingleServer(new ItemStack(Material.NETHER_STAR), 8, 
 				ChatColor.GOLD+"Event Server", 
