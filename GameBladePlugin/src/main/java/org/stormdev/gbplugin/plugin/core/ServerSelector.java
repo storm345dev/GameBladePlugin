@@ -348,7 +348,7 @@ public class ServerSelector implements CommandExecutor, Listener, OptionClickEve
 				"hub1", "GB Lobby", 
 				ChatColor.GRAY+""+ChatColor.ITALIC+"Go back to the main lobby");
 		
-		MultipleServer mta = new MultipleServer(new ItemStack(Material.IRON_SWORD), 2, 9, ChatColor.RED+"MineTheftAuto", "MTA", ChatColor.GOLD+""+ChatColor.ITALIC+"Grand Theft Auto in Minecraft!");
+		MultipleServer mta = new MultipleServer(new ItemStack(Material.IRON_SWORD), 2, 9, ChatColor.RED+"MineTheftAuto", "GB MTA", ChatColor.GOLD+""+ChatColor.ITALIC+"Grand Theft Auto in Minecraft!");
 		
 		SingleServer mtasa = new SingleServer(new ItemStack(Material.IRON_SWORD), 0, 
 				ChatColor.RED+"San Andreas", 
