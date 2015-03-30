@@ -11,8 +11,8 @@ import java.net.Socket;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
-import org.bukkit.craftbukkit.libs.com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  *

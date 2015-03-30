@@ -1,6 +1,7 @@
 package org.stormdev.gbplugin.plugin.chat;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -87,7 +88,7 @@ public class ChatManager implements Listener {
 		String sender = getSenderDisplayName(player);
 		String message = ChatColor.WHITE + Colors.colorise(sender) + ChatColor.DARK_GRAY + " » " + color + msg;
 		//Bukkit.broadcastMessage(message);
-		TranslatorToolkit.getToolkit().handleAsIfChatEvent(Arrays.asList(Bukkit.getOnlinePlayers()), player, msg);
+		TranslatorToolkit.getToolkit().handleAsIfChatEvent((List<Player>) (new ArrayList<Player>(Bukkit.getOnlinePlayers())), player, msg);
 		GameBlade.logger.info(message);
 	}
 	

@@ -11,7 +11,7 @@ public class ServerInfo implements org.stormdev.gbapi.servers.ServerInfo{
 
 	@Override
 	public int getPlayerCount() {
-		return Bukkit.getOnlinePlayers().length;
+		return Bukkit.getOnlinePlayers().size();
 	}
 
 	@Override
