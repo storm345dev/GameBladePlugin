@@ -1,7 +1,5 @@
 package org.stormdev.gbplugin.plugin.events;
 
-import net.stormdev.MTA.SMPlugin.core.Core;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -12,10 +10,11 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.stormdev.gbapi.cosmetics.Rank;
 import org.stormdev.gbplugin.plugin.core.AutoRestart;
+import org.stormdev.gbplugin.plugin.core.GameBlade;
 
 public class RestartCommandListener implements Listener { //As a listener to make SURE we override other plugin's restart commands
 	public RestartCommandListener(){
-		Bukkit.getPluginManager().registerEvents(this, Core.plugin);
+		Bukkit.getPluginManager().registerEvents(this, GameBlade.plugin);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)

@@ -11,6 +11,7 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,7 +25,6 @@ import org.stormdev.gbapi.gui.IconMenu.OptionClickEventHandler;
 import org.stormdev.gbplugin.plugin.server.ping.ServerListPing;
 import org.stormdev.gbplugin.plugin.server.ping.ServerListPing.StatusResponse;
 import org.stormdev.gbplugin.plugin.utils.Colors;
-import org.stormdev.servermanager.api.messaging.Server;
 
 public class ServerSelector implements CommandExecutor, Listener, OptionClickEventHandler
 {
@@ -84,7 +84,7 @@ public class ServerSelector implements CommandExecutor, Listener, OptionClickEve
 				public void run() {
 				        int online = 0;
 				        int max = 0;
-				        if(GameBlade.smApi != null){
+				       /* if(GameBlade.smApi != null){
 				        	//ServerID = "GB MTASA 1";
 				        	Map<String, Server> srvs = GameBlade.smApi.getServers().getServers();
 				        	if(srvs != null && srvs.size() > 0){
@@ -98,7 +98,7 @@ public class ServerSelector implements CommandExecutor, Listener, OptionClickEve
 				        			}
 				        		}
 				        	}
-				        }
+				        }*/
 				        MultipleServer.this.maxPlayers = max;
 				        MultipleServer.this.online = online;
 				        Bukkit.getScheduler().runTask(plugin, new Runnable(){
@@ -235,7 +235,7 @@ public class ServerSelector implements CommandExecutor, Listener, OptionClickEve
 				        int online = 0;
 				        int max = 0;
 				        boolean isOnline = false;
-				        if(GameBlade.smApi != null){
+				     /*   if(GameBlade.smApi != null){
 				        	//ServerID = "GB MTASA 1";
 				        	Map<String, Server> srvs = GameBlade.smApi.getServers().getServers();
 				        	if(srvs != null && srvs.size() > 0){
@@ -250,7 +250,7 @@ public class ServerSelector implements CommandExecutor, Listener, OptionClickEve
 				        			}
 				        		}
 				        	}
-				        }
+				        }*/
 				        SingleServer.this.isOnline = isOnline;
 				        SingleServer.this.maxPlayers = max;
 				        SingleServer.this.online = online;

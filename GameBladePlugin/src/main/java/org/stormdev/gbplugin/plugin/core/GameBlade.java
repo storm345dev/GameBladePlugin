@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.bukkit.scheduler.BukkitTask;
+import org.stormdev.gbapi.core.APIProvider;
 import org.stormdev.gbapi.core.GameBladeAPI;
 import org.stormdev.gbapi.links.LinkShortener;
 import org.stormdev.gbapi.links.LinkShortener.ShorteningError;
@@ -48,8 +49,6 @@ import org.stormdev.gbplugin.plugin.server.ServerMonitor;
 import org.stormdev.gbplugin.plugin.server.uuidcorrector.UUIDListener;
 import org.stormdev.gbplugin.plugin.serverSign.ServerSigns;
 import org.stormdev.gbplugin.plugin.utils.JarUtils;
-import org.stormdev.servermanager.api.APIProvider;
-import org.stormdev.servermanager.api.ServerManagerAPI;
 import org.stormdev.tokenhandler.commands.GiveTokensCommand;
 import org.stormdev.tokenhandler.commands.MyTokensCommand;
 
@@ -61,7 +60,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 	public static Config config;
 	public static Random random = new Random();
 	public static ServerInfo serverInfo;
-	public static ServerManagerAPI smApi;
+	/*public static ServerManagerAPI smApi;*/
 	public static BanHandle banHandler;
 	
 	public String starsURL = "http://gamebla.de/stars";
@@ -103,7 +102,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		serverStats.start();
 		serverInfo = new ServerInfo();
 		
-		smApi = APIProvider.getAPI();
+		/*smApi = APIProvider.getAPI();*/
 		selector = new ServerSelector(this);
 		
 		setupCmds();

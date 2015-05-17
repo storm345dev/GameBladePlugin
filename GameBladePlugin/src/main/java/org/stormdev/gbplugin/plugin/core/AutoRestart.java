@@ -1,12 +1,9 @@
 package org.stormdev.gbplugin.plugin.core;
 
-import net.stormdev.MTA.SMPlugin.core.Core;
-import net.stormdev.MTA.SMPlugin.core.ServerMonitor;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.stormdev.gbplugin.plugin.server.ServerMonitor;
 import org.stormdev.gbplugin.plugin.utils.Colors;
 
 public class AutoRestart {
@@ -17,10 +14,10 @@ public class AutoRestart {
 	
 	public static void start(){
 		if(Config.autoRestartEnabled.getValue()){
-			Core.logger.info("Auto-Restart is enabled! The server will restart when the TPS drops below "+Config.autoRestartTPSThreshold.getValue()+"!");
+			GameBlade.logger.info("Auto-Restart is enabled! The server will restart when the TPS drops below "+Config.autoRestartTPSThreshold.getValue()+"!");
 		}
 		
-		Bukkit.getScheduler().runTaskTimer(Core.plugin, new Runnable(){
+		Bukkit.getScheduler().runTaskTimer(GameBlade.plugin, new Runnable(){
 
 			@Override
 			public void run() {
@@ -31,7 +28,7 @@ public class AutoRestart {
 				if(restartingInProgress){
 					if(tps > Config.autoRestartTPSThreshold.getValue() && Config.autoRestartEnabled.getValue()){ //TPS has recovered
 						restartingInProgress = false;
-						Core.logger.info("Auto-Restart detected TPS is back above theshold and has subsequently cancelled restarting the server!");
+						GameBlade.logger.info("Auto-Restart detected TPS is back above theshold and has subsequently cancelled restarting the server!");
 						return;
 					}
 					//It's still bad
@@ -46,7 +43,7 @@ public class AutoRestart {
 				if(tps <= Config.autoRestartTPSThreshold.getValue() && Config.autoRestartEnabled.getValue()){
 					restartStartTime = System.currentTimeMillis();
 					restartingInProgress = true;
-					Core.logger.info("Auto-Restart detected TPS below threshold! Server will restart soon if the TPS doesn't soon recover!");
+					GameBlade.logger.info("Auto-Restart detected TPS below threshold! Server will restart soon if the TPS doesn't soon recover!");
 				}
 				return;
 			}}, 100l, 200l); //Every 10 seconds
@@ -59,7 +56,7 @@ public class AutoRestart {
 		Bukkit.broadcastMessage(alertText);
 		
 		//COUNTDOWN
-		Bukkit.getScheduler().runTaskAsynchronously(Core.plugin, new Runnable(){
+		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
 
 			@Override
 			public void run() {
@@ -92,7 +89,7 @@ public class AutoRestart {
 			alertTime = 1;
 		}
 		
-		Bukkit.getScheduler().runTaskLater(Core.plugin, new Runnable(){
+		Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){
 
 			@Override
 			public void run() {
@@ -104,7 +101,7 @@ public class AutoRestart {
 					PlayerServerSender.sendToServer(player, serverName);
 				}
 				
-				Bukkit.getScheduler().runTaskLater(Core.plugin, new Runnable(){ //Delayed by 3s to allow everybody to disconnect
+				Bukkit.getScheduler().runTaskLater(GameBlade.plugin, new Runnable(){ //Delayed by 3s to allow everybody to disconnect
 
 					@Override
 					public void run() {

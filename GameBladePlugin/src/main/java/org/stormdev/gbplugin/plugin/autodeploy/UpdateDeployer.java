@@ -1,31 +1,15 @@
 package org.stormdev.gbplugin.plugin.autodeploy;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.regex.Pattern;
 
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-import org.stormdev.servermanager.api.APIProvider;
-import org.stormdev.servermanager.api.events.MessageReceiveEvent;
-import org.stormdev.servermanager.api.events.ReceivedMessage;
-import org.stormdev.servermanager.api.listeners.SMEventHandler;
-import org.stormdev.servermanager.api.listeners.SMListener;
-import org.stormdev.servermanager.api.messaging.MessageRecipient;
-
-public class UpdateDeployer implements SMListener {
+public class UpdateDeployer /*implements SMListener */{
 	private static final String TITLE = "deployUpdate";
 	private static final String SEPARATOR = "|";
 	
 	public UpdateDeployer(){
-		APIProvider.getAPI().getEventManager().registerListener(this);
+		/*APIProvider.getAPI().getEventManager().registerListener(this);*/
 	}
 	
-	public static void update(String plugName, String URL){
+	/*public static void update(String plugName, String URL){
 		try {
 			APIProvider.getAPI().getMessenger().sendMessage(MessageRecipient.ALL, TITLE, plugName+SEPARATOR+URL);
 		} catch (Exception e) {
@@ -108,5 +92,5 @@ public class UpdateDeployer implements SMListener {
 		}
 		
 		handleUpdate(parts[0], parts[1]);
-	}
+	}*/
 }

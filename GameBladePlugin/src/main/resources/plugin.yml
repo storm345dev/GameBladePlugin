@@ -2,7 +2,7 @@ name: GameBladePlugin
 author: 'storm345'
 main: org.stormdev.gbplugin.plugin.core.GameBlade
 version: 1.0
-softdepend: [uCars, uPlanes, uCarsTrade, ServerManager, MarioKart, ChatTranslator]
+softdepend: [uCars, uPlanes, uCarsTrade, MarioKart, ChatTranslator]
 commands:
     mod:
         description: Mod command
@@ -17,13 +17,6 @@ commands:
         permission: gameblade.admin
         permission-message: Unknown command. Type "/help" for help.
         usage: /<command> (<Player> <Time> <Reason>)
-        default: op
-    update:
-        description: Update a plugin on EVERY server
-        aliases: [updateplugin]
-        permission: gameblade.admin
-        permission-message: Unknown command. Type "/help" for help.
-        usage: /<command> <PluginNameFromPluginList> <URL>
         default: op
     invsee:
         description: See a player's inventory

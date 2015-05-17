@@ -8,20 +8,14 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.stormdev.gbapi.core.APIProvider;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
 import org.stormdev.gbplugin.plugin.core.Config;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
-import org.stormdev.servermanager.api.APIProvider;
-import org.stormdev.servermanager.api.APIProviderType;
-import org.stormdev.servermanager.api.ServerManagerAPI;
-import org.stormdev.servermanager.api.events.MessageReceiveEvent;
-import org.stormdev.servermanager.api.listeners.SMEventHandler;
-import org.stormdev.servermanager.api.listeners.SMListener;
-import org.stormdev.servermanager.api.messaging.MessageRecipient;
 
-public class RemoteTokens implements SMListener, org.stormdev.gbapi.storm.tokens.Tokens { //Requires ServerManagerAPI
+public class RemoteTokens implements /*SMListener, */org.stormdev.gbapi.storm.tokens.Tokens { //Requires ServerManagerAPI
 	private static RemoteTokens instance;
-	public static ServerManagerAPI api= null;
+	/*public static ServerManagerAPI api= null;*/
 	public static String GB_LOBBY_SERVER_ID = "GB Lobby 1";
 	private Plugin plugin;
 	
@@ -32,13 +26,13 @@ public class RemoteTokens implements SMListener, org.stormdev.gbapi.storm.tokens
 		return instance;
 	}
 	
-	private MessageRecipient lobbyServer;
+	/*private MessageRecipient lobbyServer;*/
 	private Map<String, Integer> tokenQueries = new HashMap<String, Integer>();
 	
 	public RemoteTokens(){
 		this.plugin = GameBlade.plugin;
 		GB_LOBBY_SERVER_ID = Config.lobbyServerNameMineManager.getValue();
-		Bukkit.getScheduler().runTaskTimerAsynchronously(GameBlade.plugin, new Runnable(){
+		/*Bukkit.getScheduler().runTaskTimerAsynchronously(GameBlade.plugin, new Runnable(){
 
 			@Override
 			public void run() { //Stops potential memory leak in tokenQueries
@@ -61,9 +55,9 @@ public class RemoteTokens implements SMListener, org.stormdev.gbapi.storm.tokens
 					}
 				}
 				return;
-			}}, 20*60*20l, 20*60*20l);
+			}}, 20*60*20l, 20*60*20l);*/
 		
-		if(Bukkit.getPluginManager().getPlugin("ServerManager") == null){
+		/*if(Bukkit.getPluginManager().getPlugin("ServerManager") == null){
 			plugin.getLogger().info("Sorry this plugin requires ServerManager!");
 			plugin.getServer().getPluginManager().disablePlugin(plugin);
 			throw new RuntimeException("ServerManager not found!");
@@ -91,7 +85,7 @@ public class RemoteTokens implements SMListener, org.stormdev.gbapi.storm.tokens
 		}
 		
 		lobbyServer = MessageRecipient.create(GB_LOBBY_SERVER_ID);
-		api.getEventManager().registerListener(this);
+		api.getEventManager().registerListener(this);*/
 	}
 	
 	@Override
@@ -100,7 +94,7 @@ public class RemoteTokens implements SMListener, org.stormdev.gbapi.storm.tokens
 			throw new RuntimeException("Please don't lookup tokens in the main thread!");
 		}
 		
-		String uuid = PlayerIDFinder.getMojangID(player).getID();
+		/*String uuid = PlayerIDFinder.getMojangID(player).getID();
 		
 		tokenQueries.put(uuid, -1);
 		
@@ -125,12 +119,13 @@ public class RemoteTokens implements SMListener, org.stormdev.gbapi.storm.tokens
 		if(tokens < 0){
 			throw new TokenServiceUnavailableException();
 		}
-		return tokens;
+		return tokens;*/
+		return 0;
 	}
 	
 	@Override
 	public void awardTokens(final String playerName, final int tokens){
-		Runnable run = new Runnable(){
+		/*Runnable run = new Runnable(){
 
 			public void run() {
 				String uuid = PlayerIDFinder.getMojangID(playerName).getID();
@@ -149,12 +144,12 @@ public class RemoteTokens implements SMListener, org.stormdev.gbapi.storm.tokens
 		}
 		else {
 			run.run();
-		}
+		}*/
 	}
 	
 	@Override
 	public void awardTokens(final Player player, final int tokens){
-		Runnable run = new Runnable(){
+		/*Runnable run = new Runnable(){
 
 			public void run() {
 				String uuid = PlayerIDFinder.getMojangID(player).getID();
@@ -173,12 +168,12 @@ public class RemoteTokens implements SMListener, org.stormdev.gbapi.storm.tokens
 		}
 		else {
 			run.run();
-		}
+		}*/
 	}
 	
 	@Override
 	public void takeTokens(final String playerName, final int tokens){
-		Runnable run = new Runnable(){
+		/*Runnable run = new Runnable(){
 
 			public void run() {
 				String uuid = PlayerIDFinder.getMojangID(playerName).getID();
@@ -197,12 +192,12 @@ public class RemoteTokens implements SMListener, org.stormdev.gbapi.storm.tokens
 		}
 		else {
 			run.run();
-		}
+		}*/
 	}
 	
 	@Override
 	public void takeTokens(final Player player, final int tokens){
-		Runnable run = new Runnable(){
+		/*Runnable run = new Runnable(){
 
 			public void run() {
 				String uuid = PlayerIDFinder.getMojangID(player).getID();
@@ -221,10 +216,10 @@ public class RemoteTokens implements SMListener, org.stormdev.gbapi.storm.tokens
 		}
 		else {
 			run.run();
-		}
+		}*/
 	}
 	
-	@SMEventHandler
+	/*@SMEventHandler
 	void messageReceive(MessageReceiveEvent event){
 		if(event.getMessage().getTitle().equals("tokenBalance")){
 			String msg = event.getMessage().getMessage();
@@ -253,5 +248,5 @@ public class RemoteTokens implements SMListener, org.stormdev.gbapi.storm.tokens
 			
 			return;
 		}
-	}
+	}*/
 }

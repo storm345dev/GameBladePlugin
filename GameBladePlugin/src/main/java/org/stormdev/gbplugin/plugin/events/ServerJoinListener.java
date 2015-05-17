@@ -57,6 +57,20 @@ public class ServerJoinListener implements Listener {
 		
 		player.removeMetadata("uuidLoadEvent", GameBlade.plugin);
 		
+		/*//TODO REMOVE: THIS IS FOR DEBUGGING ONLY
+		final ArmorStand as = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
+		as.setVisible(false);
+		as.setGravity(false);
+		as.setCustomName(ChatColor.RED+"TEST HOLOGRAM");
+		as.setCustomNameVisible(true);
+		Bukkit.getScheduler().runTaskLater(Core.plugin, new Runnable(){
+
+			@Override
+			public void run() {
+				as.remove();
+				return;
+			}}, 20*20l);*/
+		
 		Rank r = Rank.getRank(player);
 		if(joinRank.equals(Rank.DEFAULT)){
 			return;

@@ -22,10 +22,11 @@ public class UpdateCommand implements CommandExecutor {
 			return false;
 		}
 		
-		final String plugName = args[0];
-		final String URL = args[1];
-		
-		sender.sendMessage("Updating "+plugName+" from "+URL+"...");
+		/*final String plugName = args[0];
+		final String URL = args[1];*/
+		sender.sendMessage("Feature disabled without an SM connection!");
+		return true;
+		/*sender.sendMessage("Updating "+plugName+" from "+URL+"...");
 		Bukkit.getScheduler().runTaskAsynchronously(GameBlade.plugin, new Runnable(){
 
 			@Override
@@ -33,7 +34,7 @@ public class UpdateCommand implements CommandExecutor {
 				UpdateDeployer.update(plugName, URL);
 				return;
 			}});
-		return true;
+		return true;*/
 	}
 
 }
