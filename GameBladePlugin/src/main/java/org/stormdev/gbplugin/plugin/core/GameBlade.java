@@ -247,7 +247,7 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 		getCommand("invsee").setExecutor(new InvSeeCommand());
 		getCommand("setrank").setExecutor(new SetRankCommand());
 		getCommand("callback").setExecutor(new CallBackCommand());
-		getCommand("update").setExecutor(new UpdateCommand());;
+		/*getCommand("update").setExecutor(new UpdateCommand());*/
 	}
 	
 	private void setupListeners(){
