@@ -199,12 +199,12 @@ public class GameBlade extends JavaPlugin implements PluginMessageListener {
 	}
 	
 	private boolean checkDependencies(){
-		try {
+		/*try {
 			Class.forName("org.stormdev.servermanager.api.APIProvider");
 		} catch (ClassNotFoundException e) {
 			logger.info("You need to have a valid SMCore.jar installed on the server (With the api) to run this plugin!");
 			return false;
-		}
+		}*/
 		
 		if(Bukkit.getPluginManager().getPlugin("MarioKart") != null){
 			try {
