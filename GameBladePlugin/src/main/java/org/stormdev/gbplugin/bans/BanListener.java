@@ -74,6 +74,10 @@ public class BanListener implements Listener {
 				ChatInput c = (ChatInput) o;
 				c.destroy();
 			}
+                        else if(o instanceof org.stormdev.gbapi.storm.misc.ChatInput){
+                                org.stormdev.gbapi.storm.misc.ChatInput c = (org.stormdev.gbapi.storm.misc.ChatInput) o;
+                                c.destroy();
+                        }
 			player.removeMetadata("gameblade.chatinput", GameBlade.plugin);
 		}
 		if(player.hasMetadata("banned")){
@@ -114,6 +118,12 @@ public class BanListener implements Listener {
 				event.setMessage("");
 				event.setCancelled(true);
 			}
+                        else if(o instanceof org.stormdev.gbapi.storm.misc.ChatInput){
+                                ((org.stormdev.gbapi.storm.misc.ChatInput)o).onChat(player, event.getMessage());
+                                event.setMessage("");
+                                event.setCancelled(true);
+                        }
+
 		}
 	}
 }
