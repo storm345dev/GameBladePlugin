@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
-import org.stormdev.gbplugin.plugin.utils.Colors;
+import org.stormdev.gbapi.storm.misc.Colors;
 
 public class CustomLogger {
 	public Boolean coloured = true;

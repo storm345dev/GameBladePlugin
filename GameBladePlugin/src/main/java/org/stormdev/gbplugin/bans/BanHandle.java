@@ -7,8 +7,8 @@ import org.bukkit.entity.Player;
 import org.stormdev.gbapi.bans.BanHandler;
 import org.stormdev.gbapi.bans.PunishmentLogs.PunishmentType;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
+import org.stormdev.gbapi.storm.misc.Colors;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
-import org.stormdev.gbplugin.plugin.utils.Colors;
 
 public class BanHandle implements BanHandler {
 	

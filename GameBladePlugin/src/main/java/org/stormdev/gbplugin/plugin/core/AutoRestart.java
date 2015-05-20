@@ -3,8 +3,8 @@ package org.stormdev.gbplugin.plugin.core;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.stormdev.gbapi.storm.misc.Colors;
 import org.stormdev.gbplugin.plugin.server.ServerMonitor;
-import org.stormdev.gbplugin.plugin.utils.Colors;
 
 public class AutoRestart {
 	private static boolean restartingInProgress = false;

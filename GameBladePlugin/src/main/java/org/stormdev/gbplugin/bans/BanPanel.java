@@ -17,7 +17,8 @@ import org.stormdev.gbapi.gui.IconMenu;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEvent;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEventHandler;
 import org.stormdev.gbapi.storm.UUIDAPI.PlayerIDFinder;
-import org.stormdev.gbplugin.bans.ChatInput.InputValidator;
+import org.stormdev.gbapi.storm.misc.ChatInput;
+import org.stormdev.gbapi.storm.misc.ChatInput.InputValidator;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.utils.MetaValue;
 

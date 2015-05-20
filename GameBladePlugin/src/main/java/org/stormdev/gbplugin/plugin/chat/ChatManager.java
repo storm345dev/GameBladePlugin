@@ -13,9 +13,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.stormdev.chattranslator.api.MessageHandler;
 import org.stormdev.chattranslator.api.TranslatorToolkit;
 import org.stormdev.gbapi.cosmetics.Rank;
+import org.stormdev.gbapi.storm.misc.Colors;
 import org.stormdev.gbplugin.plugin.core.Config;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
-import org.stormdev.gbplugin.plugin.utils.Colors;
 
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;

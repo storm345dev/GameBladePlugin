@@ -28,11 +28,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.stormdev.gbapi.core.APIProvider;
+import org.stormdev.gbapi.storm.misc.Colors;
 import org.stormdev.gbapi.storm.misc.Sch;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 import org.stormdev.gbplugin.plugin.server.ping.ServerListPing;
 import org.stormdev.gbplugin.plugin.server.ping.ServerListPing.StatusResponse;
-import org.stormdev.gbplugin.plugin.utils.Colors;
 
 public class ServerSigns implements Listener {
 	private List<ServerSign> signs = new ArrayList<ServerSign>();

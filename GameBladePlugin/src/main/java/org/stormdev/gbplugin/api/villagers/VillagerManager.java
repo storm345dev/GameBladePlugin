@@ -15,8 +15,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.stormdev.gbapi.storm.misc.Colors;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
-import org.stormdev.gbplugin.plugin.utils.Colors;
 
 public class VillagerManager implements org.stormdev.gbapi.villagers.VillagerManager, Listener {
 	public static VillagerManager instance = null;

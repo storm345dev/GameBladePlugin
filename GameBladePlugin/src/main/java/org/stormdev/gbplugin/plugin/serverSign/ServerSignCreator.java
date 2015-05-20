@@ -4,8 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.stormdev.gbplugin.bans.ChatInput;
-import org.stormdev.gbplugin.bans.ChatInput.InputValidator;
+import org.stormdev.gbapi.storm.misc.ChatInput;
+import org.stormdev.gbapi.storm.misc.ChatInput.InputValidator;
 import org.stormdev.gbplugin.plugin.core.GameBlade;
 
 public class ServerSignCreator {

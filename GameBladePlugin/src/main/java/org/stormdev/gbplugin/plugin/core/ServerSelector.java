@@ -6,12 +6,10 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,9 +20,9 @@ import org.bukkit.inventory.ItemStack;
 import org.stormdev.gbapi.gui.IconMenu;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEvent;
 import org.stormdev.gbapi.gui.IconMenu.OptionClickEventHandler;
+import org.stormdev.gbapi.storm.misc.Colors;
 import org.stormdev.gbplugin.plugin.server.ping.ServerListPing;
 import org.stormdev.gbplugin.plugin.server.ping.ServerListPing.StatusResponse;
-import org.stormdev.gbplugin.plugin.utils.Colors;
 
 public class ServerSelector implements CommandExecutor, Listener, OptionClickEventHandler
 {
